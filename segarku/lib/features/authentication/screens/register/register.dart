@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:segarku/features/authentication/screens/welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/fields.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
@@ -54,7 +56,7 @@ class RegisterScreen extends StatelessWidget {
           // Button Mulai sekarang
           ElevatedButton(
             onPressed: () 
-              {},
+              => Get.to(() => const WelcomeScreen()),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(
                 vertical: SSizes.lg2, // Padding vertikal sama dengan Container

@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/fields.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
@@ -58,7 +60,7 @@ class LoginScreen extends StatelessWidget {
           // Button Mulai sekarang
           ElevatedButton(
             onPressed: () 
-              {},
+              => Get.to(() => const NavigationMenu()),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(
                 vertical: SSizes.lg2, // Padding vertikal sama dengan Container
