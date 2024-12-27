@@ -74,77 +74,95 @@ class InputFields {
   }
 
   //-------------------- Password Field --------------------//
-  static Widget passswordField(BuildContext context, bool dark) {
-    // FocusNode untuk mendeteksi fokus
-    final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
+  static Widget passwordField(BuildContext context, bool dark) {
+  // FocusNode untuk mendeteksi fokus
+  final FocusNode focusNode = FocusNode();
+  bool isFocused = false;
+  bool isPasswordVisible = false;
 
-    return StatefulBuilder(
-      builder: (context, setState) {
-        // Listener untuk fokus
-        focusNode.addListener(() {
-          setState(() {
-            isFocused = focusNode.hasFocus;
-          });
+  return StatefulBuilder(
+    builder: (context, setState) {
+      // Listener untuk fokus
+      focusNode.addListener(() {
+        setState(() {
+          isFocused = focusNode.hasFocus;
         });
+      });
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Text Password
-            Text(
-              STexts.password,
-              style: dark
-                  ? STextTheme.titleCaptionBoldDark
-                  : STextTheme.titleCaptionBoldLight,
-            ),
-            const SizedBox(height: SSizes.xs),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Text Password
+          Text(
+            STexts.password,
+            style: dark
+                ? STextTheme.titleCaptionBoldDark
+                : STextTheme.titleCaptionBoldLight,
+          ),
+          const SizedBox(height: SSizes.xs),
 
-            // Text & Icons Form Field Password
-            TextFormField(
-              focusNode: focusNode,
-              decoration: InputDecoration(
-                // Menambahkan Icon di dalam field
-                prefixIcon: Icon(
-                  SIcons.password,
+          // Text & Icons Form Field Password
+          TextFormField(
+            focusNode: focusNode,
+            obscureText: !isPasswordVisible, // Mengatur apakah password disembunyikan
+            decoration: InputDecoration(
+              // Menambahkan Icon di dalam field
+              prefixIcon: Icon(
+                SIcons.password,
+                color: isFocused
+                    ? (dark ? SColors.green500 : SColors.green500)
+                    : (dark ? SColors.softBlack50 : SColors.softBlack300),
+              ),
+              // Menambahkan Icon untuk toggle password visibility
+              suffixIcon: IconButton(
+                icon: Icon(
+                  isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
                   color: isFocused
                       ? (dark ? SColors.green500 : SColors.green500)
                       : (dark ? SColors.softBlack50 : SColors.softBlack300),
                 ),
-                // Text Password field
-                labelText: STexts.passwordField,
-                labelStyle: dark
-                    ? STextTheme.bodyBaseRegularLight
-                    : STextTheme.bodyBaseRegularDark,
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                hintText: STexts.passwordField,
-                hintStyle: dark
-                    ? STextTheme.bodyBaseRegularLight
-                    : STextTheme.bodyBaseRegularDark,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                  borderSide: const BorderSide(color: SColors.softBlack50),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                  borderSide: const BorderSide(color: SColors.green500),
-                ),
+                onPressed: () {
+                  setState(() {
+                    isPasswordVisible = !isPasswordVisible;
+                  });
+                },
+              ),
+              // Text Password field
+              labelText: STexts.passwordField,
+              labelStyle: dark
+                  ? STextTheme.bodyBaseRegularLight
+                  : STextTheme.bodyBaseRegularDark,
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              hintText: STexts.passwordField,
+              hintStyle: dark
+                  ? STextTheme.bodyBaseRegularLight
+                  : STextTheme.bodyBaseRegularDark,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                borderSide: const BorderSide(color: SColors.softBlack50),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                borderSide: const BorderSide(color: SColors.green500),
               ),
             ),
-          ],
-        );
-      },
-    );
-  }
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   //-------------------- Confirm Password Field --------------------//
-  static Widget confirmPassswordField(BuildContext context, bool dark) {
+  static Widget confirmPasswordField(BuildContext context, bool dark) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
+    bool isPasswordVisible = false;
 
     return StatefulBuilder(
       builder: (context, setState) {
@@ -167,9 +185,10 @@ class InputFields {
             ),
             const SizedBox(height: SSizes.xs),
 
-            // Text & Icons Form Field Confirmn Password
+            // Text & Icons Form Field Confirm Password
             TextFormField(
               focusNode: focusNode,
+              obscureText: !isPasswordVisible, // Mengatur apakah password disembunyikan
               decoration: InputDecoration(
                 // Menambahkan Icon di dalam field
                 prefixIcon: Icon(
@@ -177,6 +196,20 @@ class InputFields {
                   color: isFocused
                       ? (dark ? SColors.green500 : SColors.green500)
                       : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                ),
+                // Menambahkan Icon untuk toggle password visibility
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isPasswordVisible = !isPasswordVisible;
+                    });
+                  },
                 ),
                 // Text Password field
                 labelText: STexts.confirmPasswordField,

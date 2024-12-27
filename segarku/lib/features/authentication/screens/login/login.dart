@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
           const SizedBox(height: SSizes.md),
           
           // Password Field
-          InputFields.passswordField(context, dark),
+          InputFields.passwordField(context, dark),
           const SizedBox(height: SSizes.md),
           
           // Checkbox RememberMe & Forget Password

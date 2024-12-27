@@ -22,9 +22,9 @@ class HomeScreen extends StatelessWidget {
             children: [
               InputFields.emailField(context, dark),
               const SizedBox(height: SSizes.lg), // Jarak antar field
-              InputFields.passswordField(context, dark),
+              InputFields.passwordField(context, dark),
               const SizedBox(height: SSizes.lg), // Jarak antar field
-              InputFields.confirmPassswordField(context, dark),
+              InputFields.confirmPasswordField(context, dark),
               const SizedBox(height: SSizes.lg), // Jarak antar field
               InputFields.usernameField(context, dark),
               const SizedBox(height: SSizes.lg), // Jarak antar field
