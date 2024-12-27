@@ -1,0 +1,74 @@
+name: segarku
+description: "Aplikasi pemesanan buah dan sayuran secara Online"
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+#-------------------- PACKAGES --------------------#
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # Utillity Package
+  flutter_cache_manager: ^3.0.0
+  http: ^1.1.0
+  intl: ^0.18.1
+  logger: ^2.0.1
+  url_launcher: ^6.1.12
+  carousel_slider: ^4.2.1
+  flutter_launcher_icons: ^0.12.0
+  iconify_flutter: ^0.0.7
+  smooth_page_indicator: ^1.2.0+3
+
+  # Icons
+  cupertino_icons: ^1.0.8
+  hugeicons: ^0.0.7
+  iconsax: ^0.0.8
+
+  # State Management
+  get: ^4.6.5
+  get_storage: ^2.1.1
+
+  # Product Specific
+
+#------------------ ./ PACKAGES END ------------------#
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+
+  uses-material-design: true
+  #------------------ LOCAL ASSETS ------------------#
+  assets:
+  - assets/fonts/
+  - assets/images/
+  - assets/images/onboarding/
+  - assets/images/empty/
+  - assets/images/sliders/
+  - assets/images/background/
+  - assets/logos/
+  
+  
+  #------------------ LOCAL FONTS ------------------#
+  fonts:
+  - family: Satoshi
+    fonts:
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Black.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-BlackItalic.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Regular.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-BoldItalic.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Italic.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Light.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-LightItalic.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Medium.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-MediumItalic.ttf
+      - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Regular.ttf
+      
+
