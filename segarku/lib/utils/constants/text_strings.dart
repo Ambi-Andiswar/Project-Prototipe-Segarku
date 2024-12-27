@@ -9,6 +9,7 @@ class STexts{
   static const String username  = "Nama Lengkap";
   static const String noPhone = "No Handphone";
   static const String welcomeSegarku = "Selamat datang di SegarKu";
+  static const String google = "Google";
 
   // authentication Form Text
   static const String emailField = "Masukan email anda";
@@ -17,7 +18,7 @@ class STexts{
   static const String noPhoneField = "Masukan nomor handphone";
   static const String confirmPasswordField = "Ulangi kata sandi";
   static const String forgetMe = "ingatkan saya";
-  static const String forgetPassword = "Lupa Password?";
+  static const String forgetPassword = "Lupa kata sandi?";
 
   // Onboarding Text
   static const String onboarding1Title = "Selamat datang di SegarKu";
@@ -25,21 +26,21 @@ class STexts{
   static const String onboarding2Title = "Selamat datang di SegarKu";
   static const String onboarding2SubTitle ="Akses mudah untuk kebutuhan harian Anda.";
   static const String onboarding3Title = "Selamat datang di SegarKu";
-  static const String onboarding3SubTitle ="Akses mudah untuk kebutuhan harian Anda.";
-  static const String buttonOnboarding ="Mulai Sekarang";
-  static const String alreadyAccount ="Sudah punya akun?";
-  static const String loginNow ="Login sekarang";
+  static const String onboarding3SubTitle = "Akses mudah untuk kebutuhan harian Anda.";
+  static const String buttonOnboarding = "Mulai Sekarang";
+  static const String alreadyAccount = "Sudah punya akun?";
+  static const String loginNow = "Login sekarang";
 
   // Login Text
   static const String loginTitle = "Selamat datang di SegarKu";
-  static const String loginSubTitle ="Masuk ke akun anda";
-  static const String orSignInWith = "Atau masuk dengan";
+  static const String loginSubTitle = "Masuk ke akun anda";
+  static const String orSignInWith = "atau masuk dengan";
   static const String signInWithGoogle = "Masuk dengan Google";
 
   // Sign in Text
   static const String registerTitle = "Selamat datang di SegarKu";
   static const String registerSubTitle ="Daftar sekarang";
-  static const String orSignUpWith = "Atau daftar dengan";
+  static const String orSignUpWith = "atau daftar dengan";
 
   // Agree to terms
   static const String agreeToLogin = "Dengan Masuk, Anda Menyetujui";

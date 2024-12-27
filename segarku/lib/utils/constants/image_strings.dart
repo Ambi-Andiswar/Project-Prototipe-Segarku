@@ -4,6 +4,7 @@ class SImages {
 // Logo
   static const String appLogo = "assets/logos/Segarku.png";
   static const String iconSegarku = "assets/logos/iconSegarKu.png";
+  static const String google = "assets/logos/google.png";
 
 // Onboarding Image
   static const String onboarding1 = "assets/images/onboarding/Onboarding-1.png";

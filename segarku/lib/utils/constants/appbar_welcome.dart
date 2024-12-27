@@ -14,7 +14,7 @@ class AppBarWelcome extends StatelessWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width, // Lebar responsif
-      height: MediaQuery.of(context).size.height/3, // Tinggi tetap
+      height: MediaQuery.of(context).size.height/3.1, // Tinggi tetap
       child: Stack(
         children: [
           // Background image
