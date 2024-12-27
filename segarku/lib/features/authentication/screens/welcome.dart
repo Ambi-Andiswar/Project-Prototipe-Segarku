@@ -77,9 +77,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              dark
-                              ? (isLogin ? SColors.pureBlack : SColors.softBlack300)
-                              : (isLogin ? SColors.pureWhite : SColors.softWhite),
+                              isLogin
+                              ? (dark ? SColors.pureBlack : SColors.pureWhite)
+                              : (dark ? SColors.softBlack400 : SColors.softWhite),
                           side: const BorderSide(color: SColors.softBlack50),
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
@@ -111,7 +111,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
-                              !isLogin ? SColors.pureWhite : SColors.softWhite,
+                              !isLogin
+                              ? (dark ? SColors.pureBlack : SColors.pureWhite)
+                              : (dark ? SColors.softBlack400 : SColors.softWhite),
                           side: const BorderSide(color: SColors.softBlack50),
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
