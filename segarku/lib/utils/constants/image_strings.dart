@@ -23,4 +23,8 @@ class SImages {
 
 // Background
   static const String welcomeBackground = "assets/images/background/welcome_background.png";
+
+// Product
+  static const String brokoli = "assets/images/brokoli.jpg";
+  static const String sayurCategory = "assets/images/kategori_sayur.jpg";
 }

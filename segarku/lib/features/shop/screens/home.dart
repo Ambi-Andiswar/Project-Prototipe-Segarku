@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:segarku/utils/constants/fields.dart';
+import 'package:segarku/utils/models/category.dart';
+import 'package:segarku/utils/models/fields.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
+import 'package:segarku/utils/models/home_category.dart';
+import 'package:segarku/utils/models/product_horizontal.dart';
+import 'package:segarku/utils/models/product_vertical.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -29,6 +33,14 @@ class HomeScreen extends StatelessWidget {
               InputFields.usernameField(context, dark),
               const SizedBox(height: SSizes.lg), // Jarak antar field
               InputFields.noHandphoneField(context, dark),
+              const SizedBox(height: SSizes.lg2),
+              const SHomeCategories(),
+              const SizedBox(height: SSizes.lg2),
+              const SCategory(),
+              const SizedBox(height: SSizes.lg2),
+              const SProductH(),
+              const SizedBox(height: SSizes.lg2),
+              const SProductV(),
             ],
           ),
         ),

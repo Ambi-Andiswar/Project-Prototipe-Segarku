@@ -29,7 +29,7 @@ class SIcons {
   static const IconData search = HugeIcons.strokeRoundedSearch01;
   static const IconData chat = HugeIcons.strokeRoundedBubbleChat;
   static const IconData addToChart = HugeIcons.strokeRoundedShoppingBasketAdd01;
-  static const IconData add = HugeIcons.strokeRoundedAddSquare;
+  static const IconData add = HugeIcons.strokeRoundedAdd01;
   static const IconData location = HugeIcons.strokeRoundedLocation06;
   static const IconData voucher = HugeIcons.strokeRoundedCouponPercent;
   static const IconData editProfile = HugeIcons.strokeRoundedPencilEdit02;
@@ -39,5 +39,7 @@ class SIcons {
   static const IconData email = HugeIcons.strokeRoundedMail02;
   static const IconData phone = HugeIcons.strokeRoundedSmartPhone01;
   static const IconData username = HugeIcons.strokeRoundedUser;
+  static const IconData close = HugeIcons.strokeRoundedCancel01;
+  static const IconData download = HugeIcons.strokeRoundedDownload04;
   
 }
