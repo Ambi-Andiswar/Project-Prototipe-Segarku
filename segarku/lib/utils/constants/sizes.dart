@@ -2,6 +2,7 @@
 class SSizes {
   // Pading and Margin
   static const double defaultMargin = 15.0;
+  static const double appBarHeight = 52.50;
   static const double xs = 4.0;
   static const double sm = 6.0;
   static const double sm2 = 8.0;
@@ -10,7 +11,6 @@ class SSizes {
   static const double lg = 20.0;
   static const double lg2 = 24.0;
   static const double xl = 32.0;
-
   // Icon Size
   // Fonts Size
   // Button Sizes

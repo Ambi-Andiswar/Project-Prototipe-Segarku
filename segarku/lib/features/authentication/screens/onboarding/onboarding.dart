@@ -53,7 +53,6 @@ class OnBoardingScreen extends StatelessWidget {
           // Circular Button
           const OnBoardingButtons(),
 
-         
         ],
       ),
     );

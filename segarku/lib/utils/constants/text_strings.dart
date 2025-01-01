@@ -10,6 +10,17 @@ class STexts{
   static const String noPhone = "No Handphone";
   static const String welcomeSegarku = "Selamat datang di SegarKu";
   static const String google = "Google";
+  static const String resend = "Kirim ulang";
+
+  // Appbar text
+  static const String resetPassword = "Lupa kata sandi";
+  static const String confirmEmail = "Konfirmasi email";
+  static const String notification = "Notifikasi";
+  static const String myCarts = "Keranjang Saya";
+
+  // Button Text
+  static const String send = "Kirim";
+  static const String done = "Selesai";
 
   // authentication Form Text
   static const String emailField = "Masukan email anda";
@@ -48,4 +59,15 @@ class STexts{
   static const String agreeToTerms = "Syarat dan Ketentuan";
   static const String and = "serta";
   static const String privacyPolicy = "kebijakan Privasi Kami";
+
+  // Reset Password
+  static const String resetPasswordTitle = "Atur ulang kata sandi";
+  static const String resetPasswordSubTitle = "Masukkan alamat email anda untuk menerima tautan pemulihan kata sandi.";
+  static const String rememberpassword = "Anda ingat kata sandi anda?";
+
+  // Confirm Email Passwors
+  static const String confirmEmailResetPasswordTitle = "Periksa Email Anda";
+  static const String confirmEmailResetPasswordSubTitle = 
+  "Tautan untuk mengatur ulang kata sandi telah dikirimkan ke alamat email Anda, yaitu afifwahidi2@gmail.com. Silakan buka email tersebut dan ikuti instruksi yang diberikan untuk mengatur ulang kata sandi Anda";
+  static const String noEmailSend = "Tidak menerima Email?";
 }

@@ -129,7 +129,7 @@ class OnBoardingPage extends StatelessWidget {
                       const SizedBox(width: SSizes.sm),
                       // Text Active/button text
                       TextButton(
-                        onPressed: () => Get.to(() => const NavigationMenu()),
+                        onPressed: () => Get.to(() => const WelcomeScreen()),
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,

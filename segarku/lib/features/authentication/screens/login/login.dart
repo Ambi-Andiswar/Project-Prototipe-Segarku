@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:segarku/features/authentication/screens/forgetPass/forget_password.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/models/fields.dart';
@@ -47,7 +48,8 @@ class LoginScreen extends StatelessWidget {
               ),
               // Forget Password Button
               TextButton(
-                onPressed: () {},
+                onPressed: () 
+                => Get.to(() => const ResetPasswordScreen()),
                 child: const Text(
                   STexts.forgetPassword,
                   style: STextTheme.ctaSm),

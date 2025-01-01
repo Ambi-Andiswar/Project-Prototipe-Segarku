@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
