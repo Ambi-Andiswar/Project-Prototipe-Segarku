@@ -27,7 +27,7 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
                   width: 60, // Atur lebar setiap produk
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
-                    color: darkMode ? SColors.slateBlack : SColors.pureWhite,
+                    color: Colors.transparent
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(right: SSizes.sm, left: SSizes.sm),

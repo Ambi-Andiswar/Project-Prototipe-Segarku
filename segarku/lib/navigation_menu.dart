@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentication/screens/onboarding/onboarding.dart';
+import 'package:segarku/features/carts/cart.dart';
 import 'package:segarku/features/shop/screens/home.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
@@ -114,7 +114,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     const HomeScreen(),
-    const OnBoardingScreen(),
+    const CartScreen(),
     Container(color: Colors.blue),
     Container(color: Colors.green),
   ];

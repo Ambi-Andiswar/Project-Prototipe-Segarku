@@ -37,12 +37,16 @@ class InputFields {
             TextFormField(
               focusNode: focusNode,
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
-                prefixIcon: Icon(
-                  SIcons.email,
-                  color: isFocused
-                      ? (dark ? SColors.green500 : SColors.green500)
-                      : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.email,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
                 ),
                 // Text email field
                 labelText: STexts.emailField,
@@ -106,26 +110,34 @@ class InputFields {
             focusNode: focusNode,
             obscureText: !isPasswordVisible, // Mengatur apakah password disembunyikan
             decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
               // Menambahkan Icon di dalam field
-              prefixIcon: Icon(
-                SIcons.password,
-                color: isFocused
-                    ? (dark ? SColors.green500 : SColors.green500)
-                    : (dark ? SColors.softBlack50 : SColors.softBlack300),
-              ),
-              // Menambahkan Icon untuk toggle password visibility
-              suffixIcon: IconButton(
-                icon: Icon(
-                  isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                child: Icon(
+                  SIcons.password,
                   color: isFocused
                       ? (dark ? SColors.green500 : SColors.green500)
                       : (dark ? SColors.softBlack50 : SColors.softBlack300),
                 ),
-                onPressed: () {
+              ),
+              // Menambahkan Icon untuk toggle password visibility
+              suffixIcon: GestureDetector(
+                onTap: () {
                   setState(() {
                     isPasswordVisible = !isPasswordVisible;
                   });
                 },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: SSizes.md, bottom: SSizes.md, left: SSizes.sm2, right: SSizes.md2),
+                  child: Icon(
+                    isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
+                ),
               ),
               // Text Password field
               labelText: STexts.passwordField,
@@ -190,26 +202,34 @@ class InputFields {
               focusNode: focusNode,
               obscureText: !isPasswordVisible, // Mengatur apakah password disembunyikan
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
-                prefixIcon: Icon(
-                  SIcons.password,
-                  color: isFocused
-                      ? (dark ? SColors.green500 : SColors.green500)
-                      : (dark ? SColors.softBlack50 : SColors.softBlack300),
-                ),
-                // Menambahkan Icon untuk toggle password visibility
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.password,
                     color: isFocused
                         ? (dark ? SColors.green500 : SColors.green500)
                         : (dark ? SColors.softBlack50 : SColors.softBlack300),
                   ),
-                  onPressed: () {
+                ),
+                // Menambahkan Icon untuk toggle password visibility
+                suffixIcon: GestureDetector(
+                  onTap: () {
                     setState(() {
                       isPasswordVisible = !isPasswordVisible;
                     });
                   },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: SSizes.md, bottom: SSizes.md, left: SSizes.sm2, right: SSizes.md2),
+                    child: Icon(
+                      isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
+                      color: isFocused
+                          ? (dark ? SColors.green500 : SColors.green500)
+                          : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                    ),
+                  ),
                 ),
                 // Text Password field
                 labelText: STexts.confirmPasswordField,
@@ -271,12 +291,16 @@ class InputFields {
             TextFormField(
               focusNode: focusNode,
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
-                prefixIcon: Icon(
-                  SIcons.username,
-                  color: isFocused
-                      ? (dark ? SColors.green500 : SColors.green500)
-                      : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.username,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
                 ),
                 // Text Username field
                 labelText: STexts.usernameField,
@@ -338,12 +362,16 @@ class InputFields {
             TextFormField(
               focusNode: focusNode,
               decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
-                prefixIcon: Icon(
-                  SIcons.phone,
-                  color: isFocused
-                      ? (dark ? SColors.green500 : SColors.green500)
-                      : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.phone,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
                 ),
                 // Text No Phone field
                 labelText: STexts.noPhoneField,

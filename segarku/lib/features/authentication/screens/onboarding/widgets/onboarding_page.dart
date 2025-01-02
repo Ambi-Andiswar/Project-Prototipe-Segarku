@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/features/authentication/screens/welcome.dart';
-import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';

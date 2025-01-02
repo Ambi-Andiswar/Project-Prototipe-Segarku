@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:segarku/utils/constants/colors.dart';
 
 class SIcons {
   // Universal Arrow
@@ -41,5 +42,27 @@ class SIcons {
   static const IconData username = HugeIcons.strokeRoundedUser;
   static const IconData close = HugeIcons.strokeRoundedCancel01;
   static const IconData download = HugeIcons.strokeRoundedDownload04;
-  
+  static const IconData notification = HugeIcons.strokeRoundedNotification01;
+
+  // Button Icon
+  static Widget notificationIcon(bool dark) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Colors.transparent, // Latar belakang transparan
+        shape: BoxShape.circle, // Membuat bentuk bulat
+        border: Border.all(
+          color: dark ? SColors.green50 : SColors.softBlack50, // Warna garis sesuai mode
+          width: 1, // Ketebalan garis
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          SIcons.notification, // Ikon yang digunakan
+          color: dark ? SColors.green500 : SColors.softBlack300, // Warna ikon sesuai mode
+        ),
+      ),
+    );
+  }
 }

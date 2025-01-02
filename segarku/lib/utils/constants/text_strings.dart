@@ -11,6 +11,7 @@ class STexts{
   static const String welcomeSegarku = "Selamat datang di SegarKu";
   static const String google = "Google";
   static const String resend = "Kirim ulang";
+  static const String category = "Kategori";
 
   // Appbar text
   static const String resetPassword = "Lupa kata sandi";
@@ -30,6 +31,10 @@ class STexts{
   static const String confirmPasswordField = "Ulangi kata sandi";
   static const String forgetMe = "ingatkan saya";
   static const String forgetPassword = "Lupa kata sandi?";
+
+  // field Text
+  static const String fieldSearchHome = "Mau cari apa hari ini?";
+  static const String fieldSearchHomeAll = "Cari Sekarang";
 
   // Onboarding Text
   static const String onboarding1Title = "Selamat datang di SegarKu";
@@ -70,4 +75,23 @@ class STexts{
   static const String confirmEmailResetPasswordSubTitle = 
   "Tautan untuk mengatur ulang kata sandi telah dikirimkan ke alamat email Anda, yaitu afifwahidi2@gmail.com. Silakan buka email tersebut dan ikuti instruksi yang diberikan untuk mengatur ulang kata sandi Anda";
   static const String noEmailSend = "Tidak menerima Email?";
+
+  // Home Screen
+  static const String seeAllProduct = "Lihat detail produk";
+  static const String specialToday = "Spesial Hari Ini 🔥";
+  static const String allProduct = "Semua Produk";
+
+  // Notification
+  static const String noNotification = "Tidak ada notifikasi baru";
+  static const String subNoNotification = "Yuk, lihat produk segar hari ini!";
+
+  // Category
+  static const String allCategory = "Semua Kategori";
+
+
+  // Cart
+  static const String noItemCart = "Oops, keranjang masih kosong";
+  static const String subNoItemCart = "Waktunya belanja produk sehat dan segar!";
+
+
 }

@@ -11,8 +11,7 @@ class SImages {
   static const String onboarding2 = "assets/images/onboarding/Onboarding-2.png";
   static const String onboarding3 = "assets/images/onboarding/Onboarding-3.png";
 
-
-// Empaty 
+// Empty 
   static const String noInternetCollorfull = "assets/images/empty/No-Internet-Collorful.png";
   static const String noItemCollorfull = "assets/images/empty/No-Item-Collorful.png";
   static const String noItemNatural = "assets/images/empty/No-Item-Natural.png";
@@ -27,4 +26,10 @@ class SImages {
 // Product
   static const String brokoli = "assets/images/brokoli.jpg";
   static const String sayurCategory = "assets/images/kategori_sayur.jpg";
+
+// Slider
+  static const String slider1 = "assets/images/sliders/sliders-1.png";
+  static const String slider2 = "assets/images/sliders/sliders-2.jpg";
+  static const String slider3 = "assets/images/sliders/sliders-3.png";
+
 }

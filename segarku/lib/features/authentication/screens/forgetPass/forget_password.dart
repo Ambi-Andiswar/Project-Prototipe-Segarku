@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/commons/style/spacing_style.dart';
+import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/features/authentication/screens/forgetPass/confirm_email.dart';
-import 'package:segarku/features/authentication/screens/login/login.dart';
 import 'package:segarku/features/authentication/screens/welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
-import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/models/fields.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
@@ -17,152 +15,116 @@ class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
+
     return Scaffold(
       body: Column(
         children: [
-          // Bagian konten utama
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: SSpacingStyle.paddingWithAppBarHeight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Back button
-                        Row(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: dark ? Colors.black : SColors.pureWhite,
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                  color: SColors.softBlack50,
-                                  width: 1,
-                                ),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                icon: Icon(
-                                  SIcons.left,
-                                  size: 24,
-                                  color: dark ? SColors.pureWhite : SColors.softBlack500,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  STexts.resetPassword,
-                                  style: dark
-                                      ? STextTheme.titleBaseBlackDark
-                                      : STextTheme.titleBaseBlackLight,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: SSizes.md),
-                      ],
-                    ),
-                  ),
+          // Padding di atas AppBar
+          const SizedBox(height: 52),
 
-                  // Divider di bawah resetPasswordTitle
-                  Divider(
-                    thickness: 1,
-                    color: dark ? SColors.softBlack50 : SColors.softBlack50,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: SSizes.lg2),
-
-                        // Title
-                        Text(
-                          STexts.resetPasswordTitle,
-                          style: dark
-                              ? STextTheme.titleLgBolddark
-                              : STextTheme.titleLgBoldLight,
-                        ),
-
-                        const SizedBox(height: SSizes.xs),
-
-                        // Subtitle
-                        Text(
-                          STexts.resetPasswordSubTitle,
-                          style: dark
-                              ? STextTheme.bodyCaptionRegularDark
-                              : STextTheme.bodyCaptionRegularLight,
-                        ),
-                        const SizedBox(height: SSizes.lg2),
-
-                        // Email
-                        InputFields.emailField(context, dark),
-                      ],
-                    ),
-                  ),
-                ],
+          // SCustomAppBar dengan Divider di bawah
+          Column(
+            children: [
+              SCustomAppBar(
+                title: STexts.resetPassword,
+                darkMode: dark,
               ),
-            ),
+          const SizedBox(height: SSizes.md),
+              Divider(
+                color: dark ? SColors.green50 : SColors.softBlack50,
+                thickness: 1,
+                height: 1, // Pastikan tidak ada ruang tambahan
+              ),
+            ],
           ),
 
-          // Bagian bawah
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
+          // Konten utama
+          Expanded(
             child: Column(
               children: [
-                // Text Login Now
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // text non activ
-                    Text(
-                      STexts.rememberpassword,
-                      style: dark
-                          ? STextTheme.bodyCaptionRegularDark
-                          : STextTheme.bodyCaptionRegularLight,
-                    ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: SSizes.lg2),
 
-                    const SizedBox(width: SSizes.sm),
-                    // Text Active/button text
-                    TextButton(
-                      onPressed: () => Get.to(() => const WelcomeScreen()),
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        STexts.login,
-                        style: STextTheme.ctaSm,
-                      ),
-                    ),
-                  ],
-                ),
+                              // Title
+                              Text(
+                                STexts.resetPasswordTitle,
+                                style: dark
+                                    ? STextTheme.titleLgBolddark
+                                    : STextTheme.titleLgBoldLight,
+                              ),
+                              const SizedBox(height: SSizes.xs),
 
-                const SizedBox(height: SSizes.md2),
+                              // Subtitle
+                              Text(
+                                STexts.resetPasswordSubTitle,
+                                style: dark
+                                    ? STextTheme.bodyCaptionRegularDark
+                                    : STextTheme.bodyCaptionRegularLight,
+                              ),
+                              const SizedBox(height: SSizes.lg2),
 
-                // Button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () => Get.to(() => const ConfirmEmailPassScreen()),
-                    child: const Text(
-                      STexts.send,
-                      style: STextTheme.titleBaseBoldDark,
+                              // Email
+                              InputFields.emailField(context, dark),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(height: SSizes.xl),
+                // Bagian bawah
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            STexts.rememberpassword,
+                            style: dark
+                                ? STextTheme.bodyCaptionRegularDark
+                                : STextTheme.bodyCaptionRegularLight,
+                          ),
+                          const SizedBox(width: SSizes.sm),
+                          TextButton(
+                            onPressed: () => Get.to(() => const WelcomeScreen()),
+                            style: TextButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              minimumSize: Size.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            child: const Text(
+                              STexts.login,
+                              style: STextTheme.ctaSm,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: SSizes.md2),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => Get.to(() => const ConfirmEmailPassScreen()),
+                          child: const Text(
+                            STexts.send,
+                            style: STextTheme.titleBaseBoldDark,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: SSizes.xl),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
