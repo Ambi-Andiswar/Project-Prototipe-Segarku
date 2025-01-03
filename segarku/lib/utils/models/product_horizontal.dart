@@ -19,7 +19,7 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
           children: List.generate(
             8, // Jumlah produk
             (index) => Padding(
-              padding: const EdgeInsets.only(right: 16), // Spasi antar produk
+              padding: const EdgeInsets.only(right: SSizes.md), // Spasi antar produk
               child: GestureDetector(
                 onTap: () {
                   // Aksi ketika produk ditekan
@@ -27,6 +27,11 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
                 child: Container(
                   width: 140, // Atur lebar setiap produk
                   decoration: BoxDecoration(
+                    border: Border.all(
+                      color: darkMode
+                      ? SColors.green50
+                      : SColors.softBlack50
+                    ),
                     borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
                     color: darkMode ? SColors.slateBlack : SColors.pureWhite,
                   ),
@@ -37,18 +42,18 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
                       children: [
                         // Gambar produk
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                           child: Image.asset(
-                            SImages.brokoli, // Ganti dengan URL gambar produk
+                            SImages.semangka, // Ganti dengan URL gambar produk
                             fit: BoxFit.cover,
                             height: 100,
                             width: double.infinity,
                           ),
                         ),
-                        const SizedBox(height: SSizes.sm),
+                        const SizedBox(height: SSizes.sm2),
                         // Nama produk
                         Text(
-                          'Brokoli', // Ganti sesuai data
+                          'Semangka', // Ganti sesuai data
                           style: darkMode
                               ? STextTheme.titleBaseBoldDark
                               : STextTheme.titleBaseBoldLight,
@@ -57,8 +62,8 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
                         Text(
                           '300-500 gr/pack', // Ganti sesuai data
                           style: darkMode
-                              ? STextTheme.bodyCaptionRegularDark
-                              : STextTheme.bodyCaptionRegularLight,
+                              ? STextTheme.bodySmRegularDark
+                              : STextTheme.bodySmRegularLight,
                         ),
                         const SizedBox(height: SSizes.xs),
                         // Harga produk dan tombol
@@ -67,8 +72,8 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
                             Text(
                               'Rp 25.000', // Ganti sesuai data
                               style: darkMode
-                                  ? STextTheme.titleBaseBlackDark
-                                  : STextTheme.titleBaseBlackLight,
+                                  ? STextTheme.titleCaptionBlackDark
+                                  : STextTheme.titleCaptionBlackLight,
                             ),
                             const Spacer(),
                             Container(
@@ -87,10 +92,10 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
                                     context: context,
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(16)),
+                                          top: Radius.circular(SSizes.borderRadiusmd2)),
                                     ),
                                     builder: (context) {
-                                      return const AddToCartPopup(price: 40000);
+                                      return const AddToCartPopup(price: 25000);
                                     },
                                   );
                                 },
@@ -118,6 +123,7 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
 
   class AddToCartPopup extends StatefulWidget {
     final int price;
+    
 
     const AddToCartPopup({super.key, required this.price});
 
@@ -135,8 +141,10 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
 
     @override
     Widget build(BuildContext context) {
+      final darkMode = SHelperFunctions.isDarkMode(context);
+
       return Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(SSizes.defaultMargin),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -144,7 +152,7 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Golden Melon',
+                  'Semangka',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
@@ -159,17 +167,61 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
               children: [
                 Row(
                   children: [
-                    IconButton(
-                      onPressed: quantity > 1
-                          ? () => setState(() => quantity--)
-                          : null,
-                      icon: const Icon(Icons.remove),
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(
+                          color: darkMode 
+                            ? SColors.green50 
+                            : SColors.softBlack50,
+                        ),
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                      ),
+                      child: Center( // Tambahkan Center di sini
+                        child: GestureDetector( // Gunakan GestureDetector sebagai pengganti IconButton
+                          onTap: quantity > 1
+                              ? () => setState(() => quantity--)
+                              : null,
+                          child: Icon(
+                            Icons.remove,
+                            size: 16,
+                            color: darkMode 
+                              ? SColors.green50 
+                              : SColors.softBlack50,
+                          ),
+                        ),
+                      ),
                     ),
-                    Text('$quantity', style: const TextStyle(fontSize: 16)),
-                    IconButton(
-                      onPressed: () => setState(() => quantity++),
-                      icon: const Icon(Icons.add),
+                    const SizedBox(width: SSizes.md),
+
+                    Text('$quantity', 
+                      style: darkMode
+                        ? STextTheme.titleBaseBoldDark
+                        : STextTheme.titleBaseBoldLight,
                     ),
+                    const SizedBox(width: SSizes.md),
+                    
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: SColors.green100, // Warna latar belakang
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () => setState(() => quantity++),
+                          child: const Icon(
+                            Icons.add,
+                            size: 16,
+                            color: SColors.green500, // Warna ikon
+                          ),
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
                 Text(

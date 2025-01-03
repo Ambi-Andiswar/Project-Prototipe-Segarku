@@ -25,6 +25,7 @@ class SImages {
 
 // Product
   static const String brokoli = "assets/images/brokoli.jpg";
+  static const String semangka = "assets/images/semangka.png";
   static const String sayurCategory = "assets/images/kategori_sayur.jpg";
 
 // Slider

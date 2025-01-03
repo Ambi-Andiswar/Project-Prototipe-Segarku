@@ -12,12 +12,25 @@ class SCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
+    
+    // Mendapatkan lebar layar
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Menentukan jumlah kolom secara responsif
+    int crossAxisCount = 2; // Default jumlah kolom
+    if (screenWidth >= 600) {
+      crossAxisCount = 3; // Jika lebar >= 600, gunakan 3 kolom
+    }
+    if (screenWidth >= 900) {
+      crossAxisCount = 4; // Jika lebar >= 900, gunakan 4 kolom
+    }
+
     return GridView.builder(
       shrinkWrap: true, // Agar GridView tidak scroll sendiri
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 5, // Jumlah kategori (dapat diganti dinamis sesuai data)
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // 2 kategori per baris
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount, // 2 kategori per baris
         crossAxisSpacing: 15, // Spasi horizontal antar kategori
         mainAxisSpacing: 15, // Spasi vertikal antar kategori
         childAspectRatio: 2.5, // Perbandingan lebar dan tinggi container kategori
