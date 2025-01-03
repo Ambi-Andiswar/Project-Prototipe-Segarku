@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:segarku/features/shop/products/list_product.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
@@ -20,7 +21,12 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
               padding: const EdgeInsets.only(right: 10), // Spasi antar produk
               child: GestureDetector(
                 onTap: () {
-                  // Aksi ketika produk ditekan
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ListProductScreen(),
+                    ),
+              );
                 },
                 child: Container(
                   width: 60, // Atur lebar setiap produk

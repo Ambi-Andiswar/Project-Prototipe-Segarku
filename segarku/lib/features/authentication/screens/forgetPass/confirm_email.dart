@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/style/spacing_style.dart';
+import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/features/authentication/screens/welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
@@ -17,64 +18,34 @@ class ConfirmEmailPassScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          // SCustomAppBar dengan Divider di bawah
+          Container(
+            color: dark 
+              ? SColors.pureBlack 
+              : SColors.pureWhite, // Ganti dengan warna yang sesuai
+            child: Column(
+              children: [
+                // Padding di atas AppBar
+                const SizedBox(height: 52),
+                SCustomAppBar(
+                  title: STexts.confirmEmail,
+                  darkMode: dark, 
+                ),
+                const SizedBox(height: SSizes.md),
+                Divider(
+                  color: dark ? SColors.green50 : SColors.softBlack50,
+                  thickness: 1,
+                  height: 1, // Pastikan tidak ada ruang tambahan
+                ),
+              ],
+            ),
+          ),
           // Bagian konten utama
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: SSpacingStyle.paddingWithAppBarHeight,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Back button
-                        Row(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: dark ? Colors.black : SColors.pureWhite,
-                                borderRadius: BorderRadius.circular(50),
-                                border: Border.all(
-                                  color: SColors.softBlack50,
-                                  width: 1,
-                                ),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                icon: Icon(
-                                  SIcons.left,
-                                  size: 24,
-                                  color: dark ? SColors.pureWhite : SColors.softBlack500,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  STexts.confirmEmail,
-                                  style: dark
-                                      ? STextTheme.titleBaseBlackDark
-                                      : STextTheme.titleBaseBlackLight,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: SSizes.md),
-                      ],
-                    ),
-                  ),
-
-                  // Divider di bawah resetPasswordTitle
-                  Divider(
-                    thickness: 1,
-                    color: dark ? SColors.softBlack50 : SColors.softBlack50,
-                  ),
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),

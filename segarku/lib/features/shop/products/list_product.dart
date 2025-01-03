@@ -3,17 +3,16 @@ import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
-import 'package:segarku/utils/models/category.dart';
-import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
+import 'package:segarku/utils/models/fields_search.dart';
+import 'package:segarku/utils/models/product_vertical.dart';
 import '../../../../../utils/constants/text_strings.dart';
 
-class CategoryProductScreen extends StatelessWidget {
-  const CategoryProductScreen({super.key});
+class ListProductScreen extends StatelessWidget {
+  const ListProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -28,7 +27,7 @@ class CategoryProductScreen extends StatelessWidget {
                   // Padding di atas AppBar
                   const SizedBox(height: 52),
                   SCustomAppBar(
-                    title: STexts.category,
+                    title: STexts.vegetable,
                     darkMode: dark, 
                   ),
                   const SizedBox(height: SSizes.md),
@@ -49,15 +48,12 @@ class CategoryProductScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start, // Title ke paling kiri
                 children: [
-                  Text(
-                    STexts.allCategory,
-                    style: dark
-                        ? STextTheme.titleBaseBoldDark
-                        : STextTheme.titleBaseBoldLight,
-                  ),
+
+                  // Search field
+                  InputFieldSearch.fieldSearchAll(context, dark),
                   const SizedBox(height: SSizes.md), 
         
-                  const SCategory(),
+                  const SProductV(),
                 ],
               ),
             ),

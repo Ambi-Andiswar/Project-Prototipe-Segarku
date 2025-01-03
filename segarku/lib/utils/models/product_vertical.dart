@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:segarku/features/shop/products/desc_product.dart' as descProduct;
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
-import 'package:segarku/utils/models/product_horizontal.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
@@ -39,7 +39,12 @@ class SProductV extends StatelessWidget {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            // Navigasi ke halaman DesProductScreen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const descProduct.DescProductScreen(),
+              ),
+            );
           },
           child: Container(
             decoration: BoxDecoration(
@@ -124,7 +129,7 @@ class SProductV extends StatelessWidget {
                                           top: Radius.circular(16)),
                                     ),
                                     builder: (context) {
-                                      return const AddToCartPopup(
+                                      return const descProduct.AddToCartPopup(
                                           price: 25000);
                                     },
                                   );

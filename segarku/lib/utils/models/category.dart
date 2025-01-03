@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:segarku/features/shop/products/list_product.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
@@ -37,8 +38,13 @@ class SCategory extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
-            // Navigasi ke halaman kategori produk, jika ada
+          onTap: () { // Navigasi ke halaman DesProductScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ListProductScreen(),
+                ),
+              );
           },
           child: Container(
             decoration: BoxDecoration(

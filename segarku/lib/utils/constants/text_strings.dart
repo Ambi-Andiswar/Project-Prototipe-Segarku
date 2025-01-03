@@ -12,6 +12,7 @@ class STexts{
   static const String google = "Google";
   static const String resend = "Kirim ulang";
   static const String category = "Kategori";
+  static const String vegetable = "Sayur";
 
   // Appbar text
   static const String resetPassword = "Lupa kata sandi";
@@ -34,7 +35,7 @@ class STexts{
 
   // field Text
   static const String fieldSearchHome = "Mau cari apa hari ini?";
-  static const String fieldSearchHomeAll = "Cari Sekarang";
+  static const String fieldSearchHomeAll = "Mau cari apa";
 
   // Onboarding Text
   static const String onboarding1Title = "Selamat datang di SegarKu";
