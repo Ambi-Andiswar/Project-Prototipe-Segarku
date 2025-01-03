@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:segarku/commons/style/spacing_style.dart';
 import 'package:segarku/utils/constants/colors.dart';
+import 'package:segarku/utils/constants/icons.dart';
+import 'package:segarku/utils/constants/image_strings.dart';
+import 'package:segarku/utils/constants/sizes.dart';
+import 'package:segarku/utils/constants/text_strings.dart';
+import 'package:segarku/utils/helpers/helper_functions.dart';
+import 'package:segarku/utils/models/product_horizontal.dart';
+import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../navigation_menu.dart';
 
 class DescProductScreen extends StatelessWidget {
@@ -35,8 +41,14 @@ class DescProductScreen extends StatelessWidget {
                 children: [
                   // AppBar Section
                   Container(
-                    color: dark ? SColors.pureBlack : SColors.green200,
+                    height: 303,
                     width: double.infinity,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(SImages.brokoli),
+                        fit: BoxFit.cover, // Untuk memastikan gambar menutupi seluruh background
+                      ),
+                    ),
                     child: Column(
                       children: [
                         Padding(
@@ -47,10 +59,10 @@ class DescProductScreen extends StatelessWidget {
                                 height: 40,
                                 width: 40,
                                 decoration: BoxDecoration(
-                                  color: dark ? SColors.pureBlack : SColors.green200,
+                                  color: dark ? SColors.pureBlack : SColors.pureWhite,
                                   borderRadius: BorderRadius.circular(50),
                                   border: Border.all(
-                                    color: dark ? SColors.softBlack300 : SColors.softBlack400,
+                                    color: dark ? SColors.green50 : SColors.softBlack50,
                                     width: 1,
                                   ),
                                 ),
@@ -59,7 +71,7 @@ class DescProductScreen extends StatelessWidget {
                                     Get.back();
                                   },
                                   icon: Icon(
-                                    Icons.arrow_back,
+                                    SIcons.left,
                                     size: 16,
                                     color: dark ? SColors.pureWhite : SColors.softBlack500,
                                   ),
@@ -72,10 +84,10 @@ class DescProductScreen extends StatelessWidget {
                                     width: 40,
                                     height: 40,
                                     decoration: BoxDecoration(
-                                      color: dark ? SColors.pureBlack : SColors.green200,
+                                     color: dark ? SColors.pureBlack : SColors.pureWhite,
                                       borderRadius: BorderRadius.circular(50),
                                       border: Border.all(
-                                        color: dark ? SColors.softBlack300 : SColors.softBlack400,
+                                        color: dark ? SColors.green50 : SColors.softBlack50,
                                         width: 1,
                                       ),
                                     ),
@@ -90,8 +102,8 @@ class DescProductScreen extends StatelessWidget {
                                         );
                                       },
                                       icon: Icon(
-                                        Iconsax.shopping_cart4,
-                                        color: dark ? SColors.pureWhite : SColors.softBlack500,
+                                        SIcons.cart,
+                                        color: dark ? SColors.pureWhite : SColors.green500,
                                         size: 24,
                                       ),
                                     ),
@@ -103,7 +115,7 @@ class DescProductScreen extends StatelessWidget {
                                       width: 8,
                                       height: 8,
                                       decoration: const BoxDecoration(
-                                        color: SColors.danger100,
+                                        color: SColors.danger500,
                                         shape: BoxShape.circle,
                                       ),
                                     ),
@@ -113,21 +125,13 @@ class DescProductScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Center(
-                          child: Image.asset(
-                            'assets/logos/melon.png',
-                            width: 323,
-                            height: 247,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(height: 24),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 24),
+
+                  const SizedBox(height: SSizes.md),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -137,69 +141,70 @@ class DescProductScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Buah segar',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: dark ? SColors.softBlack300 : SColors.softBlack400,
-                                  ),
+                                  'Brokoli',
+                                  style: dark
+                                    ? STextTheme.titleLgBolddark
+                                    : STextTheme.titleLgBoldLight
                                 ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'Golden Melon',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: dark ? SColors.pureWhite : SColors.softBlack500,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
+                                const SizedBox(height: SSizes.xs),
                                 Row(
-                                  children: List.generate(5, (index) {
-                                    return const Icon(
-                                      Icons.star,
-                                      color: SColors.warning500,
-                                      size: 20,
-                                    );
-                                  }),
+                                  children: [
+                                    Text(
+                                      '450-500',
+                                      style: dark
+                                        ? STextTheme.bodyCaptionRegularDark
+                                        : STextTheme.bodyCaptionRegularLight,
+                                    ),
+                                    Text(
+                                      'gr/pack', // Ganti sesuai data
+                                      style: dark
+                                          ? STextTheme.bodySmRegularDark
+                                          : STextTheme.bodySmRegularLight,
+                                    ),
+                                  ],
                                 ),
+                                const SizedBox(height: SSizes.md),
+                                Text(
+                                  'Rp 40.000',
+                                  style: STextTheme.titleLgBolddark.copyWith(
+                                    color: SColors.green500
+                                  ),
+                                ),
+                                const SizedBox(height: SSizes.xs),
                               ],
                             ),
-
-                            // button tambah dan kurangi product
                             const Spacer(),
                             Row(
                               children: [
                                 GestureDetector(
                                   onTap: () => showAddToCartPopup(context),
                                   child: Container(
-                                    width: 36,
-                                    height: 36,
+                                    width: 24,
+                                    height: 24,
                                     decoration: BoxDecoration(
                                       color: dark ? SColors.pureBlack : SColors.pureWhite,
-                                      borderRadius: BorderRadius.circular(100),
+                                      borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                                       border: Border.all(color: SColors.green500),
                                     ),
                                     child: const Icon(Icons.remove, size: 16, color: SColors.green500),
                                   ),
                                 ),
-                                const SizedBox(width: 20),
+                                const SizedBox(width: SSizes.md),
                                 Text(
                                   '0',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: dark ? SColors.pureWhite : SColors.softBlack500,
-                                  ),
+                                  style: dark
+                                    ? STextTheme.titleBaseBoldDark
+                                    : STextTheme.titleBaseBoldLight
                                 ),
-                                const SizedBox(width: 20),
+                                const SizedBox(width: SSizes.md),
                                 GestureDetector(
                                   onTap: () => showAddToCartPopup(context),
                                   child: Container(
-                                    width: 36,
-                                    height: 36,
+                                    width: 24,
+                                    height: 24,
                                     decoration: BoxDecoration(
                                       color: SColors.green500,
-                                      borderRadius: BorderRadius.circular(100),
+                                      borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                                     ),
                                     child: Icon(Icons.add, size: 16, color: dark ? SColors.pureBlack : SColors.pureWhite),
                                   ),
@@ -208,69 +213,46 @@ class DescProductScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 22),
+                        const SizedBox(height: SSizes.md2),
                         Text(
                           'Deskripsi Produk',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: dark ? SColors.pureWhite : SColors.softBlack500,
-                          ),
+                          style: dark 
+                            ? STextTheme.titleBaseBoldDark
+                            : STextTheme.titleBaseBoldLight
                         ),
                         //sub deskripsi 
-                        const SizedBox(height: 8),
+                        const SizedBox(height: SSizes.sm2),
                         Text(
-                          'Golden Melon adalah buah segar pilihan dengan rasa manis alami dan tekstur lembut yang menggugah selera. Dikemas secara higienis dan dipotong rapi, buah ini siap dikonsumsi kapan saja. Pilihan sempurna untuk camilan sehat, salad segar, atau diolah menjadi jus menyegarkan.',
+                          STexts.deskription,
                           textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: dark? SColors.softBlack300 : SColors.softBlack400,
-                          ),
+                          style: dark 
+                            ? STextTheme.bodyCaptionRegularDark
+                            : STextTheme.bodyCaptionRegularLight
                         ),
 
-                        const SizedBox(height: 12),
-                        Text(
-                          'Mengandung Vitamin',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: dark ? SColors.pureWhite : SColors.softBlack500,
-                          ),
-                        ),
-                        //sub deskripsi 
-                        const SizedBox(height: 8),
-                        Text(
-                          'Vitamin C \n Vitamin A \n Antioksidan',
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: dark? SColors.softBlack300 : SColors.softBlack400,
-                          ),
-                        ),
+                        const SizedBox(height: SSizes.md2),
+                        Container(
+                          color: dark
+                          ? SColors.softBlack300
+                          : SColors.green50, // Background color full width
+                          padding: const EdgeInsets.only(left: SSizes.md, top: SSizes.lg, bottom: SSizes.lg), // Margin isi konten
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start, // Title ke paling kiri
+                            children: [
+                              // Title Product Horizontal
+                              Text(
+                                STexts.specialToday,
+                                style: dark
+                                    ? STextTheme.titleBaseBoldDark
+                                    : STextTheme.titleBaseBoldLight,
+                              ),
+                              const SizedBox(height: SSizes.md), // Jarak vertikal
 
-                        const SizedBox(height: 12),
-                        Text(
-                          'Golden Melon cocok untuk:',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: dark ? SColors.pureWhite : SColors.softBlack500,
+                              // Product Horizontal
+                              const SProductH(), // Widget produk
+                            ],
                           ),
                         ),
-                        //sub deskripsi 
-                        const SizedBox(height: 8),
-                        Text(
-                          'Anak-anak, Remaja dan dewasa, Ibu hamil dan Lansia',
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: dark? SColors.softBlack300 : SColors.softBlack400,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
                       ],
                     ),
                   ),
@@ -340,83 +322,130 @@ class DescProductScreen extends StatelessWidget {
   }
 }
 
-class AddToCartPopup extends StatefulWidget {
-  final int price;
+  class AddToCartPopup extends StatefulWidget {
+    final int price;
+    
 
-  const AddToCartPopup({super.key, required this.price});
+    const AddToCartPopup({super.key, required this.price});
 
-  @override
-  State<AddToCartPopup> createState() => _AddToCartPopupState();
-}
-
-class _AddToCartPopupState extends State<AddToCartPopup> {
-  int quantity = 1;
-
-  void _addToCart() {
-    // Logika untuk menambahkan item ke keranjang bisa ditambahkan di sini
-    Navigator.pop(context); // Menutup BottomSheet setelah item ditambahkan ke keranjang
+    @override
+    State<AddToCartPopup> createState() => _AddToCartPopupState();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Golden Melon',
-                style
-                : TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.close),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: quantity > 1
-                        ? () => setState(() => quantity--)
-                        : null,
-                    icon: const Icon(Icons.remove),
-                  ),
-                  Text('$quantity', style: const TextStyle(fontSize: 16)),
-                  IconButton(
-                    onPressed: () => setState(() => quantity++),
-                    icon: const Icon(Icons.add),
-                  ),
-                ],
-              ),
-              Text(
-                'Rp. ${widget.price * quantity}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: SColors.green500,
+  class _AddToCartPopupState extends State<AddToCartPopup> {
+    int quantity = 1;
+
+    void _addToCart() {
+      // Logika untuk menambahkan item ke keranjang bisa ditambahkan di sini
+      Navigator.pop(context); // Menutup BottomSheet setelah item ditambahkan ke keranjang
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      final darkMode = SHelperFunctions.isDarkMode(context);
+
+      return Padding(
+        padding: const EdgeInsets.all(SSizes.defaultMargin),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Brokoli',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _addToCart,
-              child: const Text('Tambahkan ke Keranjang'),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(
+                          color: darkMode 
+                            ? SColors.green50 
+                            : SColors.softBlack50,
+                        ),
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                      ),
+                      child: Center( // Tambahkan Center di sini
+                        child: GestureDetector( // Gunakan GestureDetector sebagai pengganti IconButton
+                          onTap: quantity > 1
+                              ? () => setState(() => quantity--)
+                              : null,
+                          child: Icon(
+                            Icons.remove,
+                            size: 16,
+                            color: darkMode 
+                              ? SColors.green50 
+                              : SColors.softBlack50,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: SSizes.md),
+
+                    Text('$quantity', 
+                      style: darkMode
+                        ? STextTheme.titleBaseBoldDark
+                        : STextTheme.titleBaseBoldLight,
+                    ),
+                    const SizedBox(width: SSizes.md),
+                    
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: SColors.green100, // Warna latar belakang
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                          onTap: () => setState(() => quantity++),
+                          child: const Icon(
+                            Icons.add,
+                            size: 16,
+                            color: SColors.green500, // Warna ikon
+                          ),
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+                Text(
+                  'Rp. ${widget.price * quantity}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: SColors.green500,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _addToCart,
+                child: const Text('Tambahkan ke Keranjang',
+                  style: STextTheme.titleBaseBoldDark,),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
-}

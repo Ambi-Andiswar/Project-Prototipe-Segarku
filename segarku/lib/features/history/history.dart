@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:segarku/features/carts/widget/cart_product.dart';
+import 'package:segarku/features/history/widget/no_history.dart';
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,9 +12,7 @@ class CartScreen extends StatelessWidget {
           // Konten di tengah-tengah layar
           Expanded(
             child: Center(
-              child: 
-              CartsProductScreen(),
-               // Ganti dengan widget yang relevan
+              child: NoHistoryScreen(), // Ganti dengan widget yang relevan
             ),
           ),
         ],

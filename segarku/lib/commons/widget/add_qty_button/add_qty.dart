@@ -28,16 +28,16 @@ class QuantitySelectorState extends State<QuantitySelector> {
             color: Colors.transparent,
             border: Border.all(
               color: isDarkMode 
-                ? SColors.softBlack50 : SColors.green50,
+                ? SColors.green50 : SColors.softBlack100,
             ),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
           ),
           child: IconButton(
             padding: EdgeInsets.zero,
             icon: Icon(
               Icons.remove,
               size: 16,
-              color: isDarkMode ? SColors.softBlack50 : SColors.green50,
+              color: isDarkMode ? SColors.green50 : SColors.softBlack100,
             ),
             onPressed: () {
               setState(() {
@@ -65,7 +65,7 @@ class QuantitySelectorState extends State<QuantitySelector> {
           height: 24,
           decoration: BoxDecoration(
             color: SColors.green100,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
           ),
           child: IconButton(
             padding: EdgeInsets.zero,
