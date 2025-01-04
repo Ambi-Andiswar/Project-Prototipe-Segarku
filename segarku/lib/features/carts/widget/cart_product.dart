@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
+import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
+import 'package:segarku/utils/constants/text_strings.dart';
+import 'package:segarku/utils/models/product_horizontal.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
@@ -14,9 +17,8 @@ class CartsProductScreen extends StatefulWidget {
 }
 
 class _CartsProductScreenState extends State<CartsProductScreen> {
-  final int itemCount = 8;
+  final int itemCount = 4;
 
-  // State for selected items and their quantities
   List<bool> selectedItems = [];
   List<int> itemQuantities = [];
   bool selectAll = false;
@@ -75,140 +77,250 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: SSizes.md, horizontal: SSizes.defaultMargin),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Menambahkan jarak antar elemen
                 children: [
-                  Checkbox(
-                    value: selectAll,
-                    onChanged: toggleSelectAll,
+                  Row(
+                    children: [
+                      Transform.scale(
+                        scale: 1.2,
+                        child: Checkbox(
+                          value: selectAll,
+                          onChanged: toggleSelectAll,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                          ),
+                          side: BorderSide(
+                            color: darkMode ? SColors.green50 : SColors.softBlack50,
+                            width: 1,
+                          ),
+                          visualDensity: VisualDensity.compact,
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                      ),
+                      Text(
+                        STexts.selectAll,
+                        style: STextTheme.bodyCaptionRegularDark.copyWith(
+                          color: darkMode ? SColors.pureWhite : SColors.softBlack500,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Pilih Semua",
-                    style: darkMode
-                    ? STextTheme.bodyCaptionRegularDark
-                    : STextTheme.bodyCaptionRegularLight
+                  IconButton(
+                    onPressed: () {
+                      // Logika untuk menghapus item yang dipilih
+                      setState(() {
+                        for (int i = 0; i < selectedItems.length; i++) {
+                          if (selectedItems[i]) {
+                            selectedItems[i] = false;
+                            itemQuantities[i] = 1; // Reset kuantitas jika diperlukan
+                          }
+                        }
+                        showPopup = false; // Sembunyikan popup jika tidak ada item yang dipilih
+                        selectAll = false; // Reset checkbox "Select All"
+                      });
+                    },
+                    icon: const Icon(
+                      SIcons.delet,
+                      color: SColors.danger500,
+                    ),
                   ),
                 ],
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: itemCount,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DescProductScreen(),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: SSizes.md, horizontal: SSizes.defaultMargin),
-                      child: Container(
-                        padding: const EdgeInsets.all(8.0),
+
+            Flexible(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(SSizes.defaultMargin),
+                  child: Column(
+                    children: [
+                      // Container untuk daftar produk
+                      Container(
+                        padding: const EdgeInsets.all(SSizes.defaultMargin),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
                           color: darkMode ? SColors.pureBlack : Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            Checkbox(
-                              value: selectedItems[index],
-                              onChanged: (value) => toggleItemSelection(index, value),
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.asset(
-                                SImages.brokoli,
-                                width: 80.0,
-                                height: 80.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(width: SSizes.sm),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Brokoli",
-                                    style: darkMode
-                                      ? STextTheme.titleBaseBlackDark
-                                      :  STextTheme.titleBaseBlackLight
-                                  ),
-                                  Text(
-                                    "300-500 gr/pack",
-                                    style: darkMode
-                                      ? STextTheme.bodySmRegularDark
-                                      : STextTheme.bodySmRegularLight,
-                                  ),
-                                  const SizedBox(height: SSizes.sm),
-                                  Text(
-                                    "IDR 40.000",
-                                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: darkMode ? SColors.pureWhite : SColors.softBlack500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const SizedBox(height: 33),
-                                Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () => updateQuantity(index, -1),
-                                      child: Container(
-                                        width: 24,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                          color: darkMode ? SColors.pureBlack : Colors.white,
-                                          borderRadius: BorderRadius.circular(100),
-                                          border: Border.all(color: SColors.green500),
-                                        ),
-                                        child: const Icon(Icons.remove, size: 16, color: SColors.green500),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Text(
-                                      '${itemQuantities[index]}',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: darkMode ? SColors.pureWhite : SColors.softBlack500,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    GestureDetector(
-                                      onTap: () => updateQuantity(index, 1),
-                                      child: Container(
-                                        width: 24,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                          color: SColors.green500,
-                                          borderRadius: BorderRadius.circular(100),
-                                        ),
-                                        child: Icon(Icons.add, size: 16, color: darkMode ? SColors.pureBlack : SColors.pureWhite),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                          borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
                             ),
                           ],
                         ),
+                        child: Column(
+                          children: List.generate(itemCount, (index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const DescProductScreen(),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: SSizes.sm),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Transform.scale(
+                                        scale: 1.2,
+                                        child: Checkbox(
+                                          value: selectedItems[index],
+                                          onChanged: (value) => toggleItemSelection(index, value),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                          ),
+                                          side: BorderSide(
+                                            color: darkMode ? SColors.green50 : SColors.softBlack50,
+                                            width: 1,
+                                          ),
+                                          visualDensity: VisualDensity.compact,
+                                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        ),
+                                      ),
+                                      const SizedBox(width: SSizes.sm2),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        child: Image.asset(
+                                          SImages.brokoli,
+                                          width: 80.0,
+                                          height: 80.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SizedBox(width: SSizes.sm2),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Brokoli",
+                                              style: darkMode
+                                                  ? STextTheme.titleBaseBlackDark
+                                                  : STextTheme.titleBaseBlackLight,
+                                            ),
+                                            Text(
+                                              "300-500 gr/pack",
+                                              style: darkMode
+                                                  ? STextTheme.bodySmRegularDark
+                                                  : STextTheme.bodySmRegularLight,
+                                            ),
+                                            const SizedBox(height: SSizes.sm),
+                                            Text(
+                                              "Rp. 40.000",
+                                              style: STextTheme.titleBaseBoldLight.copyWith(
+                                                color: SColors.green500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () => updateQuantity(index, -1),
+                                            child: Container(
+                                              width: 24,
+                                              height: 24,
+                                              decoration: BoxDecoration(
+                                                color: Colors.transparent,
+                                                border: Border.all(
+                                                  color: darkMode
+                                                      ? SColors.green50
+                                                      : SColors.softBlack50,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(SSizes.borderRadiussm),
+                                              ),
+                                              child: Icon(
+                                                Icons.remove,
+                                                size: 16,
+                                                color: darkMode
+                                                    ? SColors.green100
+                                                    : SColors.softBlack100,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: SSizes.md),
+                                          Text(
+                                            '${itemQuantities[index]}',
+                                            style: darkMode
+                                                ? STextTheme.titleBaseBoldDark
+                                                : STextTheme.titleBaseBoldLight,
+                                          ),
+                                          const SizedBox(width: SSizes.md),
+                                          GestureDetector(
+                                            onTap: () => updateQuantity(index, 1),
+                                            child: Container(
+                                              width: 24,
+                                              height: 24,
+                                              decoration: BoxDecoration(
+                                                color: SColors.green100,
+                                                borderRadius:
+                                                    BorderRadius.circular(SSizes.borderRadiussm),
+                                              ),
+                                              child: const Icon(
+                                                Icons.add,
+                                                size: 16,
+                                                color: SColors.green500,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
                       ),
-                    ),
-                  );
-                },
+
+                      // Tambahkan Container baru di bawah
+                      const SizedBox(height: SSizes.md2),
+                      Container(
+                        color: Colors.transparent, // Background color full width
+                        padding: const EdgeInsets.only(
+                          left: SSizes.md,
+                          top: SSizes.lg,
+                          bottom: SSizes.lg,
+                        ), // Margin isi konten
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start, // Title ke paling kiri
+                          children: [
+                            // Title Product Horizontal
+                            Text(
+                              STexts.youLink,
+                              style: darkMode
+                                  ? STextTheme.titleBaseBoldDark
+                                  : STextTheme.titleBaseBoldLight,
+                            ),
+                            const SizedBox(height: SSizes.md), // Jarak vertikal
+                            Divider(
+                              thickness: 1.0,
+                              color: darkMode ? SColors.green50 : SColors.softBlack50,
+                            ),
+                            const SizedBox(height: SSizes.md), // Jarak vertikal
+
+                            // Product Horizontal
+                            const SProductH(), // Widget produk
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
+
           ],
         ),
         if (showPopup)
@@ -229,35 +341,91 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Total Harga: IDR ${calculateTotalPrice()}",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: SColors.green500,
-                        ),
-                  ),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: SColors.green500,
-                      minimumSize: const Size(double.infinity, 48),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  // Voucher Button
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: SColors.green500),
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.transparent,
+                    ),
+                    child: const Padding(
+                      padding:  EdgeInsets.symmetric(
+                          horizontal: 21.0, vertical: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                SIcons.voucher,
+                                color: SColors.green500,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                STexts.buttonVoucher,
+                                style: STextTheme.ctaSm,
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            SIcons.arrowRight,
+                            color: SColors.green500,
+                          ),
+                        ],
                       ),
                     ),
-                    onPressed: () {
-                      // Implement checkout functionality
-                    },
-                    child: const Text(
-                      "Checkout",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
+                  ),
+                  // Total and Pay Button Row
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Text Section
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Total",
+                            style: darkMode
+                                ? STextTheme.bodyCaptionRegularDark
+                                : STextTheme.bodyCaptionRegularLight,
+                          ),
+                          const SizedBox(height: SSizes.xs - 2),
+                          Text(
+                            "Rp ${calculateTotalPrice()}",
+                            style: darkMode
+                                ? STextTheme.titleMdBoldDark
+                                : STextTheme.titleMdBoldLight,
+                          ),
+                        ],
+                      ),
+                      // Button Section
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: SColors.green500,
+                          minimumSize: const Size(165, 46), // Atur ukuran minimum tombol
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Implement checkout functionality
+                        },
+                        child: const Text(
+                          STexts.buy,
+                          style: STextTheme.titleBaseBoldDark,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
-          ),
+          )
+
+
       ],
     );
   }

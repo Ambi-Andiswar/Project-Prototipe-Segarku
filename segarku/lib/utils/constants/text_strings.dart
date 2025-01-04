@@ -13,6 +13,8 @@ class STexts{
   static const String resend = "Kirim ulang";
   static const String category = "Kategori";
   static const String vegetable = "Sayur";
+  static const String selectAll = "Pilih Semua";
+  static const String buy = "Bayar";
 
   // Appbar text
   static const String resetPassword = "Lupa kata sandi";
@@ -23,6 +25,7 @@ class STexts{
   // Button Text
   static const String send = "Kirim";
   static const String done = "Selesai";
+  static const String buttonVoucher = "Ada voucher? Cari tahu disini!";
 
   // authentication Form Text
   static const String emailField = "Masukan email anda";
@@ -92,6 +95,8 @@ class STexts{
   // Cart
   static const String noItemCart = "Oops, keranjang masih kosong";
   static const String subNoItemCart = "Waktunya belanja produk sehat dan segar!";
+  static const String youLink = "Anda Mungkin Menyukainya";
+
 
   // History
   static const String noHistoryCart = "Oops, belum ada riwayat transaksi";
@@ -99,8 +104,7 @@ class STexts{
 
 
   // Description Product
-  static const String deskription= "Bayam adalah jenis sayuran hijau yang kaya akan nutrisi dan sering digunakan dalam berbagai masakan. Tanaman ini berasal dari keluarga Amaranthaceae dan dikenal dengan daun hijau yang lembut serta rasa yang ringan. Bayam mengandung banyak zat gizi penting, seperti vitamin A, vitamin C, vitamin K, zat besi, kalsium, dan serat, yang bermanfaat untuk kesehatan tubuh. /n Bayam dapat dimasak dengan berbagai cara, seperti ditumis, direbus, atau dijadikan campuran dalam sup. Selain itu, bayam juga sering diolah menjadi jus atau smoothie sehat. Konsumsi bayam secara rutin dapat membantu meningkatkan daya tahan tubuh, menjaga kesehatan mata, dan mendukung sistem pencernaan yang baik.";
-
-
+  static const String deskription= "Bayam adalah jenis sayuran hijau yang kaya akan nutrisi dan sering digunakan dalam berbagai masakan. Tanaman ini berasal dari keluarga Amaranthaceae dan dikenal dengan daun hijau yang lembut serta rasa yang ringan. Bayam mengandung banyak zat gizi penting, seperti vitamin A, vitamin C, vitamin K, zat besi, kalsium, dan serat, yang bermanfaat untuk kesehatan tubuh.\n Bayam dapat dimasak dengan berbagai cara, seperti ditumis, direbus, atau dijadikan campuran dalam sup. Selain itu, bayam juga sering diolah menjadi jus atau smoothie sehat. Konsumsi bayam secara rutin dapat membantu meningkatkan daya tahan tubuh, menjaga kesehatan mata, dan mendukung sistem pencernaan yang baik.";
+  static const String similarProducts= "Produk Yang Serupa";
 
 }

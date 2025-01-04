@@ -15,6 +15,7 @@ class SIcons {
   static const IconData right = HugeIcons.strokeRoundedArrowRight02;
   static const IconData up = HugeIcons.strokeRoundedArrowUp02;
   static const IconData down = HugeIcons.strokeRoundedArrowDown02;
+  static const IconData delet = HugeIcons.strokeRoundedDelete02;
 
   // Security
   static const IconData eye = Iconsax.eye;

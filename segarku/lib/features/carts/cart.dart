@@ -6,17 +6,17 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return const Scaffold(
       body: Column(
         children: [
           // Konten di tengah-tengah layar
           Expanded(
             child: Center(
-              child: 
-              CartsProductScreen(),
-               // Ganti dengan widget yang relevan
+              child: CartsProductScreen(), // Widget keranjang produk
             ),
           ),
+          
         ],
       ),
     );

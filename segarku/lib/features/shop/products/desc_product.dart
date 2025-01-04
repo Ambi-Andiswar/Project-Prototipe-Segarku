@@ -182,11 +182,21 @@ class DescProductScreen extends StatelessWidget {
                                     width: 24,
                                     height: 24,
                                     decoration: BoxDecoration(
-                                      color: dark ? SColors.pureBlack : SColors.pureWhite,
-                                      borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                                      border: Border.all(color: SColors.green500),
-                                    ),
-                                    child: const Icon(Icons.remove, size: 16, color: SColors.green500),
+                                          color: Colors.transparent,
+                                          border: Border.all(
+                                            color: dark 
+                                              ? SColors.green50 
+                                              : SColors.softBlack50,
+                                          ),
+                                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                        ),
+                                    child: Icon(
+                                          Icons.remove,
+                                          size: 16,
+                                          color: dark
+                                            ? SColors.green100 
+                                            : SColors.softBlack100,
+                                          ),
                                   ),
                                 ),
                                 const SizedBox(width: SSizes.md),
@@ -203,10 +213,14 @@ class DescProductScreen extends StatelessWidget {
                                     width: 24,
                                     height: 24,
                                     decoration: BoxDecoration(
-                                      color: SColors.green500,
-                                      borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                                    ),
-                                    child: Icon(Icons.add, size: 16, color: dark ? SColors.pureBlack : SColors.pureWhite),
+                                          color: SColors.green100,
+                                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                        ),
+                                        child: const Icon(
+                                          Icons.add,
+                                          size: 16,
+                                          color:  SColors.green500
+                                          ),
                                   ),
                                 ),
                               ],
@@ -232,19 +246,24 @@ class DescProductScreen extends StatelessWidget {
 
                         const SizedBox(height: SSizes.md2),
                         Container(
-                          color: dark
-                          ? SColors.softBlack300
-                          : SColors.green50, // Background color full width
+                          color: Colors.transparent, // Background color full width
                           padding: const EdgeInsets.only(left: SSizes.md, top: SSizes.lg, bottom: SSizes.lg), // Margin isi konten
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start, // Title ke paling kiri
                             children: [
                               // Title Product Horizontal
                               Text(
-                                STexts.specialToday,
+                                STexts.similarProducts,
                                 style: dark
                                     ? STextTheme.titleBaseBoldDark
                                     : STextTheme.titleBaseBoldLight,
+                              ),
+                              const SizedBox(height: SSizes.md), // Jarak vertikal
+                              Divider(
+                                thickness: 1.0,
+                                color: dark
+                                  ? SColors.green50
+                                  : SColors.softBlack50,
                               ),
                               const SizedBox(height: SSizes.md), // Jarak vertikal
 
@@ -389,8 +408,8 @@ class DescProductScreen extends StatelessWidget {
                             Icons.remove,
                             size: 16,
                             color: darkMode 
-                              ? SColors.green50 
-                              : SColors.softBlack50,
+                              ? SColors.green100 
+                              : SColors.softBlack100,
                           ),
                         ),
                       ),
@@ -422,7 +441,6 @@ class DescProductScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-
                   ],
                 ),
                 Text(
