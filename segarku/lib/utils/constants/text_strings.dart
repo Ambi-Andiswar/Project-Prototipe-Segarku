@@ -15,17 +15,22 @@ class STexts{
   static const String vegetable = "Sayur";
   static const String selectAll = "Pilih Semua";
   static const String buy = "Bayar";
+  static const String exUser = "Afif Wahidi";
+  static const String exNumberphone = "+62 851 8819 0911";
 
   // Appbar text
   static const String resetPassword = "Lupa kata sandi";
   static const String confirmEmail = "Konfirmasi email";
   static const String notification = "Notifikasi";
   static const String myCarts = "Keranjang Saya";
+  static const String payment = "Pembayaran";
 
   // Button Text
   static const String send = "Kirim";
   static const String done = "Selesai";
   static const String buttonVoucher = "Ada voucher? Cari tahu disini!";
+  static const String buyNow = "Bayar Sekarang";
+  static const String save = "Simpan";
 
   // authentication Form Text
   static const String emailField = "Masukan email anda";
@@ -97,14 +102,28 @@ class STexts{
   static const String subNoItemCart = "Waktunya belanja produk sehat dan segar!";
   static const String youLink = "Anda Mungkin Menyukainya";
 
-
   // History
   static const String noHistoryCart = "Oops, belum ada riwayat transaksi";
   static const String subnoHistoryCart = "Mulai belanja dan temukan produk sehat dan segari";
 
-
   // Description Product
   static const String deskription= "Bayam adalah jenis sayuran hijau yang kaya akan nutrisi dan sering digunakan dalam berbagai masakan. Tanaman ini berasal dari keluarga Amaranthaceae dan dikenal dengan daun hijau yang lembut serta rasa yang ringan. Bayam mengandung banyak zat gizi penting, seperti vitamin A, vitamin C, vitamin K, zat besi, kalsium, dan serat, yang bermanfaat untuk kesehatan tubuh.\n Bayam dapat dimasak dengan berbagai cara, seperti ditumis, direbus, atau dijadikan campuran dalam sup. Selain itu, bayam juga sering diolah menjadi jus atau smoothie sehat. Konsumsi bayam secara rutin dapat membantu meningkatkan daya tahan tubuh, menjaga kesehatan mata, dan mendukung sistem pencernaan yang baik.";
   static const String similarProducts= "Produk Yang Serupa";
+
+  // Transaction Checkout
+  static const String deliverySchedule= "Jadwal Pengiriman";
+  static const String selectLocation= "Pilih Lokasi";
+  static const String address= "Alamat";
+  static const String exAddress= "Gg. Randu 9 No. 58, Segala Minder, Kec. Tj. Karang Barat, Kota BandarLampung, Lampung 35124, Indonesia ";
+  static const String deliveryMothod = "Mode Pengiriman";
+  static const String pickUp = "Ambil di toko";
+  static const String free = "Free";
+  static const String delivery = "Delivery";
+  static const String exPostage = "+ Rp. 4.000/1 km";
+  static const String subTotal = "Subtotal";
+  static const String tax = "Ppn";
+  static const String postage = "Ongkir";
+  static const String total = "Total";
+  static const String productDetail = "Detail Produk";
 
 }

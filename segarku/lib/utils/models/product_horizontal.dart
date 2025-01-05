@@ -7,249 +7,264 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 
-  class SProductH extends StatelessWidget {
-    const SProductH({super.key});
+class SProductH extends StatelessWidget {
+  const SProductH({super.key});
 
-    @override
-    Widget build(BuildContext context) {
-      final darkMode = SHelperFunctions.isDarkMode(context);
+  @override
+  Widget build(BuildContext context) {
+    final darkMode = SHelperFunctions.isDarkMode(context);
 
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal, // Mengatur scroll secara horizontal
-        child: Row(
-          children: List.generate(
-            8, // Jumlah produk
-            (index) => Padding(
-              padding: const EdgeInsets.only(right: SSizes.md), // Spasi antar produk
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
+    final List<Map<String, String>> products = [
+      {
+        "name": "Semangka",
+        "size": "800gr-1kg /pack",
+        "price": "Rp 15.000",
+        "image": SImages.semangka,
+      },
+      {
+        "name": "Terong",
+        "size": "500 gr/pack",
+        "price": "Rp 10.000",
+        "image": SImages.terong,
+      },
+      {
+        "name": "Wortel",
+        "size": "500 gr/pack",
+        "price": "Rp 12.000",
+        "image": SImages.wortel,
+      },
+      {
+        "name": "Brokoli",
+        "size": "300-500 gr/pack",
+        "price": "Rp 25.000",
+        "image": SImages.brokoli,
+      },
+      {
+        "name": "Lobak Putih",
+        "size": "500 gr/pack",
+        "price": "Rp 13.000",
+        "image": SImages.lobak,
+      },
+      {
+        "name": "Tomat",
+        "size": "300-500 gr/pack",
+        "price": "Rp 5.000",
+        "image": SImages.tomat,
+      },      
+      {
+        "name": "Paprika Kuning",
+        "size": "400 gr/pack",
+        "price": "Rp 30.000",
+        "image": SImages.paprika,
+      },
+      {
+        "name": "Bayam",
+        "size": "500 gr/pack",
+        "price": "Rp 8.000",
+        "image": SImages.bayam,
+      },
+      
+    ];
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: products.map((product) {
+          return Padding(
+            padding: const EdgeInsets.only(right: SSizes.md),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const descProduct.DescProductScreen(),
-              ),
-            );
-                },
-                child: Container(
-                  width: 140, // Atur lebar setiap produk
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: darkMode
-                      ? SColors.green50
-                      : SColors.softBlack50
-                    ),
-                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
-                    color: darkMode ? SColors.slateBlack : SColors.pureWhite,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(SSizes.md),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Gambar produk
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                          child: Image.asset(
-                            SImages.semangka, // Ganti dengan URL gambar produk
-                            fit: BoxFit.cover,
-                            height: 100,
-                            width: double.infinity,
+                );
+              },
+              child: Container(
+                width: 140,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: darkMode ? SColors.green50 : SColors.softBlack50,
+                  ),
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+                  color: darkMode ? SColors.slateBlack : SColors.pureWhite,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(SSizes.md),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                        child: Image.asset(
+                          product["image"]!,
+                          fit: BoxFit.cover,
+                          height: 100,
+                          width: double.infinity,
+                        ),
+                      ),
+                      const SizedBox(height: SSizes.sm2),
+                      Text(
+                        product["name"]!,
+                        style: darkMode
+                            ? STextTheme.titleBaseBoldDark
+                            : STextTheme.titleBaseBoldLight,
+                      ),
+                      Text(
+                        product["size"]!,
+                        style: darkMode
+                            ? STextTheme.bodySmRegularDark
+                            : STextTheme.bodySmRegularLight,
+                      ),
+                      const SizedBox(height: SSizes.xs),
+                      Row(
+                        children: [
+                          Text(
+                            product["price"]!,
+                            style: darkMode
+                                ? STextTheme.titleCaptionBlackDark
+                                : STextTheme.titleCaptionBlackLight,
                           ),
-                        ),
-                        const SizedBox(height: SSizes.sm2),
-                        // Nama produk
-                        Text(
-                          'Semangka', // Ganti sesuai data
-                          style: darkMode
-                              ? STextTheme.titleBaseBoldDark
-                              : STextTheme.titleBaseBoldLight,
-                        ),
-                        // Ukuran produk
-                        Text(
-                          '300-500 gr/pack', // Ganti sesuai data
-                          style: darkMode
-                              ? STextTheme.bodySmRegularDark
-                              : STextTheme.bodySmRegularLight,
-                        ),
-                        const SizedBox(height: SSizes.xs),
-                        // Harga produk dan tombol
-                        Row(
-                          children: [
-                            Text(
-                              'Rp 25.000', // Ganti sesuai data
-                              style: darkMode
-                                  ? STextTheme.titleCaptionBlackDark
-                                  : STextTheme.titleCaptionBlackLight,
+                          const Spacer(),
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              color: darkMode ? SColors.pureBlack : SColors.green50,
+                              borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                             ),
-                            const Spacer(),
-                            Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: darkMode
-                                    ? SColors.pureBlack
-                                    : SColors.green50,
-                                borderRadius:
-                                    BorderRadius.circular(SSizes.borderRadiussm),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(SSizes.borderRadiusmd2)),
+                            child: IconButton(
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(SSizes.borderRadiusmd2),
                                     ),
-                                    builder: (context) {
-                                      return const AddToCartPopup(price: 25000);
-                                    },
-                                  );
-                                },
-                                icon: const Icon(
-                                  SIcons.add,
-                                  color: SColors.primary,
-                                  size: 16,
-                                ),
-                                padding: EdgeInsets.zero,
+                                  ),
+                                  builder: (context) {
+                                    return AddToCartPopup(
+                                      price: int.parse(product["price"]!.replaceAll(RegExp(r'[^0-9]'), '')),
+                                    );
+                                  },
+                                );
+                              },
+                              icon: const Icon(
+                                SIcons.add,
+                                color: SColors.primary,
+                                size: 16,
                               ),
+                              padding: EdgeInsets.zero,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class AddToCartPopup extends StatefulWidget {
+  final int price;
+
+  const AddToCartPopup({super.key, required this.price});
+
+  @override
+  State<AddToCartPopup> createState() => _AddToCartPopupState();
+}
+
+class _AddToCartPopupState extends State<AddToCartPopup> {
+  int quantity = 1;
+
+  void _addToCart() {
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final darkMode = SHelperFunctions.isDarkMode(context);
+
+    return Padding(
+      padding: const EdgeInsets.all(SSizes.defaultMargin),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total Harga',
+                style: darkMode
+                    ? STextTheme.titleBaseBoldDark
+                    : STextTheme.titleBaseBoldLight,
+              ),
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.close),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: quantity > 1
+                        ? () => setState(() => quantity--)
+                        : null,
+                    child: Icon(
+                      Icons.remove,
+                      color: darkMode
+                          ? SColors.green50
+                          : SColors.softBlack50,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('$quantity',
+                        style: darkMode
+                            ? STextTheme.titleBaseBoldDark
+                            : STextTheme.titleBaseBoldLight),
+                  ),
+                  GestureDetector(
+                    onTap: () => setState(() => quantity++),
+                    child: Icon(
+                      Icons.add,
+                      color: SColors.green500,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                'Rp ${widget.price * quantity}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: SColors.green500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: _addToCart,
+              child: const Text('Tambahkan ke Keranjang'),
             ),
           ),
-        ),
-      );
-    }
+        ],
+      ),
+    );
   }
-
-  class AddToCartPopup extends StatefulWidget {
-    final int price;
-    
-
-    const AddToCartPopup({super.key, required this.price});
-
-    @override
-    State<AddToCartPopup> createState() => _AddToCartPopupState();
-  }
-
-  class _AddToCartPopupState extends State<AddToCartPopup> {
-    int quantity = 1;
-
-    void _addToCart() {
-      // Logika untuk menambahkan item ke keranjang bisa ditambahkan di sini
-      Navigator.pop(context); // Menutup BottomSheet setelah item ditambahkan ke keranjang
-    }
-
-    @override
-    Widget build(BuildContext context) {
-      final darkMode = SHelperFunctions.isDarkMode(context);
-
-      return Padding(
-        padding: const EdgeInsets.all(SSizes.defaultMargin),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Semangka',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                          color: darkMode 
-                            ? SColors.green50 
-                            : SColors.softBlack50,
-                        ),
-                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                      ),
-                      child: Center( // Tambahkan Center di sini
-                        child: GestureDetector( // Gunakan GestureDetector sebagai pengganti IconButton
-                          onTap: quantity > 1
-                              ? () => setState(() => quantity--)
-                              : null,
-                          child: Icon(
-                            Icons.remove,
-                            size: 16,
-                            color: darkMode 
-                              ? SColors.green50 
-                              : SColors.softBlack50,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: SSizes.md),
-
-                    Text('$quantity', 
-                      style: darkMode
-                        ? STextTheme.titleBaseBoldDark
-                        : STextTheme.titleBaseBoldLight,
-                    ),
-                    const SizedBox(width: SSizes.md),
-                    
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: SColors.green100, // Warna latar belakang
-                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                          onTap: () => setState(() => quantity++),
-                          child: const Icon(
-                            Icons.add,
-                            size: 16,
-                            color: SColors.green500, // Warna ikon
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  ],
-                ),
-                Text(
-                  'Rp. ${widget.price * quantity}',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: SColors.green500,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _addToCart,
-                child: const Text('Tambahkan ke Keranjang'),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-  }
+}

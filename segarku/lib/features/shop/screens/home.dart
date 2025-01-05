@@ -124,6 +124,7 @@ Widget build(BuildContext context) {
 
                 // Product Vertical
                 const SProductV(),
+                const SizedBox(height: SSizes.md), 
               ],
             ),
           ),

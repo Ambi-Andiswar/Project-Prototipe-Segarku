@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
+import 'package:segarku/features/transaction/transaction_checkout.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -7,6 +8,7 @@ import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/models/product_horizontal.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
+import 'package:get/get.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 
 class CartsProductScreen extends StatefulWidget {
@@ -410,9 +412,8 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: () {
-                          // Implement checkout functionality
-                        },
+                        onPressed: () 
+                          => Get.to(() => const TransactionCheckoutScreen()),
                         child: const Text(
                           STexts.buy,
                           style: STextTheme.titleBaseBoldDark,

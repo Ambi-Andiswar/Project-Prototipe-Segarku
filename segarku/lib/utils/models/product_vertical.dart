@@ -14,6 +14,58 @@ class SProductV extends StatelessWidget {
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
+    // Daftar produk dinamis
+    final List<Map<String, dynamic>> products = [
+      {
+        "name": "Brokoli",
+        "size": "300-500 gr/pack",
+        "price": "Rp 25.000",
+        "image": SImages.brokoli,
+      },
+      {
+        "name": "Wortel",
+        "size": "500 gr/pack",
+        "price": "Rp 12.000",
+        "image": SImages.wortel,
+      },
+      {
+        "name": "Tomat",
+        "size": "300-500 gr/pack",
+        "price": "Rp 5.000",
+        "image": SImages.tomat,
+      },
+      {
+        "name": "Terong",
+        "size": "500 gr/pack",
+        "price": "Rp 10.000",
+        "image": SImages.terong,
+      },
+      {
+        "name": "Lobak Putih",
+        "size": "500 gr/pack",
+        "price": "Rp 13.000",
+        "image": SImages.lobak,
+      },
+      {
+        "name": "Paprika Kuning",
+        "size": "400 gr/pack",
+        "price": "Rp 30.000",
+        "image": SImages.paprika,
+      },
+      {
+        "name": "Bayam",
+        "size": "500 gr/pack",
+        "price": "Rp 8.000",
+        "image": SImages.bayam,
+      },
+      {
+        "name": "Semangka",
+        "size": "800gr-1kg /pack",
+        "price": "Rp 15.000",
+        "image": SImages.semangka,
+      },
+    ];
+
     // Mendapatkan lebar layar
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -27,16 +79,18 @@ class SProductV extends StatelessWidget {
     }
 
     return GridView.builder(
-      shrinkWrap: true, // Agar GridView tidak scroll sendiri
+      shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 8, // Jumlah produk (dapat diganti dinamis sesuai data)
+      itemCount: products.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount, // Jumlah kolom responsif
-        crossAxisSpacing: 16, // Spasi horizontal antar produk
-        mainAxisSpacing: 16, // Spasi vertikal antar produk
-        childAspectRatio: 0.75, // Perbandingan lebar dan tinggi
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.75,
       ),
       itemBuilder: (context, index) {
+        final product = products[index];
+
         return GestureDetector(
           onTap: () {
             Navigator.push(
@@ -64,7 +118,7 @@ class SProductV extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                       child: Image.asset(
-                        SImages.brokoli, // Ganti dengan URL gambar produk
+                        product["image"],
                         fit: BoxFit.cover,
                         width: double.infinity,
                       ),
@@ -77,7 +131,7 @@ class SProductV extends StatelessWidget {
                       children: [
                         // Nama produk
                         Text(
-                          'Brokoli', // Ganti sesuai data
+                          product["name"],
                           style: darkMode
                               ? STextTheme.titleBaseBoldDark
                               : STextTheme.titleBaseBoldLight,
@@ -86,16 +140,10 @@ class SProductV extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '300-500', // Ganti sesuai data
+                              product["size"],
                               style: darkMode
                                   ? STextTheme.bodyCaptionRegularDark
                                   : STextTheme.bodyCaptionRegularLight,
-                            ),
-                            Text(
-                              'gr/pack', // Ganti sesuai data
-                              style: darkMode
-                                  ? STextTheme.bodySmRegularDark
-                                  : STextTheme.bodySmRegularLight,
                             ),
                           ],
                         ),
@@ -104,7 +152,7 @@ class SProductV extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Rp 25.000', // Ganti sesuai data
+                              product["price"],
                               style: darkMode
                                   ? STextTheme.titleBaseBlackDark
                                   : STextTheme.titleBaseBlackLight,
@@ -129,8 +177,8 @@ class SProductV extends StatelessWidget {
                                           top: Radius.circular(16)),
                                     ),
                                     builder: (context) {
-                                      return const descProduct.AddToCartPopup(
-                                          price: 25000);
+                                      return descProduct.AddToCartPopup(
+                                          price: int.parse(product["price"].replaceAll(RegExp(r'\D'), '')));
                                     },
                                   );
                                 },
