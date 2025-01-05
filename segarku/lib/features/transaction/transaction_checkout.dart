@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/features/authentication/screens/forgetPass/confirm_email.dart';
+import 'package:segarku/features/transaction/widget/delivery_options.dart';
 import 'package:segarku/features/transaction/widget/detail_product_transaction.dart';
+import 'package:segarku/features/transaction/widget/select_location.dart';
+import 'package:segarku/features/transaction/widget/transaction_success.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
@@ -19,8 +21,6 @@ class TransactionCheckoutScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          
-
           // SCustomAppBar dengan Divider di bawah
           Container(
             color: dark 
@@ -44,6 +44,7 @@ class TransactionCheckoutScreen extends StatelessWidget {
             ),
           ),
 
+
           // Konten utama
           Expanded(
             child: Column(
@@ -61,31 +62,20 @@ class TransactionCheckoutScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Delivery Schedule
+                              const DeliveryOptions(),
+
+                              const SizedBox(height: SSizes.md),
+
+                              // Select Location
                               Text(
-                                STexts.deliverySchedule,
+                                STexts.productDetail,
                                 style: dark
                                     ? STextTheme.titleBaseBoldDark
                                     : STextTheme.titleBaseBoldLight,
                               ),
                               const SizedBox(height: SSizes.md),
+                              const SelectLocation(),
 
-                              // Selected Location
-                              Text(
-                                STexts.selectLocation,
-                                style: dark
-                                    ? STextTheme.titleBaseBoldDark
-                                    : STextTheme.titleBaseBoldLight,
-                              ),
-                              const SizedBox(height: SSizes.md),
-
-                              // Delivery Method
-                              Text(
-                                STexts.deliveryMothod,
-                                style: dark
-                                    ? STextTheme.titleBaseBoldDark
-                                    : STextTheme.titleBaseBoldLight,
-                              ),
                               const SizedBox(height: SSizes.md),
 
                               // Product Detail
@@ -117,6 +107,7 @@ class TransactionCheckoutScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
                   child: Column(
                     children: [
+                      const SizedBox(height: SSizes.md2),
                       // SubTotal
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -129,7 +120,7 @@ class TransactionCheckoutScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "Rp 64.000",
+                            "Rp 53.000",
                             style: dark
                                 ? STextTheme.titleCaptionBoldDark
                                 : STextTheme.titleCaptionBoldLight,
@@ -185,13 +176,14 @@ class TransactionCheckoutScreen extends StatelessWidget {
 
                       // Garis
                       Dash(
-                        length: MediaQuery.of(context).size.width, // Atur sesuai lebar layar
+                        length: MediaQuery.of(context).size.width - (SSizes.defaultMargin * 2),
                         dashLength: 4.0,
                         dashGap: 4.0,
                         direction: Axis.horizontal,
                         dashColor: dark ? SColors.green50 : SColors.softBlack50,
                         dashBorderRadius: 4.0,
                       ),
+
                       
                       const SizedBox(height: SSizes.md),
                       
@@ -207,7 +199,7 @@ class TransactionCheckoutScreen extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "Rp 77.000",
+                            "Rp 66.000",
                             style: STextTheme.titleBaseBoldDark.copyWith(
                               color: SColors.green500
                             ),
@@ -218,7 +210,7 @@ class TransactionCheckoutScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => Get.to(() => const ConfirmEmailPassScreen()),
+                          onPressed: () => Get.to(() => const TransactionSuccess()),
                           child: const Text(
                             STexts.buyNow,
                             style: STextTheme.titleBaseBoldDark,

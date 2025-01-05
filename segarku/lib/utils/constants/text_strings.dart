@@ -17,6 +17,8 @@ class STexts{
   static const String buy = "Bayar";
   static const String exUser = "Afif Wahidi";
   static const String exNumberphone = "+62 851 8819 0911";
+  static const String change = "Ganti";
+  static const String finish = "Berhasil";
 
   // Appbar text
   static const String resetPassword = "Lupa kata sandi";
@@ -31,6 +33,7 @@ class STexts{
   static const String buttonVoucher = "Ada voucher? Cari tahu disini!";
   static const String buyNow = "Bayar Sekarang";
   static const String save = "Simpan";
+  static const String saveStruk = "Unduh struk pembelian";
 
   // authentication Form Text
   static const String emailField = "Masukan email anda";
@@ -119,11 +122,28 @@ class STexts{
   static const String pickUp = "Ambil di toko";
   static const String free = "Free";
   static const String delivery = "Delivery";
+  static const String deliveryTitle = "Ingin delivery atau pickup di toko? Klik Ganti";
   static const String exPostage = "+ Rp. 4.000/1 km";
   static const String subTotal = "Subtotal";
   static const String tax = "Ppn";
   static const String postage = "Ongkir";
   static const String total = "Total";
   static const String productDetail = "Detail Produk";
+
+  // 
+  static const String titlePaymentSucces = "Pembayaran berhasil";
+  static const String subTitlePaymentSucces = "Pembayaran Anda telah berhasil dilakukan";
+  static const String sum = "Total";
+  static const String exSum = "Rp. 69.000";
+  static const String paymentStatus = "Payment Status";
+  static const String refNumb = "Ref Number";
+  static const String exRefNumb = "00008582257";
+  static const String paymentMethod = "Payment Method";
+  static const String expaymentMethod = "Bank Transfer";
+  static const String time = "Waktu";
+  static const String exTime = "07:00 WIB";
+  static const String date = "Tanggal";
+  static const String exdate = "27 Desember 2024";
+
 
 }

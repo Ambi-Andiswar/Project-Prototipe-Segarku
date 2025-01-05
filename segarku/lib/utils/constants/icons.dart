@@ -44,6 +44,9 @@ class SIcons {
   static const IconData close = HugeIcons.strokeRoundedCancel01;
   static const IconData download = HugeIcons.strokeRoundedDownload04;
   static const IconData notification = HugeIcons.strokeRoundedNotification01;
+  static const IconData delivery = HugeIcons.strokeRoundedTruckDelivery;
+  static const IconData pickUp = HugeIcons.strokeRoundedStore04;
+  static const IconData share = HugeIcons.strokeRoundedShare05;
 
   // Button Icon
   static Widget notificationIcon(bool dark) {

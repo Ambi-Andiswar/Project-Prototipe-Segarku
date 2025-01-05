@@ -15,34 +15,28 @@ class DetailProductTransaction extends StatelessWidget {
     // Data produk contoh yang telah di-checkout
     final List<Map<String, String>> checkedOutProducts = [
       {
-        "name": "Brokoli",
-        "size": "300-500 gr/pack",
-        "price": "Rp. 40.000",
-        "image": SImages.brokoli
+        "name": "Bayam",
+        "size": "500 gr/pack",
+        "price": "Rp. 8.000",
+        "image": SImages.bayam
       },
       {
         "name": "Semangka",
-        "size": "1 kg",
-        "price": "Rp. 50.000",
+        "size": "800gr-1kg/pack",
+        "price": "Rp. 15.000",
         "image": SImages.semangka
       },
       {
-        "name": "Rempah India",
-        "size": "1 Ton",
-        "price": "Rp. 2.500.000",
-        "image": SImages.sayurCategory
+        "name": "Tomat",
+        "size": "300-500 gr/pack",
+        "price": "Rp. 5.000",
+        "image": SImages.tomat
       },
       {
-        "name": "Rempah India",
-        "size": "1 Ton",
-        "price": "Rp. 2.500.000",
-        "image": SImages.sayurCategory
-      },
-      {
-        "name": "Rempah India",
-        "size": "1 Ton",
-        "price": "Rp. 2.500.000",
-        "image": SImages.sayurCategory
+        "name": "Brokoli",
+        "size": "300-500 gr/pack",
+        "price": "Rp. 25.000",
+        "image": SImages.brokoli
       },
     ];
 
@@ -53,7 +47,7 @@ class DetailProductTransaction extends StatelessWidget {
             color: darkMode ? SColors.pureBlack : Colors.white,
             borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
           ),
-          padding: const EdgeInsets.all(SSizes.defaultMargin), // Tetap gunakan padding
+          padding: const EdgeInsets.all(SSizes.defaultMargin),
           child: Column(
             children: checkedOutProducts.map((product) {
               final isLast = product == checkedOutProducts.last;
@@ -100,8 +94,9 @@ class DetailProductTransaction extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomLeft, // Posisikan teks di kiri bawah
+                    Container(
+                      height: 80.0, // Tinggi yang sama dengan gambar
+                      alignment: Alignment.bottomRight,
                       child: Text(
                         "1 Pack",
                         style: darkMode

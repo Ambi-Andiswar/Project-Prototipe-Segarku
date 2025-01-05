@@ -38,7 +38,7 @@ class SHomeCategories extends StatelessWidget {
                 );
               },
               child: Container(
-                width: 60, // Atur lebar setiap kategori
+                width: 65, // Atur lebar setiap kategori
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
                   color: Colors.transparent,
@@ -54,7 +54,7 @@ class SHomeCategories extends StatelessWidget {
                         child: Image.asset(
                           categories[index]["image"]!, // Gambar sesuai data
                           fit: BoxFit.cover,
-                          height: 48,
+                          height: 50  ,
                           width: double.infinity,
                         ),
                       ),

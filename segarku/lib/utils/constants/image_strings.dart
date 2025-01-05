@@ -24,21 +24,21 @@ class SImages {
   static const String welcomeBackground = "assets/images/background/welcome_background.png";
 
 // Product
-  static const String brokoli = "assets/images/product/brokoli.jpg";
-  static const String semangka = "assets/images/product/semangka.png";
-  static const String wortel = "assets/images/product/wortel.png";
-  static const String tomat = "assets/images/product/tomat.png";
-  static const String terong = "assets/images/product/terong.png";
-  static const String lobak = "assets/images/product/lobak.png";
-  static const String paprika = "assets/images/product/paprika.png";
-  static const String bayam = "assets/images/product/bayam.png";
+  static const String brokoli = "assets/images/brokoli.jpg";
+  static const String semangka = "assets/images/semangka.png";
+  static const String wortel = "assets/images/wortel.png";
+  static const String tomat = "assets/images/tomat.png";
+  static const String terong = "assets/images/terong.png";
+  static const String lobak = "assets/images/lobak.png";
+  static const String paprika = "assets/images/paprika.png";
+  static const String bayam = "assets/images/bayam.png";
 
 // Kategory
-  static const String sayurCategory = "assets/images/category/kategori_sayur.jpg";
-  static const String buahCategory = "assets/images/category/kategori_buah.png";
-  static const String masakCategory = "assets/images/category/kategori_masak.png";
-  static const String herbalCategory = "assets/images/category/kategori_herbal.png";
-  static const String dapurCategory = "assets/images/category/kategori_dapur.png";
+  static const String sayurCategory = "assets/images/kategori_sayur.jpg";
+  static const String buahCategory = "assets/images/kategori_buah.png";
+  static const String masakCategory = "assets/images/kategori_masak.png";
+  static const String herbalCategory = "assets/images/kategori_herbal.png";
+  static const String dapurCategory = "assets/images/kategori_dapur.png";
 
 // Slider
   static const String slider1 = "assets/images/sliders/sliders-1.png";

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
-import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class SCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -16,17 +15,19 @@ class SCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      automaticallyImplyLeading: false, // Menghilangkan back button default
-      backgroundColor: darkMode ? SColors.pureBlack : SColors.pureWhite,
-      elevation: 0,
-      title: SizedBox(
-        height: preferredSize.height,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
+Widget build(BuildContext context) {
+  return AppBar(
+    automaticallyImplyLeading: false, // Menghilangkan back button default
+    backgroundColor: darkMode ? SColors.pureBlack : SColors.pureWhite,
+    elevation: 0,
+    title: SizedBox(
+      height: preferredSize.height,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            left: 0, // Tombol back di kiri
+            child: Container(
               height: 40,
               width: 40,
               decoration: BoxDecoration(
@@ -49,24 +50,21 @@ class SCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             ),
-            Expanded(
-              child: Center(
-                child: Text(
-                  title,
-                  style: darkMode
-                      ? STextTheme.titleBaseBlackDark
-                      : STextTheme.titleBaseBlackLight,
-                ),
-              ),
+          ),
+          Center(
+            child: Text(
+              title,
+              style: darkMode
+                  ? STextTheme.titleBaseBlackDark
+                  : STextTheme.titleBaseBlackLight,
+              textAlign: TextAlign.center, // Pastikan teks center
             ),
-            const SizedBox(
-              height: SSizes.md,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   @override
   Size get preferredSize => const Size.fromHeight(52); // Tinggi AppBar

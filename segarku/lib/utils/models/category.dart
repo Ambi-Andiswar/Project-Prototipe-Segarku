@@ -13,7 +13,15 @@ class SCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
-    
+    // Data dinamis kategori
+    final List<Map<String, dynamic>> categories = [
+      {'name': 'Sayuran', 'image': SImages.sayurCategory, 'products': 7},
+      {'name': 'Buah-buahan', 'image': SImages.buahCategory, 'products': 9},
+      {'name': 'Masak', 'image': SImages.masakCategory, 'products': 15},
+      {'name': 'Rempah', 'image': SImages.herbalCategory, 'products': 10},
+      {'name': 'Dapurku', 'image': SImages.dapurCategory, 'products': 12},
+    ];
+
     // Mendapatkan lebar layar
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -29,22 +37,24 @@ class SCategory extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true, // Agar GridView tidak scroll sendiri
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: 5, // Jumlah kategori (dapat diganti dinamis sesuai data)
+      itemCount: categories.length, // Jumlah kategori berdasarkan data
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount, // 2 kategori per baris
+        crossAxisCount: crossAxisCount, // Kategori per baris
         crossAxisSpacing: 15, // Spasi horizontal antar kategori
         mainAxisSpacing: 15, // Spasi vertikal antar kategori
         childAspectRatio: 2.5, // Perbandingan lebar dan tinggi container kategori
       ),
       itemBuilder: (context, index) {
+        final category = categories[index];
+
         return GestureDetector(
-          onTap: () { // Navigasi ke halaman DesProductScreen
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ListProductScreen(),
-                ),
-              );
+          onTap: () { // Navigasi ke halaman ListProductScreen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ListProductScreen(),
+              ),
+            );
           },
           child: Container(
             decoration: BoxDecoration(
@@ -70,7 +80,7 @@ class SCategory extends StatelessWidget {
                       children: [
                         // Nama kategori
                         Text(
-                          'Sayuran', // Nama kategori
+                          category['name']!, // Nama kategori
                           style: darkMode
                               ? STextTheme.titleCaptionBoldDark
                               : STextTheme.titleCaptionBoldLight,
@@ -78,7 +88,7 @@ class SCategory extends StatelessWidget {
 
                         // Jumlah produk dalam kategori
                         Text(
-                          '7 products', // Jumlah produk
+                          '${category['products']} produk', // Jumlah produk
                           style: darkMode
                               ? STextTheme.bodyCaptionRegularDark
                               : STextTheme.bodyCaptionRegularLight,
@@ -95,7 +105,7 @@ class SCategory extends StatelessWidget {
                     bottomRight: Radius.circular(SSizes.borderRadiusmd2),
                   ),
                   child: Image.asset(
-                    SImages.sayurCategory, // Gambar kategori
+                    category['image']!, // Gambar kategori
                     fit: BoxFit.cover,
                     width: 72, // Ukuran gambar
                     height: double.infinity,
