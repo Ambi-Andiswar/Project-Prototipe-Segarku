@@ -129,6 +129,7 @@ class STexts{
   static const String postage = "Ongkir";
   static const String total = "Total";
   static const String productDetail = "Detail Produk";
+  static const String changepurchaseType = "Pilih tipe pembelian";
 
   // 
   static const String titlePaymentSucces = "Pembayaran berhasil";

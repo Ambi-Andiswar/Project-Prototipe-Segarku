@@ -7,32 +7,38 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:get/get.dart';
 
 class DeliveryOptions extends StatelessWidget {
-  const DeliveryOptions({super.key});
+  final bool isDelivery; // Tambahkan parameter untuk mode
+  final Function(bool) onChangeMode; // Callback untuk mengirim aksi perubahan
+
+  const DeliveryOptions({
+    Key? key,
+    required this.isDelivery, // Terima nilai dari state halaman utama
+    required this.onChangeMode,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
+
     return Container(
-      
-      // container Utama
       decoration: BoxDecoration(
-        color: SColors.green100, // Warna kotak atas
-        borderRadius: BorderRadius.circular(SSizes.borderRadiussm), // Border radius utama
+        color: SColors.green100,
+        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           // Teks Delivery Title
           Padding(
             padding: const EdgeInsets.only(
               top: SSizes.sm2,
               bottom: SSizes.sm2,
-              left: SSizes.md2
+              left: SSizes.md2,
             ),
             child: Text(
-              STexts.deliveryTitle,
+              STexts.deliveryTitle, // Ganti teks
               style: STextTheme.titleCaptionBoldLight.copyWith(
-                color: SColors.green500, // Warna teks hijau
+                color: SColors.green500,
               ),
             ),
           ),
@@ -40,18 +46,16 @@ class DeliveryOptions extends StatelessWidget {
           // Container ke dua
           Container(
             decoration: BoxDecoration(
-              color: Colors.white, // Warna pureWhite untuk kontainer baru
+              color: Colors.white,
               borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
               border: Border.all(
-                color: dark
-                ? SColors.green50
-                : SColors.softBlack50),
+                color: dark ? SColors.green50 : SColors.softBlack50,
+              ),
             ),
-
-            // Ukuran padding isi container ke 2
             padding: const EdgeInsets.symmetric(
-              vertical: SSizes.md, 
-              horizontal: SSizes.md2),
+              vertical: SSizes.md,
+              horizontal: SSizes.md2,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -59,19 +63,19 @@ class DeliveryOptions extends StatelessWidget {
                 Row(
                   children: [
                     // Icon Delivery dengan background bulat
-                    const CircleAvatar(
-                      radius: 20, // Ukuran bulatan
-                      backgroundColor: SColors.green500, // Warna pureWhite
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: SColors.green500,
                       child: Icon(
-                        SIcons.delivery, // Icon pengiriman
-                        color: SColors.pureWhite, // Warna icon sesuai green500
+                        isDelivery ? SIcons.delivery : SIcons.pickUp, // Ganti ikon
+                        color: SColors.pureWhite,
                         size: SSizes.defaultIcon,
                       ),
                     ),
                     const SizedBox(width: SSizes.md),
                     // Teks Delivery
                     Text(
-                      STexts.delivery,
+                      isDelivery ? STexts.delivery : STexts.pickUp, // Ganti teks
                       style: dark
                           ? STextTheme.titleBaseBoldDark
                           : STextTheme.titleBaseBoldLight,
@@ -80,21 +84,25 @@ class DeliveryOptions extends StatelessWidget {
                 ),
 
                 // Tombol Ganti
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: SSizes.lg,
-                    vertical: SSizes.sm2,
-                  ),
-                  decoration: BoxDecoration(
-                    color: SColors.pureWhite, // Warna hijau untuk tombol
-                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                    border: Border.all(color: SColors.green500)
-                  ),
-                  child: Text(
-                    STexts.change,
-                    style: dark
+                GestureDetector(
+                  onTap: () => onChangeMode(true), // Panggil callback saat diklik
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: SSizes.lg,
+                      vertical: SSizes.sm2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: SColors.pureWhite,
+                      borderRadius:
+                          BorderRadius.circular(SSizes.borderRadiusmd),
+                      border: Border.all(color: SColors.green500),
+                    ),
+                    child: Text(
+                      STexts.change,
+                      style: dark
                           ? STextTheme.titleBaseBoldDark
                           : STextTheme.titleBaseBoldLight,
+                    ),
                   ),
                 ),
               ],

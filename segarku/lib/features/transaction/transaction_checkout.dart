@@ -7,12 +7,137 @@ import 'package:segarku/features/transaction/widget/detail_product_transaction.d
 import 'package:segarku/features/transaction/widget/select_location.dart';
 import 'package:segarku/features/transaction/widget/transaction_success.dart';
 import 'package:segarku/utils/constants/colors.dart';
+import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../../utils/constants/text_strings.dart';
 
-class TransactionCheckoutScreen extends StatelessWidget {
+class TransactionCheckoutScreen extends StatefulWidget {
   const TransactionCheckoutScreen({super.key});
+
+  @override
+  State<TransactionCheckoutScreen> createState() =>
+      _TransactionCheckoutScreenState();
+}
+
+class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
+  bool isDelivery = true; // State untuk menentukan mode pengiriman
+
+  // Fungsi untuk menampilkan dialog konfirmasi
+  void _showConfirmationDialog() {
+    final bool dark = context.isDarkMode;
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: SSizes.md,
+            horizontal: SSizes.defaultMargin,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title
+              Text(
+                STexts.changepurchaseType,
+                style: dark
+                    ? STextTheme.titleBaseBoldDark
+                    : STextTheme.titleBaseBoldLight,
+              ),
+              const SizedBox(height: SSizes.md),
+
+              // Row for Options
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Option Delivery
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isDelivery = true; // Ubah ke mode Delivery
+                      });
+                      Navigator.of(context).pop(); // Tutup popup
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(SSizes.md),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: SColors.green500),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: SColors.green500,
+                            child: Icon(
+                              SIcons.delivery,
+                              color: SColors.pureWhite,
+                              size: SSizes.defaultIcon,
+                            ),
+                          ),
+                          const SizedBox(width: SSizes.md),
+                          Text(
+                            STexts.delivery,
+                            style: dark
+                                ? STextTheme.titleBaseBoldDark
+                                : STextTheme.titleBaseBoldLight,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // Option Pick-Up
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isDelivery = false; // Ubah ke mode Pick-Up
+                      });
+                      Navigator.of(context).pop(); // Tutup popup
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(SSizes.md),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: SColors.green500),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: SColors.green500,
+                            child: Icon(
+                              SIcons.pickUp,
+                              color: SColors.pureWhite,
+                              size: SSizes.defaultIcon,
+                            ),
+                          ),
+                          const SizedBox(width: SSizes.md),
+                          Text(
+                            STexts.pickUp,
+                            style: dark
+                                ? STextTheme.titleBaseBoldDark
+                                : STextTheme.titleBaseBoldLight,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: SSizes.md),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,31 +146,27 @@ class TransactionCheckoutScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // SCustomAppBar dengan Divider di bawah
+          // AppBar
           Container(
-            color: dark 
-              ? SColors.pureBlack 
-              : SColors.pureWhite, // Ganti dengan warna yang sesuai
+            color: dark ? SColors.pureBlack : SColors.pureWhite,
             child: Column(
               children: [
-                // Padding di atas AppBar
                 const SizedBox(height: 52),
                 SCustomAppBar(
                   title: STexts.payment,
-                  darkMode: dark, 
+                  darkMode: dark,
                 ),
                 const SizedBox(height: SSizes.md),
                 Divider(
                   color: dark ? SColors.green50 : SColors.softBlack50,
                   thickness: 1,
-                  height: 1, // Pastikan tidak ada ruang tambahan
+                  height: 1,
                 ),
               ],
             ),
           ),
 
-
-          // Konten utama
+          // Konten Utama
           Expanded(
             child: Column(
               children: [
@@ -62,7 +183,15 @@ class TransactionCheckoutScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const DeliveryOptions(),
+                              // Delivery Options dengan Callback
+                              DeliveryOptions(
+                                isDelivery: isDelivery, // Kirim state ke sub-page
+                                onChangeMode: (isTapped) {
+                                  if (isTapped) {
+                                    _showConfirmationDialog(); // Tampilkan dialog saat tombol "Ganti" diklik
+                                  }
+                                },
+                              ),
 
                               const SizedBox(height: SSizes.md),
 
@@ -89,8 +218,8 @@ class TransactionCheckoutScreen extends StatelessWidget {
 
                               // Wrap DetailProductTransaction with SizedBox to constrain height
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.5, // Set height sesuai kebutuhan
-                                child: const DetailProductTransaction(), // Panggil widget
+                                height: MediaQuery.of(context).size.height * 0.5,
+                                child: const DetailProductTransaction(),
                               ),
                             ],
                           ),
@@ -100,11 +229,10 @@ class TransactionCheckoutScreen extends StatelessWidget {
                   ),
                 ),
 
-
-
-                // Bagian bawah
+                // Bagian Bawah (Subtotal, Tax, Delivery, Total)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: SSizes.defaultMargin),
                   child: Column(
                     children: [
                       const SizedBox(height: SSizes.md2),
@@ -126,9 +254,9 @@ class TransactionCheckoutScreen extends StatelessWidget {
                                 : STextTheme.titleCaptionBoldLight,
                           ),
                         ],
-                      ),    
+                      ),
 
-                      const SizedBox(height: SSizes.md),   
+                      const SizedBox(height: SSizes.md),
 
                       // Taxs
                       Row(
@@ -148,7 +276,7 @@ class TransactionCheckoutScreen extends StatelessWidget {
                                 : STextTheme.titleCaptionBoldLight,
                           ),
                         ],
-                      ),    
+                      ),
 
                       const SizedBox(height: SSizes.md),
 
@@ -176,17 +304,18 @@ class TransactionCheckoutScreen extends StatelessWidget {
 
                       // Garis
                       Dash(
-                        length: MediaQuery.of(context).size.width - (SSizes.defaultMargin * 2),
+                        length: MediaQuery.of(context).size.width -
+                            (SSizes.defaultMargin * 2),
                         dashLength: 4.0,
                         dashGap: 4.0,
                         direction: Axis.horizontal,
-                        dashColor: dark ? SColors.green50 : SColors.softBlack50,
+                        dashColor:
+                            dark ? SColors.green50 : SColors.softBlack50,
                         dashBorderRadius: 4.0,
                       ),
 
-                      
                       const SizedBox(height: SSizes.md),
-                      
+
                       // Total
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -201,16 +330,17 @@ class TransactionCheckoutScreen extends StatelessWidget {
                           Text(
                             "Rp 66.000",
                             style: STextTheme.titleBaseBoldDark.copyWith(
-                              color: SColors.green500
+                              color: SColors.green500,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: SSizes.md2+SSizes.md),
+                      const SizedBox(height: SSizes.md2 + SSizes.md),
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => Get.to(() => const TransactionSuccess()),
+                          onPressed: () =>
+                              Get.to(() => const TransactionSuccess()),
                           child: const Text(
                             STexts.buyNow,
                             style: STextTheme.titleBaseBoldDark,

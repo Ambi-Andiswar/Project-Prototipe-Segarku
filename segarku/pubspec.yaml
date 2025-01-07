@@ -19,7 +19,7 @@ dependencies:
   logger: ^2.0.1
   url_launcher: ^6.1.12
   carousel_slider: ^4.2.1
-  flutter_launcher_icons: ^0.12.0
+  flutter_launcher_icons: ^0.14.2 
   iconify_flutter: ^0.0.7
   smooth_page_indicator: ^1.2.0+3
   flutter_dash: ^1.0.0
@@ -33,7 +33,6 @@ dependencies:
   get: ^4.6.5
   get_storage: ^2.1.1
 
-  # Product Specific
 
 #------------------ ./ PACKAGES END ------------------#
 
@@ -42,6 +41,13 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^4.0.0
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logos/Segarku.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
 
@@ -71,5 +77,6 @@ flutter:
       - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Medium.ttf
       - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-MediumItalic.ttf
       - asset: assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Regular.ttf
+    
       
 
