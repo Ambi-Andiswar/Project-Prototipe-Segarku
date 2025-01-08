@@ -17,6 +17,7 @@ class STexts{
   static const String buy = "Bayar";
   static const String exUser = "Afif Wahidi";
   static const String exNumberphone = "+62 851 8819 0911";
+  static const String exEmail = "afifwahidi2@gmail.com";
   static const String change = "Ganti";
   static const String finish = "Berhasil";
 
@@ -117,6 +118,7 @@ class STexts{
   static const String deliverySchedule= "Jadwal Pengiriman";
   static const String selectLocation= "Pilih Lokasi";
   static const String address= "Alamat";
+  static const String addressShop= "Alamat Toko :";
   static const String exAddress= "Gg. Randu 9 No. 58, Segala Minder, Kec. Tj. Karang Barat, Kota BandarLampung, Lampung 35124, Indonesia ";
   static const String deliveryMothod = "Mode Pengiriman";
   static const String pickUp = "Ambil di toko";
@@ -130,8 +132,9 @@ class STexts{
   static const String total = "Total";
   static const String productDetail = "Detail Produk";
   static const String changepurchaseType = "Pilih tipe pembelian";
+  static const String directions = "Petunjuk arah";
 
-  // 
+  // Stuk
   static const String titlePaymentSucces = "Pembayaran berhasil";
   static const String subTitlePaymentSucces = "Pembayaran Anda telah berhasil dilakukan";
   static const String sum = "Total";
@@ -145,6 +148,24 @@ class STexts{
   static const String exTime = "07:00 WIB";
   static const String date = "Tanggal";
   static const String exdate = "27 Desember 2024";
+
+  // Profile
+  static const String profile = "Profile Saya";
+  static const String nameAccount = "Afif Wahidi";
+  static const String emailAccount = "afifwahidi2@gmail.com";
+  static const String accountSettings = "Pengaturan Akun";
+  static const String bankAccount = "Akun Bank";
+  static const String subBankAccount = "Edit akun bank atau metode pembayaran anda";
+  static const String voucher = "Voucher Saya";
+  static const String subVoucher = "Cek daftar kupon anda";
+  static const String subNotification = "Atur semua jenis pesan notifikasi anda";
+  static const String logout = "Keluar";
+  static const String subLogout = "Keluar dari akun anda?";
+  static const String logoutConfirmationTitle = "Konfirmasi Logout";
+  static const String logoutConfirmationMessage =
+      "Apakah Anda yakin ingin logout?";
+  static const String cancel = "Batal";
+  static const String confirm = "Iya";
 
 
 }

@@ -32,9 +32,7 @@ class TransactionSuccess extends StatelessWidget {
               children: [
                 // Tombol Close
                 GestureDetector(
-                  onTap: () {
-                    // Tambahkan aksi untuk tombol Close di sini
-                  },
+                  onTap: () => Get.to(() => const NavigationMenu(initialIndex: 0)),
                   child: Container(
                     width: 40,
                     height: 40,
@@ -88,7 +86,7 @@ class TransactionSuccess extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(height: SSizes.xs),
-                        Image.asset(SImages.iconSegarku),
+                        Image.asset(SImages.verified1),
 
                         // Title
                         Text(

@@ -5,6 +5,7 @@ class SImages {
   static const String appLogo = "assets/logos/Segarku.png";
   static const String iconSegarku = "assets/logos/iconSegarKu.png";
   static const String google = "assets/logos/google.png";
+  static const String profile = "assets/images/profile.png";
 
 // Onboarding Image
   static const String onboarding1 = "assets/images/onboarding/Onboarding-1.png";
@@ -44,5 +45,15 @@ class SImages {
   static const String slider1 = "assets/images/sliders/sliders-1.png";
   static const String slider2 = "assets/images/sliders/sliders-2.jpg";
   static const String slider3 = "assets/images/sliders/sliders-3.png";
+
+// Maps
+  static const String maps = "assets/images/Maps.png";
+  static const String iconMaps = "assets/images/iconmaps.png";
+  static const String topRight = "assets/images/topRight.png";
+
+// gif animation
+  static const String verified1 = "assets/images/verified1.gif";
+  static const String verified2 = "assets/images/verified2.gif";
+  static const String verified3 = "assets/images/verified3.gif";
 
 }

@@ -4,6 +4,7 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/features/transaction/widget/delivery_options.dart';
 import 'package:segarku/features/transaction/widget/detail_product_transaction.dart';
+import 'package:segarku/features/transaction/widget/see_address_shop.dart';
 import 'package:segarku/features/transaction/widget/select_location.dart';
 import 'package:segarku/features/transaction/widget/transaction_success.dart';
 import 'package:segarku/utils/constants/colors.dart';
@@ -24,13 +25,13 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   bool isDelivery = true; // State untuk menentukan mode pengiriman
 
   // Fungsi untuk menampilkan dialog konfirmasi
-  void _showConfirmationDialog() {
+  void _showConfirmationDialog({required bool isDelivery}) {
     final bool dark = context.isDarkMode;
-    String? selectedPaymentMethod; // Untuk melacak metode yang dipilih
+    String selectedPaymentMethod = isDelivery ? 'delivery' : 'pickup'; // Pastikan sesuai status awal
 
     showModalBottomSheet(
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
@@ -73,12 +74,16 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                               color: selectedPaymentMethod == 'delivery'
                                   ? SColors.green100
                                   : null,
-                              border: Border.all(color: SColors.green500),
+                              border: Border.all(
+                                color: selectedPaymentMethod == 'delivery'
+                                    ? SColors.green500
+                                    : SColors.softBlack50,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
-                                CircleAvatar(
+                                const CircleAvatar(
                                   radius: 20,
                                   backgroundColor: SColors.green500,
                                   child: Icon(
@@ -116,12 +121,16 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                               color: selectedPaymentMethod == 'pickup'
                                   ? SColors.green100
                                   : null,
-                              border: Border.all(color: SColors.green500),
+                              border: Border.all(
+                                color: selectedPaymentMethod == 'pickup'
+                                    ? SColors.green500
+                                    : SColors.softBlack50,
+                              ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
-                                CircleAvatar(
+                                const CircleAvatar(
                                   radius: 20,
                                   backgroundColor: SColors.green500,
                                   child: Icon(
@@ -148,30 +157,30 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                   const SizedBox(height: SSizes.md),
 
                   // Button Save
-                  if (selectedPaymentMethod != null)
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: SColors.green500,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            isDelivery = selectedPaymentMethod == 'delivery';
-                          });
-                          Navigator.of(context).pop(); // Tutup popup
-                        },
-                        child: Text(
-                          STexts.save,
-                          style: dark
-                              ? STextTheme.titleBaseBoldLight
-                              : STextTheme.titleBaseBoldDark,
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: SColors.green500,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
+                      onPressed: () {
+                        setState(() {
+                          // Perbarui status global berdasarkan pilihan terakhir
+                          this.isDelivery = selectedPaymentMethod == 'delivery';
+                        });
+                        Navigator.of(context).pop(); // Tutup popup
+                      },
+                      child: Text(
+                        STexts.save,
+                        style: dark
+                            ? STextTheme.titleBaseBoldLight
+                            : STextTheme.titleBaseBoldDark,
+                      ),
                     ),
+                  ),
                 ],
               ),
             );
@@ -180,7 +189,6 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +217,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
             ),
           ),
 
-          // Konten Utama
+          // Konten Utama 
           Expanded(
             child: Column(
               children: [
@@ -228,27 +236,38 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                             children: [
                               // Delivery Options dengan Callback
                               DeliveryOptions(
-                                isDelivery: isDelivery, // Kirim state ke sub-page
+                                isDelivery: isDelivery,
                                 onChangeMode: (isTapped) {
                                   if (isTapped) {
-                                    _showConfirmationDialog(); // Tampilkan dialog saat tombol "Ganti" diklik
+                                    _showConfirmationDialog(isDelivery: isDelivery);
                                   }
                                 },
                               ),
 
-                              const SizedBox(height: SSizes.md),
+                              const SizedBox(height: SSizes.md2),
 
-                              // Select Location
-                              Text(
-                                STexts.productDetail,
-                                style: dark
-                                    ? STextTheme.titleBaseBoldDark
-                                    : STextTheme.titleBaseBoldLight,
-                              ),
-                              const SizedBox(height: SSizes.md),
-                              const SelectLocation(),
+                              // Tampilkan SelectLocation atau PickupOption Berdasarkan Mode
+                              if (isDelivery) ...[
+                                Text(
+                                  STexts.selectLocation,
+                                  style: dark
+                                      ? STextTheme.titleBaseBoldDark
+                                      : STextTheme.titleBaseBoldLight,
+                                ),
+                                const SizedBox(height: SSizes.md),
+                                const SelectLocation(),
+                              ] else ...[
+                                Text(
+                                  STexts.pickUp,
+                                  style: dark
+                                      ? STextTheme.titleBaseBoldDark
+                                      : STextTheme.titleBaseBoldLight,
+                                ),
+                                const SizedBox(height: SSizes.md),
+                                const SeeAddressShop(),
+                              ],
 
-                              const SizedBox(height: SSizes.md),
+                              const SizedBox(height: SSizes.md2),
 
                               // Product Detail
                               Text(
