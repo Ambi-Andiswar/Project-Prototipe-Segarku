@@ -26,6 +26,8 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   // Fungsi untuk menampilkan dialog konfirmasi
   void _showConfirmationDialog() {
     final bool dark = context.isDarkMode;
+    String? selectedPaymentMethod; // Untuk melacak metode yang dipilih
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -33,106 +35,147 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
       ),
       backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
       builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: SSizes.md,
-            horizontal: SSizes.defaultMargin,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Title
-              Text(
-                STexts.changepurchaseType,
-                style: dark
-                    ? STextTheme.titleBaseBoldDark
-                    : STextTheme.titleBaseBoldLight,
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: SSizes.md,
+                horizontal: SSizes.defaultMargin,
               ),
-              const SizedBox(height: SSizes.md),
-
-              // Row for Options
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Option Delivery
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isDelivery = true; // Ubah ke mode Delivery
-                      });
-                      Navigator.of(context).pop(); // Tutup popup
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(SSizes.md),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: SColors.green500),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor: SColors.green500,
-                            child: Icon(
-                              SIcons.delivery,
-                              color: SColors.pureWhite,
-                              size: SSizes.defaultIcon,
+                  // Title
+                  Text(
+                    STexts.changepurchaseType,
+                    style: dark
+                        ? STextTheme.titleBaseBoldDark
+                        : STextTheme.titleBaseBoldLight,
+                  ),
+                  const SizedBox(height: SSizes.md),
+
+                  // Row for Options
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Option Delivery
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setModalState(() {
+                              selectedPaymentMethod = 'delivery';
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(SSizes.md),
+                            decoration: BoxDecoration(
+                              color: selectedPaymentMethod == 'delivery'
+                                  ? SColors.green100
+                                  : null,
+                              border: Border.all(color: SColors.green500),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: SColors.green500,
+                                  child: Icon(
+                                    SIcons.delivery,
+                                    color: SColors.pureWhite,
+                                    size: SSizes.defaultIcon,
+                                  ),
+                                ),
+                                const SizedBox(width: SSizes.md),
+                                Text(
+                                  STexts.delivery,
+                                  style: dark
+                                      ? STextTheme.titleBaseBoldDark
+                                      : STextTheme.titleBaseBoldLight,
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: SSizes.md),
-                          Text(
-                            STexts.delivery,
-                            style: dark
-                                ? STextTheme.titleBaseBoldDark
-                                : STextTheme.titleBaseBoldLight,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+
+                      const SizedBox(width: SSizes.md),
+
+                      // Option Pick-Up
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setModalState(() {
+                              selectedPaymentMethod = 'pickup';
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(SSizes.md),
+                            decoration: BoxDecoration(
+                              color: selectedPaymentMethod == 'pickup'
+                                  ? SColors.green100
+                                  : null,
+                              border: Border.all(color: SColors.green500),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: SColors.green500,
+                                  child: Icon(
+                                    SIcons.pickUp,
+                                    color: SColors.pureWhite,
+                                    size: SSizes.defaultIcon,
+                                  ),
+                                ),
+                                const SizedBox(width: SSizes.md),
+                                Text(
+                                  STexts.pickUp,
+                                  style: dark
+                                      ? STextTheme.titleBaseBoldDark
+                                      : STextTheme.titleBaseBoldLight,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
 
-                  // Option Pick-Up
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isDelivery = false; // Ubah ke mode Pick-Up
-                      });
-                      Navigator.of(context).pop(); // Tutup popup
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(SSizes.md),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: SColors.green500),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor: SColors.green500,
-                            child: Icon(
-                              SIcons.pickUp,
-                              color: SColors.pureWhite,
-                              size: SSizes.defaultIcon,
-                            ),
+                  const SizedBox(height: SSizes.md),
+
+                  // Button Save
+                  if (selectedPaymentMethod != null)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: SColors.green500,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          const SizedBox(width: SSizes.md),
-                          Text(
-                            STexts.pickUp,
-                            style: dark
-                                ? STextTheme.titleBaseBoldDark
-                                : STextTheme.titleBaseBoldLight,
-                          ),
-                        ],
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            isDelivery = selectedPaymentMethod == 'delivery';
+                          });
+                          Navigator.of(context).pop(); // Tutup popup
+                        },
+                        child: Text(
+                          STexts.save,
+                          style: dark
+                              ? STextTheme.titleBaseBoldLight
+                              : STextTheme.titleBaseBoldDark,
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
-              const SizedBox(height: SSizes.md),
-            ],
-          ),
+            );
+          },
         );
       },
     );
