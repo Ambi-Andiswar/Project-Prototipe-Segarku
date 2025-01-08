@@ -17,10 +17,11 @@ class LogoutSetting extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
       child: Container(
-        padding: const EdgeInsets.all(SSizes.md),
+        padding: const EdgeInsets.all(SSizes.defaultMargin),
         decoration: BoxDecoration(
           color: dark ? SColors.pureBlack : SColors.pureWhite,
           borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+          border: Border.all(color: SColors.softBlack50),
         ),
         child: Column(
           children: [

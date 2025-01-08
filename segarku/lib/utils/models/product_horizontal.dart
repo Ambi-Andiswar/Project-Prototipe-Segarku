@@ -146,6 +146,7 @@ class SProductH extends StatelessWidget {
                                   builder: (context) {
                                     return AddToCartPopup(
                                       price: int.parse(product["price"]!.replaceAll(RegExp(r'[^0-9]'), '')),
+                                      name: product["name"]!, // Kirimkan nama produk ke dialog
                                     );
                                   },
                                 );
@@ -174,8 +175,9 @@ class SProductH extends StatelessWidget {
 
 class AddToCartPopup extends StatefulWidget {
   final int price;
+  final String name;
 
-  const AddToCartPopup({super.key, required this.price});
+  const AddToCartPopup({super.key, required this.price, required this.name});
 
   @override
   State<AddToCartPopup> createState() => _AddToCartPopupState();
@@ -201,7 +203,7 @@ class _AddToCartPopupState extends State<AddToCartPopup> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Total Harga',
+                widget.name, // Menampilkan nama produk
                 style: darkMode
                     ? STextTheme.titleBaseBoldDark
                     : STextTheme.titleBaseBoldLight,
@@ -238,7 +240,7 @@ class _AddToCartPopupState extends State<AddToCartPopup> {
                   ),
                   GestureDetector(
                     onTap: () => setState(() => quantity++),
-                    child: Icon(
+                    child: const Icon(
                       Icons.add,
                       color: SColors.green500,
                     ),

@@ -44,6 +44,8 @@ class DescProductScreen extends StatelessWidget {
                     height: 303,
                     width: double.infinity,
                     decoration: const BoxDecoration(
+
+                      // Image produk
                       image: DecorationImage(
                         image: AssetImage(SImages.brokoli),
                         fit: BoxFit.cover, // Untuk memastikan gambar menutupi seluruh background
@@ -140,6 +142,8 @@ class DescProductScreen extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+
+                                // nama produk
                                 Text(
                                   'Brokoli',
                                   style: dark
@@ -147,6 +151,8 @@ class DescProductScreen extends StatelessWidget {
                                     : STextTheme.titleLgBoldLight
                                 ),
                                 const SizedBox(height: SSizes.xs),
+
+                                // Size produk
                                 Row(
                                   children: [
                                     Text(
@@ -156,7 +162,7 @@ class DescProductScreen extends StatelessWidget {
                                         : STextTheme.bodyCaptionRegularLight,
                                     ),
                                     Text(
-                                      'gr/pack', // Ganti sesuai data
+                                      'gr/pack', 
                                       style: dark
                                           ? STextTheme.bodySmRegularDark
                                           : STextTheme.bodySmRegularLight,
@@ -164,6 +170,8 @@ class DescProductScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: SSizes.md),
+
+                                // Harga Produk
                                 Text(
                                   'Rp 40.000',
                                   style: STextTheme.titleLgBolddark.copyWith(

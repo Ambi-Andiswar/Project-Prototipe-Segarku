@@ -177,9 +177,11 @@ class SProductV extends StatelessWidget {
                                           top: Radius.circular(16)),
                                     ),
                                     builder: (context) {
-                                      return descProduct.AddToCartPopup(
-                                          price: int.parse(product["price"].replaceAll(RegExp(r'\D'), '')));
-                                    },
+                                    return AddToCartPopup(
+                                      price: int.parse(product["price"]!.replaceAll(RegExp(r'[^0-9]'), '')),
+                                      name: product["name"]!, // Kirimkan nama produk ke dialog
+                                    );
+                                  },
                                   );
                                 },
                                 icon: const Icon(
@@ -204,3 +206,103 @@ class SProductV extends StatelessWidget {
     );
   }
 }
+
+
+class AddToCartPopup extends StatefulWidget {
+  final int price;
+  final String name;
+
+  const AddToCartPopup({super.key, required this.price, required this.name});
+
+  @override
+  State<AddToCartPopup> createState() => _AddToCartPopupState();
+}
+
+class _AddToCartPopupState extends State<AddToCartPopup> {
+  int quantity = 1;
+
+  void _addToCart() {
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final darkMode = SHelperFunctions.isDarkMode(context);
+
+    return Padding(
+      padding: const EdgeInsets.all(SSizes.defaultMargin),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                widget.name, // Menampilkan nama produk
+                style: darkMode
+                    ? STextTheme.titleBaseBoldDark
+                    : STextTheme.titleBaseBoldLight,
+              ),
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.close),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: quantity > 1
+                        ? () => setState(() => quantity--)
+                        : null,
+                    child: Icon(
+                      Icons.remove,
+                      color: darkMode
+                          ? SColors.green50
+                          : SColors.softBlack50,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('$quantity',
+                        style: darkMode
+                            ? STextTheme.titleBaseBoldDark
+                            : STextTheme.titleBaseBoldLight),
+                  ),
+                  GestureDetector(
+                    onTap: () => setState(() => quantity++),
+                    child: const Icon(
+                      Icons.add,
+                      color: SColors.green500,
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                'Rp ${widget.price * quantity}',
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: SColors.green500,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: _addToCart,
+              child: const Text('Tambahkan ke Keranjang'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
