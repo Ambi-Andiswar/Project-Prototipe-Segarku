@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
+import 'package:segarku/features/shop/products/models/product.dart';
 import 'package:segarku/features/transaction/transaction_checkout.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
@@ -10,7 +12,6 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
 import 'package:get/get.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
-import 'package:segarku/utils/models/product.dart';
 
 class CartsProductScreen extends StatefulWidget {
   const CartsProductScreen({super.key});
@@ -23,30 +24,30 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
   final int itemCount = 4;
 
   final List<Product> products = [
-    Product(
-      name: "Bayam",
-      description: "500 gr/pack",
-      image: SImages.bayam,
-      price: 8000,
-    ),
-    Product(
-      name: "Semangka",
-      description: "800gr-1kg/pack",
-      image: SImages.semangka,
-      price: 15000,
-    ),
-    Product(
-      name: "Tomat",
-      description: "300-500 gr/pack",
-      image: SImages.tomat,
-      price: 5000,
-    ),
-    Product(
-      name: "Brokoli",
-      description: "300-500 gr/pack",
-      image: SImages.brokoli,
-      price: 25000,
-    ),
+      Product(
+        image: SImages.brokoli,
+        name: "Brokoli",
+        size: "300-500 gr/pack",
+        price: 25000,
+        description: "Brokoli adalah sayuran hijau dari keluarga cruciferous yang kaya akan vitamin C, vitamin K, serat, dan antioksidan. Sayuran ini bermanfaat untuk mendukung kesehatan tulang, meningkatkan sistem imun, dan melawan peradangan dalam tubuh. Brokoli dapat dimasak dengan cara dikukus, direbus, atau ditumis, dan sering menjadi bahan favorit dalam sup, salad, atau hidangan tumisan."),
+      Product(
+        image: SImages.wortel,
+        name: "Wortel",
+        size: "500 gr/pack",
+        price: 5000,
+        description: "Wortel adalah sayuran akar yang dikenal karena warna oranye cerahnya dan kandungan beta-karoten yang tinggi, yang diubah oleh tubuh menjadi vitamin A. Nutrisi ini sangat penting untuk menjaga kesehatan mata, kulit, dan sistem imun. Wortel memiliki rasa manis alami yang cocok untuk dimakan mentah sebagai camilan, dimasak sebagai pelengkap hidangan, atau diolah menjadi jus sehat."),
+      Product(
+        image: SImages.tomat,
+        name: "Tomat",
+        size: "300-500 gr/pack",
+        price: 5000,
+        description: "Tomat adalah buah yang sering dianggap sebagai sayuran karena penggunaannya dalam masakan. Tomat memiliki rasa asam dan manis yang segar, serta kaya akan likopen, vitamin C, dan kalium, yang baik untuk kesehatan jantung, kulit, dan daya tahan tubuh. Tomat dapat dimakan mentah, dijadikan jus, atau digunakan sebagai bahan utama dalam saus, sup, dan berbagai hidangan."),
+      Product(
+        image: SImages.terong,
+        name: "Terong",
+        size: "500 gr/pack",
+        price: 10000,
+        description: "Terong adalah sayuran serbaguna dengan tekstur lembut dan rasa yang khas. Sayuran ini kaya akan serat, vitamin B, dan mineral seperti kalium dan magnesium, yang baik untuk mendukung kesehatan jantung dan pencernaan. Terong dapat diolah dengan berbagai cara, seperti digoreng, dipanggang, ditumis, atau dijadikan bahan utama dalam masakan seperti ratatouille atau balado terong."), 
   ];
 
   List<bool> selectedItems = [];
@@ -159,7 +160,7 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
             ),
           ),
 
-          // Daftar Produk
+          // konten product yang dimasukan di keranjang
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -188,7 +189,7 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const DescProductScreen(),
+                                builder: (context) => DescProductScreen(product: product),
                               ),
                             );
                           },
@@ -240,14 +241,14 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                                               : STextTheme.titleBaseBlackLight,
                                         ),
                                         Text(
-                                          product.description,
+                                          product.size,
                                           style: darkMode
                                               ? STextTheme.bodySmRegularDark
                                               : STextTheme.bodySmRegularLight,
                                         ),
                                         const SizedBox(height: SSizes.sm),
                                         Text(
-                                          "Rp. ${product.price}",
+                                         'Rp. ${NumberFormat.decimalPattern('id').format(product.price)}',
                                           style: STextTheme.titleBaseBoldLight.copyWith(
                                             color: SColors.green500,
                                           ),
@@ -317,7 +318,7 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                       ),
                     ),
 
-                    // Tambahkan Container SProductH
+                    // Konten product yang mungkin anda suka
                     const SizedBox(height: SSizes.md2),
                     Container(
                       color: Colors.transparent,
