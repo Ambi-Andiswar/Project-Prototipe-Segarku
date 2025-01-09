@@ -401,4 +401,251 @@ class InputFields {
       },
     );
   }
+
+  //-------------------- No Phone Field --------------------//
+  static Widget noHandphoneAddressField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text No Phone
+            Text(
+              STexts.noPhone,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field no Phone
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+
+                // Text No Phone field
+                labelText: STexts.noPhoneField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.noPhoneField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //-------------------- Alamat Field --------------------//
+  static Widget addressField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text No Phone
+            Text(
+              STexts.address,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field no Phone
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+                // Text No Phone field
+                labelText: STexts.fieldAddress,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.fieldAddress,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //-------------------- Catatan Alamat Field --------------------//
+  static Widget addressRecordsField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text No Phone
+            Text(
+              STexts.addressRocordFieldTitle,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field no Phone
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+                
+                // Text No Phone field
+                labelText: STexts.addressRocordField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.addressRocordField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //-------------------- Nama Penerima Field --------------------//
+  static Widget recipientNameField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text No Phone
+            Text(
+              STexts.recipientsNameFieldTitle,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field no Phone
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+               
+                // Text No Phone field
+                labelText: STexts.recipientsNameField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.recipientsNameField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

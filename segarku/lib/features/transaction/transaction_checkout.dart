@@ -193,24 +193,26 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                       const SizedBox(height: SSizes.md),
 
                       // Delivery
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            STexts.postage,
-                            style: dark
-                                ? STextTheme.bodyCaptionRegularDark
-                                : STextTheme.bodyCaptionRegularLight,
-                          ),
-                          const Spacer(),
-                          Text(
-                            "Rp 8.000",
-                            style: dark
-                                ? STextTheme.titleCaptionBoldDark
-                                : STextTheme.titleCaptionBoldLight,
-                          ),
-                        ],
-                      ),
+                      isDelivery
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  STexts.postage,
+                                  style: dark
+                                      ? STextTheme.bodyCaptionRegularDark
+                                      : STextTheme.bodyCaptionRegularLight,
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "Rp 8.000",
+                                  style: dark
+                                      ? STextTheme.titleCaptionBoldDark
+                                      : STextTheme.titleCaptionBoldLight,
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
 
                       const SizedBox(height: SSizes.md),
 
@@ -251,14 +253,42 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () =>
-                              Get.to(() => const TransactionSuccess()),
+                          onPressed: () {
+                            // Menampilkan dialog konfirmasi
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Konfirmasi Pembelian'),
+                                  content: const Text('Apakah produk yang Anda beli sudah sesuai?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        // Tutup dialog jika pengguna membatalkan
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Batal'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Tutup dialog dan navigasi ke halaman TransactionSuccess
+                                        Navigator.of(context).pop();
+                                        Get.to(() => const TransactionSuccess());
+                                      },
+                                      child: const Text('Lanjutkan'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
                           child: const Text(
                             STexts.buyNow,
                             style: STextTheme.titleBaseBoldDark,
                           ),
                         ),
                       ),
+
                       const SizedBox(height: SSizes.xl),
                     ],
                   ),

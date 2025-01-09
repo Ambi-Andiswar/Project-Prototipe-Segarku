@@ -35,7 +35,7 @@ class AccountSetting extends StatelessWidget {
             ),
 
             const SizedBox(height: SSizes.lg),
-            // Akun Bank
+            // Payment Method
             Row(
               children: [
                 // Logo with background
@@ -63,13 +63,13 @@ class AccountSetting extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        STexts.bankAccount,
+                        STexts.metodePembayaran,
                         style: dark
                           ? STextTheme.titleCaptionBoldDark
                           : STextTheme.titleCaptionBoldLight
                       ),
                       Text(
-                        STexts.subBankAccount,
+                        STexts.subMetodePembayaran,
                         style: dark
                           ? STextTheme.bodyCaptionRegularDark
                           : STextTheme.bodyCaptionRegularLight
@@ -146,7 +146,7 @@ class AccountSetting extends StatelessWidget {
 
             const SizedBox(height: SSizes.lg2),
 
-            // Notifikasi
+            // Alamat Saya
             Row(
               children: [
                 // Logo with background
@@ -159,7 +159,7 @@ class AccountSetting extends StatelessWidget {
                   ),
                   child: const Center(
                     child: Icon(
-                      Iconsax.notification_bing,
+                      Iconsax.location,
                       size: 24.0,
                       color: SColors.pureWhite,
                     ),
@@ -176,13 +176,13 @@ class AccountSetting extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        STexts.notification,
+                        STexts.myAddress,
                         style: dark
                           ? STextTheme.titleCaptionBoldDark
                           : STextTheme.titleCaptionBoldLight
                       ),
                       Text(
-                        STexts.subNotification,
+                        STexts.subMyAddress,
                         style: dark
                           ? STextTheme.bodyCaptionRegularDark
                           : STextTheme.bodyCaptionRegularLight

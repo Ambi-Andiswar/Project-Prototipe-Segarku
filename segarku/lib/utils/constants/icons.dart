@@ -30,7 +30,7 @@ class SIcons {
   // General 
   static const IconData search = HugeIcons.strokeRoundedSearch01;
   static const IconData chat = HugeIcons.strokeRoundedBubbleChat;
-  static const IconData addToChart = HugeIcons.strokeRoundedShoppingBasketAdd01;
+  static const IconData addToCart = HugeIcons.strokeRoundedShoppingBasketAdd01;
   static const IconData add = HugeIcons.strokeRoundedAdd01;
   static const IconData location = HugeIcons.strokeRoundedLocation06;
   static const IconData voucher = HugeIcons.strokeRoundedCouponPercent;

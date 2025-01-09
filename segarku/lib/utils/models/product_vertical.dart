@@ -19,48 +19,56 @@ class SProductV extends StatelessWidget {
     // Daftar produk dinamis
      final List<Product> products = [
       Product(
+        id: '1',
         image: SImages.brokoli,
         name: "Brokoli",
         size: "300-500 gr/pack",
         price: 25000,
         description: "Brokoli adalah sayuran hijau dari keluarga cruciferous yang kaya akan vitamin C, vitamin K, serat, dan antioksidan. Sayuran ini bermanfaat untuk mendukung kesehatan tulang, meningkatkan sistem imun, dan melawan peradangan dalam tubuh. Brokoli dapat dimasak dengan cara dikukus, direbus, atau ditumis, dan sering menjadi bahan favorit dalam sup, salad, atau hidangan tumisan."),
       Product(
+        id: '2',
         image: SImages.wortel,
         name: "Wortel",
         size: "500 gr/pack",
         price: 5000,
         description: "Wortel adalah sayuran akar yang dikenal karena warna oranye cerahnya dan kandungan beta-karoten yang tinggi, yang diubah oleh tubuh menjadi vitamin A. Nutrisi ini sangat penting untuk menjaga kesehatan mata, kulit, dan sistem imun. Wortel memiliki rasa manis alami yang cocok untuk dimakan mentah sebagai camilan, dimasak sebagai pelengkap hidangan, atau diolah menjadi jus sehat."),
       Product(
+        id: '3',
         image: SImages.tomat,
         name: "Tomat",
         size: "300-500 gr/pack",
         price: 5000,
         description: "Tomat adalah buah yang sering dianggap sebagai sayuran karena penggunaannya dalam masakan. Tomat memiliki rasa asam dan manis yang segar, serta kaya akan likopen, vitamin C, dan kalium, yang baik untuk kesehatan jantung, kulit, dan daya tahan tubuh. Tomat dapat dimakan mentah, dijadikan jus, atau digunakan sebagai bahan utama dalam saus, sup, dan berbagai hidangan."),
       Product(
+        id: '4',
         image: SImages.terong,
         name: "Terong",
         size: "500 gr/pack",
         price: 10000,
         description: "Terong adalah sayuran serbaguna dengan tekstur lembut dan rasa yang khas. Sayuran ini kaya akan serat, vitamin B, dan mineral seperti kalium dan magnesium, yang baik untuk mendukung kesehatan jantung dan pencernaan. Terong dapat diolah dengan berbagai cara, seperti digoreng, dipanggang, ditumis, atau dijadikan bahan utama dalam masakan seperti ratatouille atau balado terong."),
       Product(
+        id: '5',
         image: SImages.lobak,
         name: "Lobak Putih",
         size: "500 gr/pack",
         price: 13000,
         description: "Lobak putih adalah sayuran akar dengan rasa yang ringan dan sedikit pedas. Lobak ini kaya akan vitamin C, serat, dan senyawa antioksidan yang membantu melancarkan pencernaan, mendukung detoksifikasi tubuh, dan meningkatkan sistem imun. Lobak putih sering digunakan dalam masakan sup, tumisan, atau acar, serta sebagai pelengkap hidangan khas Asia."),
       Product(
+        id: '6',
         image: SImages.paprika,
         name: "Paprika Kuning",
         size: "400 gr/pack",
         price: 30000,
         description: "Paprika kuning adalah sayuran berwarna cerah dengan rasa manis yang lembut. Kaya akan vitamin C, vitamin A, dan antioksidan, paprika kuning membantu menjaga kesehatan kulit, meningkatkan daya tahan tubuh, dan melindungi sel dari kerusakan akibat radikal bebas. Paprika kuning sering digunakan dalam salad, tumisan, panggangan, atau sebagai camilan segar."),
       Product(
+        id: '7',
         image: SImages.bayam,
         name: "Bayam",
         size: "500 gr/pack",
         price: 8000,
         description: "Bayam adalah jenis sayuran hijau yang kaya akan nutrisi dan sering digunakan dalam berbagai masakan. Tanaman ini berasal dari keluarga Amaranthaceae dan dikenal dengan daun hijau yang lembut serta rasa yang ringan. Bayam mengandung banyak zat gizi penting, seperti vitamin A, vitamin C, vitamin K, zat besi, kalsium, dan serat, yang bermanfaat untuk kesehatan tubuh.Bayam dapat dimasak dengan berbagai cara, seperti ditumis, direbus, atau dijadikan campuran dalam sup. Selain itu, bayam juga sering diolah menjadi jus atau smoothie sehat. Konsumsi bayam secara rutin dapat membantu meningkatkan daya tahan tubuh, menjaga kesehatan mata, dan mendukung sistem pencernaan yang baik."),
       Product(
+        id: '8',
         image: SImages.semangka,
         name: "Semangka",
         size: "800gr-1kg /pack",

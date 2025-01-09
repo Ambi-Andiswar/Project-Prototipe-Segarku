@@ -291,37 +291,11 @@ class DescProductScreen extends StatelessWidget {
           // Footer Tetap
           Container(
             color: dark ? SColors.softBlack500 : SColors.pureWhite,
-            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 21.5),
+            padding: const EdgeInsets.only(left: SSizes.defaultMargin, top: SSizes.md, right: SSizes.defaultMargin, bottom: SSizes.xl),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: dark ? SColors.softBlack300 : SColors.softBlack400,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      NumberFormat.currency(
-                        locale: 'id', 
-                        symbol: 'Rp. ', 
-                        decimalDigits: 0 // Mengatur agar tidak ada angka desimal
-                      ).format(product.price), 
-                      style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: SColors.green500,
-                          ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 160,
+                Expanded( // Membuat tombol memenuhi ruang yang tersedia
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: SColors.green500,
@@ -329,8 +303,21 @@ class DescProductScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    onPressed: () => showAddToCartPopup(context, product.price, product.name),
-                    child: const Text('Tambah'),
+                    onPressed: () {},
+                    child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          SIcons.addToCart,
+                          color: SColors.pureWhite,
+                          size: SSizes.defaultIconxs),
+                        SizedBox(width: SSizes.sm2),
+                        Text(
+                          STexts.add,
+                          style: STextTheme.titleBaseBoldDark,
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ],

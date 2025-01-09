@@ -12,6 +12,7 @@ class SSizes {
   static const double lg2 = 24.0;
   static const double xl = 32.0;
   // Icon Size
+  static const double defaultIconxs = 16.0;
   static const double defaultIconsm = 20.0;
   static const double defaultIcon = 24.0;
   // Fonts Size

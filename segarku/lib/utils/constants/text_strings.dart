@@ -35,6 +35,7 @@ class STexts{
   static const String buyNow = "Bayar Sekarang";
   static const String save = "Simpan";
   static const String saveStruk = "Unduh struk pembelian";
+  static const String add = "Tambah";
 
   // authentication Form Text
   static const String emailField = "Masukan email anda";
@@ -48,6 +49,12 @@ class STexts{
   // field Text
   static const String fieldSearchHome = "Mau cari apa hari ini?";
   static const String fieldSearchHomeAll = "Mau cari apa";
+  static const String fieldAddress = "Masukan alamat Anda";
+  static const String addressRocordFieldTitle = "Catatan alamat";
+  static const String addressRocordField = "(Opsional)";
+  static const String recipientsNameFieldTitle = "Nama penerima";
+  static const String recipientsNameField = "Masukan nama penerima";
+  static const String fieldSearchAddress = "Cari alamat kamu";
 
   // Onboarding Text
   static const String onboarding1Title = "Selamat datang di SegarKu";
@@ -154,11 +161,12 @@ class STexts{
   static const String nameAccount = "Afif Wahidi";
   static const String emailAccount = "afifwahidi2@gmail.com";
   static const String accountSettings = "Pengaturan Akun";
-  static const String bankAccount = "Akun Bank";
-  static const String subBankAccount = "Edit akun bank atau metode pembayaran anda";
+  static const String metodePembayaran = "Metode Pembayaran";
+  static const String subMetodePembayaran = "Pilih metode pembayaran yang Anda inginkan";
   static const String voucher = "Voucher Saya";
   static const String subVoucher = "Cek daftar kupon anda";
-  static const String subNotification = "Atur semua jenis pesan notifikasi anda";
+  static const String myAddress = "Alamat saya";
+  static const String subMyAddress = "Silahkan atur alamat pengiriman Anda";
   static const String logout = "Keluar";
   static const String subLogout = "Keluar dari akun anda?";
   static const String logoutConfirmationTitle = "Konfirmasi Logout";

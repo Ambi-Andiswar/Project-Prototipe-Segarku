@@ -1,4 +1,5 @@
 class Product {
+  final String id;
   final String image;
   final String name;
   final String size;
@@ -6,6 +7,7 @@ class Product {
   final String description;
 
   Product({
+    required this.id,
     required this.image,
     required this.name,
     required this.size,
