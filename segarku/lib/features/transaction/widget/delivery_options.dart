@@ -11,10 +11,10 @@ class DeliveryOptions extends StatelessWidget {
   final Function(bool) onChangeMode; // Callback untuk mengirim aksi perubahan
 
   const DeliveryOptions({
-    Key? key,
+    super.key,
     required this.isDelivery, // Terima nilai dari state halaman utama
     required this.onChangeMode,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

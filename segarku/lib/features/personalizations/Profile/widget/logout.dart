@@ -118,7 +118,7 @@ class LogoutSetting extends StatelessWidget {
                 Navigator.of(context).pop();
                 onConfirm();
               },
-              child: Text(
+              child: const Text(
                 STexts.confirm,
                 style: TextStyle(color: SColors.danger500),
               ),

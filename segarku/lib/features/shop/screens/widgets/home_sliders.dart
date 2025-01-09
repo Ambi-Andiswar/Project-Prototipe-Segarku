@@ -3,13 +3,16 @@ import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+// ignore: camel_case_types
 class sliderWidget extends StatefulWidget {
-  const sliderWidget({Key? key}) : super(key: key);
+  const sliderWidget({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _sliderWidgetState createState() => _sliderWidgetState();
 }
 
+// ignore: camel_case_types
 class _sliderWidgetState extends State<sliderWidget> {
   final PageController controller = PageController();
   final List<String> sliders = [

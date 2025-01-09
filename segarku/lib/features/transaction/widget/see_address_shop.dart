@@ -56,7 +56,7 @@ class SeeAddressShop extends StatelessWidget {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
+                            image: const DecorationImage(
                               image: AssetImage(SImages.maps),
                               fit: BoxFit.cover,
                             ),

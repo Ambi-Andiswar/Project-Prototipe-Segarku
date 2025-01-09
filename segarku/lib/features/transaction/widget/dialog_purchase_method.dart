@@ -11,10 +11,10 @@ class ConfirmationDialog extends StatelessWidget {
   final ValueChanged<bool> onSave;
 
   const ConfirmationDialog({
-    Key? key,
+    super.key,
     required this.isDelivery,
     required this.onSave,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

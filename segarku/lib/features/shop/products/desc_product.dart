@@ -15,7 +15,7 @@ import '../../../../navigation_menu.dart';
 class DescProductScreen extends StatelessWidget {
   final Product product;
 
-  const DescProductScreen({Key? key, required this.product}) : super(key: key);
+  const DescProductScreen({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
