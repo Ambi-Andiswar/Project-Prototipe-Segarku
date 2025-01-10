@@ -120,7 +120,6 @@ Widget build(BuildContext context) {
                       ? STextTheme.titleBaseBoldDark
                       : STextTheme.titleBaseBoldLight,
                 ),
-                const SizedBox(height: SSizes.md), 
 
                 // Product Vertical
                 const SProductV(),

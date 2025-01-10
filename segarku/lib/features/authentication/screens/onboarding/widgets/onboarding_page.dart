@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:segarku/features/authentication/screens/navigator_welcome.dart';
 import 'package:segarku/features/authentication/screens/welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
@@ -128,7 +129,7 @@ class OnBoardingPage extends StatelessWidget {
                       const SizedBox(width: SSizes.sm),
                       // Text Active/button text
                       TextButton(
-                        onPressed: () => Get.to(() => const WelcomeScreen()),
+                        onPressed: () => Get.to(() => const NavigationWelcome(initialIndex: 1,)),
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.zero,
                           minimumSize: Size.zero,

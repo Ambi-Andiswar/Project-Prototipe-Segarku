@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:segarku/features/authentication/screens/login/login.dart';
+import 'package:segarku/features/authentication/screens/register/register.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
@@ -21,81 +23,98 @@ class NavigationWelcome extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: darkMode ? SColors.softBlack900 : SColors.pureWhite,
-      body: Center(
-        child: Obx(
-          () => Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: darkMode ? SColors.pureBlack : SColors.pureWhite,
-                width: 1,
+      body: Column(
+        children: [
+          // Navigasi (Baris Tombol)
+          Obx(
+            () => Container(
+              margin: const EdgeInsets.symmetric(horizontal: 15),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: darkMode ? SColors.pureBlack : SColors.pureWhite,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: [
-                // Button Masuk
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => controller.setSelectedIndex(0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      decoration: BoxDecoration(
-                        color: controller.selectedIndex.value == 0
-                            ? SColors.pureWhite
-                            : SColors.softWhite,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(8),
-                          bottomLeft: Radius.circular(8),
+              child: Row(
+                children: [
+                  // Button Masuk
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => controller.setSelectedIndex(0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          color: controller.selectedIndex.value == 0
+                              ? SColors.pureWhite
+                              : SColors.softWhite,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(8),
+                            bottomLeft: Radius.circular(8),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Masuk',
-                        textAlign: TextAlign.center,
-                        style: controller.selectedIndex.value == 0
-                            ? (darkMode
-                                ? STextTheme.titleBaseBlackDark
-                                : STextTheme.titleBaseBlackLight)
-                            : (darkMode
-                                ? STextTheme.bodyBaseRegularDark
-                                : STextTheme.bodyBaseRegularLight),
+                        child: Text(
+                          'Masuk',
+                          textAlign: TextAlign.center,
+                          style: controller.selectedIndex.value == 0
+                              ? (darkMode
+                                  ? STextTheme.titleBaseBlackDark
+                                  : STextTheme.titleBaseBlackLight)
+                              : (darkMode
+                                  ? STextTheme.bodyBaseRegularDark
+                                  : STextTheme.bodyBaseRegularLight),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                // Button Daftar
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => controller.setSelectedIndex(1),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      decoration: BoxDecoration(
-                        color: controller.selectedIndex.value == 1
-                            ? SColors.pureWhite
-                            : SColors.softWhite,
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
+                  // Button Daftar
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => controller.setSelectedIndex(1),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          color: controller.selectedIndex.value == 1
+                              ? SColors.pureWhite
+                              : SColors.softWhite,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(8),
+                            bottomRight: Radius.circular(8),
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        'Daftar',
-                        textAlign: TextAlign.center,
-                        style: controller.selectedIndex.value == 1
-                            ? (darkMode
-                                ? STextTheme.titleBaseBlackDark
-                                : STextTheme.titleBaseBlackLight)
-                            : (darkMode
-                                ? STextTheme.bodyBaseRegularDark
-                                : STextTheme.bodyBaseRegularLight),
+                        child: Text(
+                          'Daftar',
+                          textAlign: TextAlign.center,
+                          style: controller.selectedIndex.value == 1
+                              ? (darkMode
+                                  ? STextTheme.titleBaseBlackDark
+                                  : STextTheme.titleBaseBlackLight)
+                              : (darkMode
+                                  ? STextTheme.bodyBaseRegularDark
+                                  : STextTheme.bodyBaseRegularLight),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
+          // Konten Dinamis Berdasarkan `selectedIndex`
+          Expanded(
+            child: Obx(
+              () {
+                if (controller.selectedIndex.value == 0) {
+                  return const LoginScreen();
+                } else if (controller.selectedIndex.value == 1) {
+                  return const RegisterScreen();
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

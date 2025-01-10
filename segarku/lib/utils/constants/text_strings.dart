@@ -29,6 +29,7 @@ class STexts{
   static const String notification = "Notifikasi";
   static const String myCarts = "Keranjang Saya";
   static const String payment = "Pembayaran";
+  static const String orderDetail = "RIncian Pesanan";
   static const String editProfile = "Edit Profil";
   static const String voucher= "Voucher";
 

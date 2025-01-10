@@ -52,7 +52,7 @@ class ProfileScreen extends StatelessWidget {
               child: 
                 Column(
                   children: [
-                    const SizedBox(height: SSizes.md),
+                    const SizedBox(height: SSizes.md2),
                     SUserProfileTitle(
                       onPressed: () => Get.to(() => const UserProfileScreen())),
                 

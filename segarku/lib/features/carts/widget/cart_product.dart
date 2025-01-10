@@ -306,7 +306,6 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                     Container(
                       color: Colors.transparent,
                       padding: const EdgeInsets.only(
-                        left: SSizes.md,
                         top: SSizes.lg,
                         bottom: SSizes.lg,
                       ),
@@ -318,11 +317,6 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                             style: darkMode
                                 ? STextTheme.titleBaseBoldDark
                                 : STextTheme.titleBaseBoldLight,
-                          ),
-                          const SizedBox(height: SSizes.md),
-                          Divider(
-                            thickness: 1.0,
-                            color: darkMode ? SColors.green50 : SColors.softBlack50,
                           ),
                           const SizedBox(height: SSizes.md),
                           const SProductH(),
