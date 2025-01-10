@@ -395,6 +395,16 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Nomor HP tidak boleh kosong';
+              }
+              final RegExp phoneRegExp = RegExp(r'^\+?62[0-9]{9,13}$');
+              if (!phoneRegExp.hasMatch(value)) {
+                return 'Masukkan nomor Hanphone yang valid';
+              }
+              return null;
+            },
             ),
           ],
         );
@@ -466,19 +476,19 @@ class InputFields {
   static Widget addressField(BuildContext context, bool dark) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
+    final TextEditingController controller = TextEditingController();
 
     return StatefulBuilder(
       builder: (context, setState) {
         // Listener untuk fokus
         focusNode.addListener(() {
-          setState(() {
-          });
+          setState(() {});
         });
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Text No Phone
+            // Label di luar field (judul/heading)
             Text(
               STexts.address,
               style: dark
@@ -487,18 +497,23 @@ class InputFields {
             ),
             const SizedBox(height: SSizes.xs),
 
-            // Text & Icons Form Field no Phone
+            // TextFormField dengan labelText di dalam bagian atas field
             TextFormField(
               focusNode: focusNode,
+              controller: controller,
+              maxLines: 3, // Multiline input
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
-                // Text No Phone field
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: SSizes.md2,
+                  vertical: SSizes.md,
+                ),
                 labelText: STexts.fieldAddress,
                 labelStyle: dark
                     ? STextTheme.bodyBaseRegularLight
                     : STextTheme.bodyBaseRegularDark,
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                hintText: STexts.fieldAddress,
+                floatingLabelBehavior: FloatingLabelBehavior.never, // Tidak mengapung
+                alignLabelWithHint: true, // Membuat label berada di atas dalam field
+                hintText: STexts.fieldAddress, // Placeholder opsional
                 hintStyle: dark
                     ? STextTheme.bodyBaseRegularLight
                     : STextTheme.bodyBaseRegularDark,
@@ -520,6 +535,7 @@ class InputFields {
       },
     );
   }
+
 
   //-------------------- Catatan Alamat Field --------------------//
   static Widget addressRecordsField(BuildContext context, bool dark) {

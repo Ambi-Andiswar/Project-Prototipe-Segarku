@@ -80,9 +80,10 @@ class ConfirmationDialog extends StatelessWidget {
                             const SizedBox(width: SSizes.md),
                             Text(
                               STexts.delivery,
-                              style: dark
+                              style: (dark
                                   ? STextTheme.titleBaseBoldDark
-                                  : STextTheme.titleBaseBoldLight,
+                                  : STextTheme.titleBaseBoldLight)
+                                  .copyWith(fontSize: 15),
                             ),
                           ],
                         ),
@@ -127,9 +128,10 @@ class ConfirmationDialog extends StatelessWidget {
                             const SizedBox(width: SSizes.md),
                             Text(
                               STexts.pickUp,
-                              style: dark
+                              style: (dark
                                   ? STextTheme.titleBaseBoldDark
-                                  : STextTheme.titleBaseBoldLight,
+                                  : STextTheme.titleBaseBoldLight)
+                                  .copyWith(fontSize: 15),
                             ),
                           ],
                         ),

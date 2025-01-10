@@ -28,7 +28,11 @@ class AddressPopup extends StatelessWidget {
       ),
       child: StatefulBuilder(
         builder: (BuildContext context, StateSetter setModalState) {
-          return SingleChildScrollView( // Menambahkan kemampuan scroll
+          return SingleChildScrollView(
+            // Tambahkan padding agar menghindari keyboard
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,8 +50,10 @@ class AddressPopup extends StatelessWidget {
                 InputFieldSearch.fieldSearchAddress(context, dark),
                 const SizedBox(height: SSizes.md),
 
-                const Divider(
-                  color: Colors.grey, // Sesuaikan dengan warna yang diinginkan
+                Divider(
+                  color: dark
+                      ? SColors.green50
+                      : SColors.softBlack50,
                   thickness: 1.0,
                 ),
                 const SizedBox(height: SSizes.md),
