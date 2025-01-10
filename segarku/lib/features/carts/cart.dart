@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:segarku/features/carts/widget/cart_product.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
-import 'package:segarku/utils/theme/custom_themes/text_theme.dart'; // Pastikan SColors terdefinisi di sini
+import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -15,7 +15,7 @@ class CartScreen extends StatelessWidget {
         children: [
           // Kontainer di bagian atas
           Container(
-            padding: const EdgeInsets.only(top: 78.49, bottom: 26),
+            padding: const EdgeInsets.only(top: 70, bottom: 24),
             decoration: BoxDecoration(
               color: darkMode
                 ? SColors.pureBlack

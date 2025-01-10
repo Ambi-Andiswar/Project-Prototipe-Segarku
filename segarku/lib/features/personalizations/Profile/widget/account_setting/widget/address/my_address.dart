@@ -30,7 +30,7 @@ class MyAddressScreen extends StatelessWidget {
             color: dark ? SColors.pureBlack : SColors.pureWhite,
             child: Column(
               children: [
-                const SizedBox(height: 52),
+                const SizedBox(height: 20),
                 SCustomAppBar(
                   title: STexts.address,
                   darkMode: dark,

@@ -25,7 +25,7 @@ class ListProductScreen extends StatelessWidget {
               child: Column(
                 children: [
                   // Padding di atas AppBar
-                  const SizedBox(height: 52),
+                  const SizedBox(height: 20),
                   SCustomAppBar(
                     title: STexts.vegetable,
                     darkMode: dark, 

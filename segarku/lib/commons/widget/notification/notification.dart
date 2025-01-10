@@ -16,24 +16,28 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // Padding di atas AppBar
-          const SizedBox(height: 52),
-
           // SCustomAppBar dengan Divider di bawah
-          Column(
-            children: [
-              SCustomAppBar(
-                title: STexts.notification,
-                darkMode: dark,
+            Container(
+              color: dark 
+                ? SColors.pureBlack 
+                : SColors.pureWhite, // Ganti dengan warna yang sesuai
+              child: Column(
+                children: [
+                  // Padding di atas AppBar
+                  const SizedBox(height: 20),
+                  SCustomAppBar(
+                    title: STexts.notification,
+                    darkMode: dark, 
+                  ),
+                  const SizedBox(height: SSizes.md),
+                  Divider(
+                    color: dark ? SColors.green50 : SColors.softBlack50,
+                    thickness: 1,
+                    height: 1, // Pastikan tidak ada ruang tambahan
+                  ),
+                ],
               ),
-          const SizedBox(height: SSizes.md),
-              Divider(
-                color: dark ? SColors.green50 : SColors.softBlack50,
-                thickness: 1,
-                height: 1, // Pastikan tidak ada ruang tambahan
-              ),
-            ],
-          ),
+            ),
 
           const Expanded(
             child: Center(

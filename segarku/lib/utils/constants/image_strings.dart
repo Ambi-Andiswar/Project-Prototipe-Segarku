@@ -3,7 +3,7 @@
 class SImages {
 // Logo
   static const String appLogo = "assets/logos/Segarku.png";
-  static const String iconSegarku = "assets/logos/iconSegarKu.png";
+  static const String iconSegarku = "assets/logos/welcomeScreenIcon.png";
   static const String google = "assets/logos/google.png";
   static const String profile = "assets/images/profile.png";
 
