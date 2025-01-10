@@ -29,10 +29,14 @@ class SUserProfileTitle extends StatelessWidget {
             // Profile Image
             LayoutBuilder(
               builder: (context, constraints) {
-                return Image.asset(
-                  SImages.profile,
-                  width: 48, // Ukuran minimum 40 dan maksimum 60
-                  height: 48,
+                final size = constraints.maxWidth * 0.12; // Responsif berdasarkan lebar kontainer
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                  child: Image.asset(
+                    SImages.profile,
+                    width: size.clamp(38.0, 48.0), // Ukuran minimum 40 dan maksimum 60
+                    height: size.clamp(38.0, 48.0),
+                  ),
                 );
               },
             ),

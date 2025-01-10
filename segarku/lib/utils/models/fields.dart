@@ -406,14 +406,12 @@ class InputFields {
   static Widget noHandphoneAddressField(BuildContext context, bool dark) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
 
     return StatefulBuilder(
       builder: (context, setState) {
         // Listener untuk fokus
         focusNode.addListener(() {
           setState(() {
-            isFocused = focusNode.hasFocus;
           });
         });
 
@@ -468,14 +466,12 @@ class InputFields {
   static Widget addressField(BuildContext context, bool dark) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
 
     return StatefulBuilder(
       builder: (context, setState) {
         // Listener untuk fokus
         focusNode.addListener(() {
           setState(() {
-            isFocused = focusNode.hasFocus;
           });
         });
 
@@ -529,14 +525,12 @@ class InputFields {
   static Widget addressRecordsField(BuildContext context, bool dark) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
 
     return StatefulBuilder(
       builder: (context, setState) {
         // Listener untuk fokus
         focusNode.addListener(() {
           setState(() {
-            isFocused = focusNode.hasFocus;
           });
         });
 
@@ -591,14 +585,12 @@ class InputFields {
   static Widget recipientNameField(BuildContext context, bool dark) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
 
     return StatefulBuilder(
       builder: (context, setState) {
         // Listener untuk fokus
         focusNode.addListener(() {
           setState(() {
-            isFocused = focusNode.hasFocus;
           });
         });
 
@@ -648,4 +640,292 @@ class InputFields {
       },
     );
   }
+
+  //-------------------- Username Field --------------------//
+  static Widget editUsernameField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text username
+            Text(
+              STexts.editUsername,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field Username
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+                // Menambahkan Icon di dalam field
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.username,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
+                ),
+                // Text Username field
+                labelText: STexts.usernameField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.usernameField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  //-------------------- Name Field --------------------//
+  static Widget editNameField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text username
+            Text(
+              STexts.editName,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field Username
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+                // Menambahkan Icon di dalam field
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.username,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
+                ),
+                // Text Username field
+                labelText: STexts.usernameField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.usernameField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  //-------------------- Email Field --------------------//
+  static Widget editEmailField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text username
+            Text(
+              STexts.editEmail,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field Username
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+                // Menambahkan Icon di dalam field
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.email,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
+                ),
+                // Text emailField field
+                labelText: STexts.emailField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.emailField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  //-------------------- editNoPhone Field --------------------//
+  static Widget editNoPhoneField(BuildContext context, bool dark) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
+        });
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text edit no phone
+            Text(
+              STexts.editnoPhone,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
+
+            // Text & Icons Form Field edit no HP
+            TextFormField(
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+                // Menambahkan Icon di dalam field
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  child: Icon(
+                    SIcons.phone,
+                    color: isFocused
+                        ? (dark ? SColors.green500 : SColors.green500)
+                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                  ),
+                ),
+                // Text Edit no Phone field
+                labelText: STexts.noPhoneField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.noPhoneField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

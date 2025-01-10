@@ -20,6 +20,8 @@ class STexts{
   static const String exEmail = "afifwahidi2@gmail.com";
   static const String change = "Ganti";
   static const String finish = "Berhasil";
+  static const String cancel = "Batal";
+  static const String confirm = "Iya";
 
   // Appbar text
   static const String resetPassword = "Lupa kata sandi";
@@ -27,6 +29,8 @@ class STexts{
   static const String notification = "Notifikasi";
   static const String myCarts = "Keranjang Saya";
   static const String payment = "Pembayaran";
+  static const String editProfile = "Edit Profil";
+  static const String voucher= "Voucher";
 
   // Button Text
   static const String send = "Kirim";
@@ -163,7 +167,7 @@ class STexts{
   static const String accountSettings = "Pengaturan Akun";
   static const String metodePembayaran = "Metode Pembayaran";
   static const String subMetodePembayaran = "Pilih metode pembayaran yang Anda inginkan";
-  static const String voucher = "Voucher Saya";
+  static const String myVoucher = "Voucher Saya";
   static const String subVoucher = "Cek daftar kupon anda";
   static const String myAddress = "Alamat saya";
   static const String subMyAddress = "Silahkan atur alamat pengiriman Anda";
@@ -172,8 +176,22 @@ class STexts{
   static const String logoutConfirmationTitle = "Konfirmasi Logout";
   static const String logoutConfirmationMessage =
       "Apakah Anda yakin ingin logout?";
-  static const String cancel = "Batal";
-  static const String confirm = "Iya";
 
+
+  // User Profile
+  static const String changePhotoProfile = "Ganti foto profil Anda";
+  static const String editUsername = "Edit Username";
+  static const String editName = "Edit Nama";
+  static const String editEmail = "Edit Email";
+  static const String editnoPhone = "Edit No Handphone";
+
+  // Voucher
+  static const String noVoucherTitle = "Yah, Belum Ada Voucher Nih!";
+  static const String noVoucherSubTitle = "Yuk, terus belanja agar mendapatkan voucher menarik!";
+
+  // Metode Pembayaran
+  static const String noPaymentMethodTitle = "Yah, pilihan metode pembayaran belum tersedia";
+  static const String noPaymentMethodSubTitle = "Tetapi tenang, Anda masih bisa melakukan transaksi kok";
+  
 
 }

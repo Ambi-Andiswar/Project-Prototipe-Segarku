@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/Voucher/my_voucher.dart';
+import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/address/my_address.dart';
+import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/payment/payment_method.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:iconsax/iconsax.dart';
@@ -44,12 +47,12 @@ class AccountSetting extends StatelessWidget {
                   height: 40.0,
                   decoration: BoxDecoration(
                     color: SColors.green500,
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                   ),
                   child:const Center(
                     child: Icon(
                       Iconsax.empty_wallet,
-                      size: 24.0,
+                      size: SSizes.defaultIcon,
                       color: SColors.pureWhite,
                     ),
                   ),
@@ -79,7 +82,7 @@ class AccountSetting extends StatelessWidget {
                 ),
 
                 IconButton(
-                  onPressed: onPressed,
+                  onPressed: () => Get.to(() => const MyPaymentScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
                     color: dark ? SColors.pureWhite :  SColors.green700,
@@ -99,12 +102,12 @@ class AccountSetting extends StatelessWidget {
                   height: 40.0,
                   decoration: BoxDecoration(
                     color: SColors.green500,
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                   ),
                   child: const Center(
                     child: Icon(
                       Iconsax.ticket_discount4,
-                      size: 24.0,
+                      size: SSizes.defaultIcon,
                       color: SColors.pureWhite,
                     ),
                   ),
@@ -119,7 +122,7 @@ class AccountSetting extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        STexts.voucher,
+                        STexts.myVoucher,
                         style: dark
                           ? STextTheme.titleCaptionBoldDark
                           : STextTheme.titleCaptionBoldLight
@@ -135,7 +138,7 @@ class AccountSetting extends StatelessWidget {
                 ),
 
                 IconButton(
-                  onPressed: onPressed,
+                  onPressed: () => Get.to(() => const MyVoucherScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
                     color: dark ? SColors.pureWhite :  SColors.green700,
@@ -155,12 +158,12 @@ class AccountSetting extends StatelessWidget {
                   height: 40.0,
                   decoration: BoxDecoration(
                     color: SColors.green500,
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                   ),
                   child: const Center(
                     child: Icon(
                       Iconsax.location,
-                      size: 24.0,
+                      size: SSizes.defaultIcon,
                       color: SColors.pureWhite,
                     ),
                   ),
@@ -192,7 +195,7 @@ class AccountSetting extends StatelessWidget {
                 ),
 
                 IconButton(
-                  onPressed: onPressed,
+                  onPressed: () => Get.to(() => const MyAddressScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
                     color: dark ? SColors.pureWhite :  SColors.green700,

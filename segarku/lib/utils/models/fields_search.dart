@@ -135,14 +135,12 @@ class InputFieldSearch {
   static Widget fieldSearchAddress(BuildContext context, bool dark) {
   // FocusNode untuk mendeteksi fokus
   final FocusNode focusNode = FocusNode();
-  bool isFocused = false;
 
   return StatefulBuilder(
     builder: (context, setState) {
       // Listener untuk fokus
       focusNode.addListener(() {
         setState(() {
-          isFocused = focusNode.hasFocus;
         });
       });
 
