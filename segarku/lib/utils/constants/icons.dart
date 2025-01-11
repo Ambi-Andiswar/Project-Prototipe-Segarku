@@ -47,6 +47,7 @@ class SIcons {
   static const IconData delivery = HugeIcons.strokeRoundedTruckDelivery;
   static const IconData pickUp = HugeIcons.strokeRoundedStore04;
   static const IconData share = HugeIcons.strokeRoundedShare05;
+  static const IconData notificationItem = HugeIcons.strokeRoundedNotificationSquare;
 
   // Button Icon
   static Widget notificationIcon(bool dark) {

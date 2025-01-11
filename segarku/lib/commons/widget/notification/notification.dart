@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/commons/widget/notification/widget/no_notification.dart';
+import 'package:segarku/commons/widget/notification/widget/notification_item.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
@@ -41,7 +41,7 @@ class NotificationScreen extends StatelessWidget {
 
           const Expanded(
             child: Center(
-              child: NoNotificationScreen(),
+              child: NotificationItemScreen(),
             ),
           ),
         ],

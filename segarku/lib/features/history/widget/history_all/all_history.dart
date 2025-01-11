@@ -46,9 +46,9 @@ class AllProductHistory extends StatelessWidget {
 
     // Hitung total item dan harga untuk setiap kontainer
     final int firstTotalItems = firstContainerProducts.length;
-    final int firstTotalPrice = 8000 + 15000; // Contoh hitung manual
+    const int firstTotalPrice = 8000 + 15000; // Contoh hitung manual
     final int secondTotalItems = secondContainerProducts.length;
-    final int secondTotalPrice = 10000 + 12000; // Contoh hitung manual
+    const int secondTotalPrice = 10000 + 12000; // Contoh hitung manual
 
     // Logika untuk memeriksa apakah semua data produk kosong
     final bool allProductsEmpty =

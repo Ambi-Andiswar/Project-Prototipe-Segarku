@@ -16,12 +16,6 @@ class MyAddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
 
-    // Controllers untuk input
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController noteController = TextEditingController();
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController phoneController = TextEditingController();
-
     return Scaffold(
       body: Column(
         children: [
@@ -140,12 +134,6 @@ class MyAddressScreen extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          final String address = addressController.text;
-                          final String note = noteController.text;
-                          final String name = nameController.text;
-                          final String phone = phoneController.text;
-
-                          print('Alamat: $address, Catatan: $note, Nama: $name, Telepon: $phone');
                           Navigator.of(context).pop();
                         },
                         child: Text(

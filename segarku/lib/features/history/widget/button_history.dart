@@ -8,11 +8,11 @@ class ToggleButtonHistory extends StatelessWidget {
   final VoidCallback onPressed;
 
   const ToggleButtonHistory({
-    Key? key,
+    super.key,
     required this.label,
     required this.isActive,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,10 @@ class ToggleButtonHistory extends StatelessWidget {
 }
 
 class ToggleButtonExample extends StatefulWidget {
+  const ToggleButtonExample({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ToggleButtonExampleState createState() => _ToggleButtonExampleState();
 }
 
@@ -81,14 +84,4 @@ class _ToggleButtonExampleState extends State<ToggleButtonExample> {
       ],
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Scaffold(
-      body: Center(
-        child: ToggleButtonExample(),
-      ),
-    ),
-  ));
 }

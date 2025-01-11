@@ -16,10 +16,6 @@ class AddressPopup extends StatelessWidget {
     final bool dark = context.isDarkMode;
 
     // Controllers untuk input
-    final TextEditingController addressController = TextEditingController();
-    final TextEditingController noteController = TextEditingController();
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController phoneController = TextEditingController();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -140,14 +136,8 @@ class AddressPopup extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      final String address = addressController.text;
-                      final String note = noteController.text;
-                      final String name = nameController.text;
-                      final String phone = phoneController.text;
 
                       // Lakukan aksi dengan data input
-                      print(
-                          'Alamat: $address, Catatan: $note, Nama: $name, Telepon: $phone');
                       Navigator.of(context).pop();
                     },
                     child: Text(

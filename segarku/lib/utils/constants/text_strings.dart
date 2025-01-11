@@ -38,6 +38,7 @@ class STexts{
   static const String done = "Selesai";
   static const String buttonVoucher = "Ada voucher? Cari tahu disini!";
   static const String buyNow = "Bayar Sekarang";
+  static const String buyMore = "Beli Lagi";
   static const String save = "Simpan";
   static const String saveStruk = "Unduh struk pembelian";
   static const String add = "Tambah";
@@ -168,6 +169,7 @@ class STexts{
   static const String accountSettings = "Pengaturan Akun";
   static const String metodePembayaran = "Metode Pembayaran";
   static const String subMetodePembayaran = "Pilih metode pembayaran yang Anda inginkan";
+  static const String subNoNotificationProfile = "Lihat notifikasi terbaru disini";
   static const String myVoucher = "Voucher Saya";
   static const String subVoucher = "Cek daftar kupon anda";
   static const String myAddress = "Alamat saya";

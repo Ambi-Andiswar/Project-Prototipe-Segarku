@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:segarku/commons/widget/notification/notification.dart';
 import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/Voucher/my_voucher.dart';
 import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/address/my_address.dart';
-import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/payment/payment_method.dart';
+import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:iconsax/iconsax.dart';
@@ -51,7 +52,7 @@ class AccountSetting extends StatelessWidget {
                   ),
                   child:const Center(
                     child: Icon(
-                      Iconsax.empty_wallet,
+                      SIcons.notification,
                       size: SSizes.defaultIcon,
                       color: SColors.pureWhite,
                     ),
@@ -66,13 +67,13 @@ class AccountSetting extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        STexts.metodePembayaran,
+                        STexts.notification,
                         style: dark
                           ? STextTheme.titleCaptionBoldDark
                           : STextTheme.titleCaptionBoldLight
                       ),
                       Text(
-                        STexts.subMetodePembayaran,
+                        STexts.subNoNotificationProfile,
                         style: dark
                           ? STextTheme.bodyCaptionRegularDark
                           : STextTheme.bodyCaptionRegularLight
@@ -82,7 +83,7 @@ class AccountSetting extends StatelessWidget {
                 ),
 
                 IconButton(
-                  onPressed: () => Get.to(() => const MyPaymentScreen()),
+                  onPressed: () => Get.to(() => const NotificationScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
                     color: dark ? SColors.pureWhite :  SColors.green700,
