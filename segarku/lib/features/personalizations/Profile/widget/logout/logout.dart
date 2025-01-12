@@ -81,51 +81,66 @@ class LogoutSetting extends StatelessWidget {
   }
 
   void showLogoutConfirmationDialog(
-      BuildContext context, VoidCallback onConfirm) {
-    final bool dark = context.isDarkMode;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-          ),
-          title: Text(
-            STexts.logoutConfirmationTitle,
-            style: dark
-                ? STextTheme.titleCaptionBoldDark
-                : STextTheme.titleCaptionBoldLight,
-          ),
-          content: Text(
-            STexts.logoutConfirmationMessage,
-            style: dark
-                ? STextTheme.bodyCaptionRegularDark
-                : STextTheme.bodyCaptionRegularLight,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(
-                STexts.cancel,
+    BuildContext context, VoidCallback onConfirm) {
+      final bool dark = context.isDarkMode;
+      showModalBottomSheet<bool>(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        builder: (context) => Padding(
+          padding: const EdgeInsets.all(SSizes.defaultMargin),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                STexts.logoutConfirmationTitle,
                 style: dark
-                    ? STextTheme.bodyCaptionRegularDark
-                    : STextTheme.bodyCaptionRegularLight,
+                    ? STextTheme.titleBaseBoldDark
+                    : STextTheme.titleBaseBoldLight,
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                onConfirm();
-              },
-              child: const Text(
-                STexts.confirm,
-                style: TextStyle(color: SColors.danger500),
+              const SizedBox(height: SSizes.sm2),
+              Text(
+                STexts.logoutConfirmationMessage,
+                style: dark
+                    ? STextTheme.bodyBaseRegularDark
+                    : STextTheme.bodyBaseRegularLight,
               ),
-            ),
-          ],
-        );
-      },
-    );
-  }
+              const SizedBox(height: SSizes.lg),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(
+                        STexts.cancel,
+                        style: dark
+                            ? STextTheme.titleBaseBoldDark
+                            : STextTheme.titleBaseBoldLight,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: SSizes.md),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        onConfirm();
+                      },
+                      child: Text(
+                        STexts.confirm,
+                        style: dark
+                            ? STextTheme.titleBaseBoldLight
+                            : STextTheme.titleBaseBoldDark,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 }

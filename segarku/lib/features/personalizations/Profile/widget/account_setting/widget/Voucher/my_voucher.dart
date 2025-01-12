@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/Voucher/voucher.dart';
+import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/Voucher/widget/voucher.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import '../../../../../../../utils/constants/text_strings.dart';

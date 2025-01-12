@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:segarku/features/carts/widget/dialog_voucher.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
 import 'package:segarku/features/shop/products/models/product.dart';
 import 'package:segarku/features/transaction/transaction_checkout.dart';
@@ -97,7 +98,7 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                 Row(
                   children: [
                     Transform.scale(
-                      scale: 1.2,
+                      scale: 1.3,
                       child: Checkbox(
                         value: selectAll,
                         onChanged: toggleSelectAll,
@@ -156,13 +157,11 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                       decoration: BoxDecoration(
                         color: darkMode ? SColors.pureBlack : Colors.white,
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 8,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
+                        border: Border.all(
+                          color: darkMode
+                            ? SColors.green50
+                            : SColors.softBlack50
+                        )
                       ),
                       child: Column(
                         children: List.generate(products.length, (index) {
@@ -186,21 +185,22 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                               child: Row(
                                 children: [
                                   Transform.scale(
-                                    scale: 1.2,
-                                    child: Checkbox(
-                                      value: selectedItems[index],
-                                      onChanged: (value) => toggleItemSelection(index, value),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                    scale: 1.3,
+                                    child: 
+                                     Checkbox(
+                                        value: selectedItems[index],
+                                        onChanged: (value) => toggleItemSelection(index, value),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                        ),
+                                        side: BorderSide(
+                                          color: darkMode ? SColors.green50 : SColors.softBlack50,
+                                          width: 1,
+                                        ),
+                                        visualDensity: VisualDensity.compact,
+                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       ),
-                                      side: BorderSide(
-                                        color: darkMode ? SColors.green50 : SColors.softBlack50,
-                                        width: 1,
-                                      ),
-                                      visualDensity: VisualDensity.compact,
-                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                     ),
-                                  ),
                                   const SizedBox(width: SSizes.sm2),
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
@@ -353,29 +353,44 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                     borderRadius: BorderRadius.circular(16),
                     color: Colors.transparent,
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 21.0, vertical: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              SIcons.voucher,
-                              color: SColors.green500,
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              STexts.buttonVoucher,
-                              style: STextTheme.ctaSm,
-                            ),
-                          ],
+                  child: GestureDetector(
+                    onTap: () {
+                      // Menampilkan popup voucher
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                         ),
-                        Icon(
-                          SIcons.arrowRight,
-                          color: SColors.green500,
-                        ),
-                      ],
+                        builder: (BuildContext context) {
+                          return const VoucherPopup(); // Memanggil widget popup
+                        },
+                      );
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 21.0, vertical: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                SIcons.voucher,
+                                color: SColors.green500,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                STexts.buttonVoucher,
+                                style: STextTheme.ctaSm,
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            SIcons.arrowRight,
+                            color: SColors.green500,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -407,9 +422,9 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: SColors.green500,
-                        minimumSize: const Size(165, 46), // Ukuran tombol
+                        minimumSize: const Size(165, 40), // Ukuran tombol
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                         ),
                       ),
                       onPressed: () => Get.to(() => const TransactionCheckoutScreen()),

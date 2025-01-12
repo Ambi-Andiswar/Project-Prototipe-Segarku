@@ -300,10 +300,10 @@ class DescProductScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: SColors.green500,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () => Get.to(() => const NavigationMenu(initialIndex: 1)),
                     child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -313,8 +313,8 @@ class DescProductScreen extends StatelessWidget {
                           size: SSizes.defaultIconxs),
                         SizedBox(width: SSizes.sm2),
                         Text(
-                          STexts.add,
-                          style: STextTheme.titleBaseBoldDark,
+                          STexts.addToCart,
+                          style: STextTheme.titleBaseBoldDark
                           ),
                       ],
                     ),
@@ -441,7 +441,9 @@ class _AddToCartPopupState extends State<AddToCartPopup> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _addToCart,
-              child: const Text('Tambahkan ke Keranjang'),
+              child: const Text(
+                STexts.addToCart,
+                style: STextTheme.titleBaseBoldDark),
             ),
           ),
         ],

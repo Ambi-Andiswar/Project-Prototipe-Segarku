@@ -99,12 +99,23 @@ class MyAddressScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  STexts.directions,
+                                  STexts.selectLocation,
                                   style: dark
                                       ? STextTheme.titleCaptionBoldDark
                                       : STextTheme.titleCaptionBoldLight,
                                 ),
                               ],
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Center(
+                            child: Image.asset(
+                              SImages.iconMaps,
                             ),
                           ),
                         ),

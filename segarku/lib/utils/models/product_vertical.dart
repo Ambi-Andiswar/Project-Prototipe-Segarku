@@ -5,6 +5,7 @@ import 'package:segarku/features/shop/products/models/product.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
+import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
@@ -311,7 +312,9 @@ class _AddToCartPopupState extends State<AddToCartPopup> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _addToCart,
-              child: const Text('Tambahkan ke Keranjang'),
+              child: const Text(
+                STexts.addToCart,
+                style: STextTheme.titleBaseBoldDark),
             ),
           ),
         ],

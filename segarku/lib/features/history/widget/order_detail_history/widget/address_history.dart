@@ -56,6 +56,38 @@ class AddressHistory extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    Text(
+                      'Tanggal transaksi',
+                      style: dark
+                          ? STextTheme.bodyCaptionRegularDark
+                          : STextTheme.bodyCaptionRegularLight,
+                    ),
+                    const Spacer(),
+                    const Text(
+                      '17:09, 12-01-2025',
+                      style: STextTheme.ctaSm
+                    ),
+                  ],
+                ),
+                const SizedBox(height: SSizes.xs),
+                Row(
+                  children: [
+                    Text(
+                      'Metode transaksi',
+                      style: dark
+                          ? STextTheme.bodyCaptionRegularDark
+                          : STextTheme.bodyCaptionRegularLight,
+                    ),
+                    const Spacer(),
+                    const Text(
+                      STexts.delivery,
+                      style: STextTheme.ctaSm
+                    ),
+                  ],
+                ),
+                const SizedBox(height: SSizes.md),
                 Text(
                   'Alamat Pengiriman',
                   style: dark

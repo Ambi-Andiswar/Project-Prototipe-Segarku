@@ -36,23 +36,43 @@ class LoginScreen extends StatelessWidget {
               Row(
                 children: [
                   // Checkbox
-                  Checkbox(value: isChecked, onChanged: (value) {}),
-                  const SizedBox(width: SSizes.sm2),
+                  Transform.scale(
+                    scale: 1.33, // Sesuaikan dengan rasio skala untuk ukuran 40
+                    child: Checkbox(
+                      value: isChecked,
+                      onChanged: (value) {},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                      ),
+                      side: BorderSide(
+                        color: dark ? SColors.green50 : SColors.softBlack50,
+                        width: 1,
+                      ),
+                      visualDensity: VisualDensity.compact,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+
+                  const SizedBox(width: SSizes.sm),
                   // Text RememberMe
                   Text(
                     STexts.forgetMe, 
                     style: dark 
                     ? STextTheme.bodyCaptionRegularDark
-                    : STextTheme.bodyCaptionRegularLight),
+                    : STextTheme.bodyCaptionRegularLight
+                  ),
                 ],
               ),
               // Forget Password Button
               TextButton(
-                onPressed: () 
-                => Get.to(() => const ResetPasswordScreen()),
+                onPressed: () => Get.to(() => const ResetPasswordScreen()),
+                style: TextButton.styleFrom(
+                  overlayColor: Colors.transparent, // Menghilangkan efek
+                ),
                 child: const Text(
                   STexts.forgetPassword,
-                  style: STextTheme.ctaSm),
+                  style: STextTheme.ctaSm,
+                ),
               ),
             ],
           ),
@@ -67,13 +87,13 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 vertical: SSizes.lg2, // Padding vertikal sama dengan Container
               ),
-              minimumSize: const Size(double.infinity, 50), // Membuat tombol selebar kontainer dan tinggi tertentu
+              minimumSize: const Size(double.infinity, 30), // Membuat tombol selebar kontainer dan tinggi tertentu
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(SSizes.borderRadiusmd), // Sudut membulat yang sama
               ),
               side: const BorderSide(
-                color: SColors.green500, // Sesuaikan dengan tema
-                width: 2, // Lebar border
+                color: SColors.green500, 
+                width: 1, // Lebar border
               ),
             ),
             child: const Row(
@@ -134,7 +154,7 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 vertical: SSizes.lg2, // Padding vertikal sama dengan Container
               ),
-              minimumSize: const Size(double.infinity, 50), // Membuat tombol selebar kontainer dan tinggi tertentu
+              minimumSize: const Size(double.infinity, 30), // Membuat tombol selebar kontainer dan tinggi tertentu
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(SSizes.borderRadiusmd), // Sudut membulat yang sama
               ),

@@ -9,11 +9,16 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 class InputFieldSearch {
   //-------------------- Field Search Home --------------------//
   static Widget fieldSearch(BuildContext context, bool dark) {
-    // FocusNode untuk mendeteksi fokus
-    final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
+  // FocusNode untuk mendeteksi fokus
+  final FocusNode focusNode = FocusNode();
+  bool isFocused = false;
 
-    return StatefulBuilder(
+  return GestureDetector(
+    onTap: () {
+      // Menghapus fokus saat area luar diklik
+      FocusScope.of(context).unfocus();
+    },
+    child: StatefulBuilder(
       builder: (context, setState) {
         // Listener untuk fokus
         focusNode.addListener(() {
@@ -32,7 +37,7 @@ class InputFieldSearch {
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
                 suffixIcon: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md+1),
+                  padding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md + 1),
                   child: Icon(
                     SIcons.search,
                     color: isFocused
@@ -48,7 +53,7 @@ class InputFieldSearch {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 hintText: STexts.fieldSearchHome,
                 hintStyle: dark
-                    ? STextTheme.bodyBaseRegularLight 
+                    ? STextTheme.bodyBaseRegularLight
                     : STextTheme.bodyBaseRegularDark,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(99999),
@@ -66,8 +71,9 @@ class InputFieldSearch {
           ],
         );
       },
-    );
-  }
+    ),
+  );
+}
 
   //-------------------- Field Search Home --------------------//
   static Widget fieldSearchAll(BuildContext context, bool dark) {

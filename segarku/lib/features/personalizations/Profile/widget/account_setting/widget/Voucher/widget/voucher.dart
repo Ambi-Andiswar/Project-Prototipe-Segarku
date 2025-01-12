@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/Voucher/no_voucher.dart';
+import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/Voucher/widget/no_voucher.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';

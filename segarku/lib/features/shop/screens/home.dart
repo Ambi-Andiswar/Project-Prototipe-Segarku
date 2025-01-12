@@ -55,7 +55,7 @@ Widget build(BuildContext context) {
                           ? STextTheme.titleBaseBoldDark
                           : STextTheme.titleBaseBoldLight,
                     ),
-                    InkWell(
+                    GestureDetector(
                       onTap: ()  => Get.to(() => const CategoryProductScreen()),
                       child: const Row(
                         children: [
@@ -120,7 +120,6 @@ Widget build(BuildContext context) {
                       ? STextTheme.titleBaseBoldDark
                       : STextTheme.titleBaseBoldLight,
                 ),
-
                 // Product Vertical
                 const SProductV(),
                 const SizedBox(height: SSizes.md), 

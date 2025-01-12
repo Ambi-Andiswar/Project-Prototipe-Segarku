@@ -89,7 +89,7 @@ class AddressPopup extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              STexts.directions,
+                              STexts.selectLocation,
                               style: dark
                                   ? STextTheme.titleCaptionBoldDark
                                   : STextTheme.titleCaptionBoldLight,

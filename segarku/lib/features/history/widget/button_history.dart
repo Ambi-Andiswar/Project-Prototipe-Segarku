@@ -21,6 +21,7 @@ class ToggleButtonHistory extends StatelessWidget {
       style: TextButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         backgroundColor: Colors.transparent,
+        splashFactory: NoSplash.splashFactory,
         side: BorderSide(
           color: isActive ? SColors.green500 : SColors.softBlack100,
         ),

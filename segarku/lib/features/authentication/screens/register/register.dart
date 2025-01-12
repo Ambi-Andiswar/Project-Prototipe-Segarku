@@ -38,14 +38,31 @@ class RegisterScreen extends StatelessWidget {
               Row(
                 children: [
                   // Checkbox
-                  Checkbox(value: isChecked, onChanged: (value) {}),
-                  const SizedBox(width: SSizes.sm2),
+                  Transform.scale(
+                    scale: 1.33, // Sesuaikan dengan rasio skala untuk ukuran 40
+                    child: Checkbox(
+                      value: isChecked,
+                      onChanged: (value) {},
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                      ),
+                      side: BorderSide(
+                        color: dark ? SColors.green50 : SColors.softBlack50,
+                        width: 1,
+                      ),
+                      visualDensity: VisualDensity.compact,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+
+                  const SizedBox(width: SSizes.sm),
                   // Text RememberMe
                   Text(
                     STexts.forgetMe, 
                     style: dark 
                     ? STextTheme.bodyCaptionRegularDark
-                    : STextTheme.bodyCaptionRegularLight),
+                    : STextTheme.bodyCaptionRegularLight
+                  ),
                 ],
               ),
             ],

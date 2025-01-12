@@ -32,6 +32,11 @@ class ProductHistory extends StatelessWidget {
           decoration: BoxDecoration(
             color: darkMode ? SColors.pureBlack : Colors.white,
             borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+            border: Border.all(
+              color: darkMode
+                ? SColors.green50
+                : SColors.softBlack50
+            )
           ),
           padding: const EdgeInsets.all(SSizes.defaultMargin),
           child: Column(
@@ -169,8 +174,8 @@ class ProductHistory extends StatelessWidget {
                         borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                       ),
                       padding: const EdgeInsets.symmetric(
-                        horizontal: SSizes.md,
-                        vertical: SSizes.sm,
+                        horizontal: SSizes.md2,
+                        vertical: SSizes.xs,
                       ),
                     ),
                     child: Text(
