@@ -153,7 +153,7 @@ class _VoucherState extends State<VoucherPopup> {
                                           ? SColors.green500
                                           : SColors.pureWhite,
                                       side: isTaken[index]
-                                          ? BorderSide(
+                                          ? const BorderSide(
                                               color: SColors.green500)
                                           : BorderSide.none,
                                       shape: RoundedRectangleBorder(

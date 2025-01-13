@@ -22,17 +22,16 @@ class DescProductScreen extends StatelessWidget {
     final bool dark = context.isDarkMode;
 
     void showAddToCartPopup(BuildContext context, int productPrice, String productName) {
-  showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-    ),
-    builder: (context) {
-      return AddToCartPopup(price: productPrice, name: productName,);
-    },
-  );
-}
-
+      showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        builder: (context) {
+          return AddToCartPopup(price: productPrice, name: productName,);
+        },
+      );
+    }
 
     return Scaffold(
       body: Column(

@@ -49,8 +49,8 @@ class ProductHistory extends StatelessWidget {
                   Text(
                     products.first["date"]!,
                     style: darkMode
-                        ? STextTheme.bodySmRegularDark
-                        : STextTheme.bodySmRegularLight,
+                        ? STextTheme.bodyCaptionRegularDark
+                        : STextTheme.bodyCaptionRegularLight,
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -63,7 +63,7 @@ class ProductHistory extends StatelessWidget {
                     ),
                     child: Text(
                       "Selesai",
-                      style: STextTheme.bodySmRegularLight.copyWith(
+                      style: STextTheme.bodyCaptionRegularLight.copyWith(
                         color: SColors.green500,
                       ),
                     ),
@@ -104,8 +104,8 @@ class ProductHistory extends StatelessWidget {
                               Text(
                                 product["size"]!,
                                 style: darkMode
-                                    ? STextTheme.bodySmRegularDark
-                                    : STextTheme.bodySmRegularLight,
+                                    ? STextTheme.bodyCaptionRegularDark
+                                    : STextTheme.bodyCaptionRegularLight,
                               ),
                               const SizedBox(height: SSizes.sm),
                               Text(
@@ -144,14 +144,14 @@ class ProductHistory extends StatelessWidget {
                       Text(
                         "Total $totalItems Item",
                         style: darkMode
-                            ? STextTheme.bodySmRegularDark
-                            : STextTheme.bodySmRegularLight,
+                            ? STextTheme.bodyCaptionRegularDark
+                            : STextTheme.bodyCaptionRegularLight,
                       ),
                       Row(
                         children: [
                           Text(
                             "Total Harga",
-                            style: STextTheme.bodySmRegularLight.copyWith(
+                            style: STextTheme.bodyCaptionRegularLight.copyWith(
                               color: SColors.green500,
                             ),
                           ),

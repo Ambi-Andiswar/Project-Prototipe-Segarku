@@ -24,7 +24,7 @@ class NotificationScreen extends StatelessWidget {
               child: Column(
                 children: [
                   // Padding di atas AppBar
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 52),
                   SCustomAppBar(
                     title: STexts.notification,
                     darkMode: dark, 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:segarku/commons/widget/cart/no_carts.dart';
 import 'package:segarku/features/carts/widget/dialog_voucher.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
 import 'package:segarku/features/shop/products/models/product.dart';
@@ -84,6 +85,11 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
  @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
+
+      // Cek apakah daftar produk kosong
+    if (products.isEmpty) {
+      return const NoTransactionScreen();
+    }
 
     return Scaffold(
       body: Column(

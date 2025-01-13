@@ -7,6 +7,7 @@ import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
+
 // Model untuk data notifikasi
 class NotificationItem {
   final String title;
@@ -37,6 +38,11 @@ final List<NotificationItem> notifications = [
     subtitle: 'Dapatkan buah-buahan segar dengan harga promo hanya hari ini!',
     imageUrl: SImages.slider3,
   ),
+  NotificationItem(
+    title: 'Promo buah segar',
+    subtitle: 'Dapatkan buah-buahan segar dengan harga promo hanya hari ini!',
+    imageUrl: SImages.slider3,
+  ),
 ]; // Kosong untuk mengetes kondisi
 
 class NotificationItemScreen extends StatelessWidget {
@@ -46,91 +52,96 @@ class NotificationItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
 
+    if (notifications.isEmpty) {
+      return const NoNotificationScreen();
+    }
+
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
-        child: notifications.isEmpty
-            ? const NoNotificationScreen() // Jika data kosong, tampilkan NoNotificationScreen
-            : ListView.builder(
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  final notification = notifications[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: SSizes.defaultMargin),
-                    child: Container(
-                      padding: const EdgeInsets.all(SSizes.defaultMargin),
-                      decoration: BoxDecoration(
-                        color: dark ? SColors.softBlack50 : SColors.pureWhite,
-                        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
-                        border: Border.all(
-                          color: dark ? SColors.softBlack50 : SColors.green50,
-                        ),
-                      ),
-                      child: Column(
+        padding: const EdgeInsets.symmetric(
+          horizontal: SSizes.defaultMargin,
+        ),
+        child:
+          ListView.builder(
+            itemCount: notifications.length,
+            itemBuilder: (context, index) {
+              final notification = notifications[index];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: SSizes.defaultMargin),
+                child: Container(
+                  padding: const EdgeInsets.all(SSizes.defaultMargin),
+                  decoration: BoxDecoration(
+                    color: dark ? SColors.softBlack50 : SColors.pureWhite,
+                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+                    border: Border.all(
+                      color: dark ? SColors.softBlack50 : SColors.green50,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Icon Notification
-                              Container(
-                                width: 48,
-                                height: 48,
-                                decoration: BoxDecoration(
-                                  color: SColors.green50,
-                                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    SIcons.notificationItem,
-                                    size: 24,
-                                    color: SColors.green500,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: SSizes.md),
-                              // Title and Subtitle
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      notification.title,
-                                      style: dark
-                                          ? STextTheme.titleCaptionBoldDark
-                                          : STextTheme.titleCaptionBoldLight,
-                                    ),
-                                    Text(
-                                      notification.subtitle,
-                                      style: dark
-                                          ? STextTheme.bodySmRegularDark
-                                          : STextTheme.bodySmRegularLight,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: SSizes.md),
-                          // Image below
+                        // Icon Notification
                           Container(
-                            width: double.infinity,
-                            height: 150,
+                            width: 48,
+                            height: 48,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
-                              image: DecorationImage(
-                                image: AssetImage(notification.imageUrl),
-                                fit: BoxFit.cover,
+                              color: SColors.green50,
+                              borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                            ),
+                            child: const Center(
+                              child: Icon(
+                                SIcons.notificationItem,
+                                size: 24,
+                                color: SColors.green500,
                               ),
+                            ),
+                          ),
+                          const SizedBox(width: SSizes.md),
+                          // Title and Subtitle
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  notification.title,
+                                  style: dark
+                                      ? STextTheme.titleCaptionBoldDark
+                                      : STextTheme.titleCaptionBoldLight,
+                                ),
+                                Text(
+                                  notification.subtitle,
+                                  style: dark
+                                      ? STextTheme.bodySmRegularDark
+                                      : STextTheme.bodySmRegularLight,
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  );
-                },
-              ),
+                      const SizedBox(height: SSizes.md),
+                      // Image below
+                      Container(
+                        width: double.infinity,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+                          image: DecorationImage(
+                            image: AssetImage(notification.imageUrl),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
       ),
     );
   }

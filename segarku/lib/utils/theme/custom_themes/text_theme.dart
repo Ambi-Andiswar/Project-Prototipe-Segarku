@@ -249,7 +249,6 @@ class STextTheme {
 
 
 
-
   // Title Style Black Dark Mode
   static const TextStyle title2XlBlackDark = TextStyle(
     fontFamily: 'Satoshi', 

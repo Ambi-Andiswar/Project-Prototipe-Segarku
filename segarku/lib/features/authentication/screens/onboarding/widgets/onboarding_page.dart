@@ -122,8 +122,8 @@ class OnBoardingPage extends StatelessWidget {
                       Text(
                         STexts.alreadyAccount,
                         style: isDarkMode 
-                          ? STextTheme.bodyCaptionRegularDark
-                          : STextTheme.bodyCaptionRegularLight,
+                          ? STextTheme.bodyBaseRegularDark
+                          : STextTheme.bodyBaseRegularLight,
                       ),
 
                       const SizedBox(width: SSizes.sm),
@@ -137,7 +137,7 @@ class OnBoardingPage extends StatelessWidget {
                         ),
                         child: const Text(
                           STexts.loginNow,
-                          style: STextTheme.ctaSm,
+                          style: STextTheme.ctaBase,
                         ),
                       ),
                     ],
