@@ -9,14 +9,22 @@ import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+  final bool isLogin;
+
+  const WelcomeScreen({super.key, this.isLogin = true});
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  bool isLogin = true;
+  late bool isLogin;
+
+  @override
+  void initState() {
+    super.initState();
+    isLogin = widget.isLogin;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +63,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 const SizedBox(height: SSizes.xs),
                 Text(
                   isLogin
-                  ? STexts.loginSubTitle
-                  : STexts.registerSubTitle,
-                    style: dark
-                        ? STextTheme.titleXlBlackDark
-                        : STextTheme.titleXlBlackLight),
+                      ? STexts.loginSubTitle
+                      : STexts.registerSubTitle,
+                  style: dark
+                      ? STextTheme.titleXlBlackDark
+                      : STextTheme.titleXlBlackLight,
+                ),
 
                 const SizedBox(height: SSizes.lg2),
 
@@ -76,9 +85,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              isLogin
-                              ? (dark ? SColors.softBlack400 : SColors.pureWhite)
+                          backgroundColor: isLogin
+                              ? (dark
+                                  ? SColors.softBlack400
+                                  : SColors.pureWhite)
                               : (dark ? SColors.pureBlack : SColors.softWhite),
                           side: const BorderSide(color: SColors.softBlack50),
                           shape: const RoundedRectangleBorder(
@@ -110,9 +120,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           });
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              !isLogin
-                              ? (dark ? SColors.softBlack400 : SColors.pureWhite)
+                          backgroundColor: !isLogin
+                              ? (dark
+                                  ? SColors.softBlack400
+                                  : SColors.pureWhite)
                               : (dark ? SColors.pureBlack : SColors.softWhite),
                           side: const BorderSide(color: SColors.softBlack50),
                           shape: const RoundedRectangleBorder(
@@ -138,7 +149,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 const SizedBox(height: SSizes.lg2),
                 Expanded(
-                  child: isLogin ? const LoginScreen() : const RegisterScreen(),
+                  child: isLogin ? const LoginScreen() : RegisterScreen(),
                 ),
               ],
             ),

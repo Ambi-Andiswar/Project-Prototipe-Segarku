@@ -25,7 +25,7 @@ class DescProductScreen extends StatelessWidget {
       showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(SSizes.borderRadiusmd2)),
         ),
         builder: (context) {
           return AddToCartPopup(price: productPrice, name: productName,);
@@ -63,8 +63,8 @@ class DescProductScreen extends StatelessWidget {
                           child: Row(
                             children: [
                               Container(
-                                height: 40,
-                                width: 40,
+                                height: SSizes.defaultContainerIcon,
+                                width: SSizes.defaultContainerIcon,
                                 decoration: BoxDecoration(
                                   color: dark ? SColors.pureBlack : SColors.pureWhite,
                                   borderRadius: BorderRadius.circular(50),
@@ -79,8 +79,8 @@ class DescProductScreen extends StatelessWidget {
                                   },
                                   icon: Icon(
                                     SIcons.left,
-                                    size: 16,
-                                    color: dark ? SColors.pureWhite : SColors.softBlack500,
+                                    size: SSizes.defaultIcon,
+                                    color: dark ? SColors.green50 : SColors.softBlack500,
                                   ),
                                 ),
                               ),
@@ -88,8 +88,8 @@ class DescProductScreen extends StatelessWidget {
                               Stack(
                                 children: [
                                   Container(
-                                    width: 40,
-                                    height: 40,
+                                    width: SSizes.defaultContainerIcon,
+                                    height: SSizes.defaultContainerIcon,
                                     decoration: BoxDecoration(
                                      color: dark ? SColors.pureBlack : SColors.pureWhite,
                                       borderRadius: BorderRadius.circular(50),
@@ -111,7 +111,7 @@ class DescProductScreen extends StatelessWidget {
                                       icon: Icon(
                                         SIcons.cart,
                                         color: dark ? SColors.pureWhite : SColors.green500,
-                                        size: 24,
+                                        size: SSizes.defaultIcon,
                                       ),
                                     ),
                                   ),
@@ -230,7 +230,6 @@ class DescProductScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ],

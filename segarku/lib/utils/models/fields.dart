@@ -40,7 +40,7 @@ class InputFields {
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  padding: const EdgeInsets.only(top: SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
                   child: Icon(
                     SIcons.email,
                     color: isFocused
@@ -70,6 +70,15 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Email tidak boleh kosong';
+                }
+                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                  return 'Masukkan email yang valid';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -77,100 +86,111 @@ class InputFields {
     );
   }
 
-  //-------------------- Password Field --------------------//
-  static Widget passwordField(BuildContext context, bool dark) {
-  // FocusNode untuk mendeteksi fokus
-  final FocusNode focusNode = FocusNode();
-  bool isFocused = false;
-  bool isPasswordVisible = false;
 
-  return StatefulBuilder(
-    builder: (context, setState) {
-      // Listener untuk fokus
-      focusNode.addListener(() {
-        setState(() {
-          isFocused = focusNode.hasFocus;
+  static Widget passwordField(BuildContext context, bool dark, TextEditingController passwordController) {
+    // FocusNode untuk mendeteksi fokus
+    final FocusNode focusNode = FocusNode();
+    bool isFocused = false;
+    bool isPasswordVisible = false;
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        // Listener untuk fokus
+        focusNode.addListener(() {
+          setState(() {
+            isFocused = focusNode.hasFocus;
+          });
         });
-      });
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Text Password
-          Text(
-            STexts.password,
-            style: dark
-                ? STextTheme.titleCaptionBoldDark
-                : STextTheme.titleCaptionBoldLight,
-          ),
-          const SizedBox(height: SSizes.xs),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Text Password
+            Text(
+              STexts.password,
+              style: dark
+                  ? STextTheme.titleCaptionBoldDark
+                  : STextTheme.titleCaptionBoldLight,
+            ),
+            const SizedBox(height: SSizes.xs),
 
-          // Text & Icons Form Field Password
-          TextFormField(
-            focusNode: focusNode,
-            obscureText: !isPasswordVisible, // Mengatur apakah password disembunyikan
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
-              // Menambahkan Icon di dalam field
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
-                child: Icon(
-                  SIcons.password,
-                  color: isFocused
-                      ? (dark ? SColors.green500 : SColors.green500)
-                      : (dark ? SColors.softBlack50 : SColors.softBlack300),
-                ),
-              ),
-              // Menambahkan Icon untuk toggle password visibility
-              suffixIcon: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isPasswordVisible = !isPasswordVisible;
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: SSizes.md, bottom: SSizes.md, left: SSizes.sm2, right: SSizes.md2),
+            // Text & Icons Form Field Password
+            TextFormField(
+              controller: passwordController, // Mengikat passwordController
+              focusNode: focusNode,
+              obscureText: !isPasswordVisible, // Mengatur apakah password disembunyikan
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+                // Menambahkan Icon di dalam field
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(top: SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
                   child: Icon(
-                    isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
+                    SIcons.password,
                     color: isFocused
                         ? (dark ? SColors.green500 : SColors.green500)
                         : (dark ? SColors.softBlack50 : SColors.softBlack300),
                   ),
                 ),
+                // Menambahkan Icon untuk toggle password visibility
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isPasswordVisible = !isPasswordVisible;
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        top: SSizes.md, bottom: SSizes.md, left: SSizes.sm2, right: SSizes.md2),
+                    child: Icon(
+                      isPasswordVisible ? SIcons.eye : SIcons.eyeSlash,
+                      color: isFocused
+                          ? (dark ? SColors.green500 : SColors.green500)
+                          : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                    ),
+                  ),
+                ),
+                // Text Password field
+                labelText: STexts.passwordField,
+                labelStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                hintText: STexts.passwordField,
+                hintStyle: dark
+                    ? STextTheme.bodyBaseRegularLight
+                    : STextTheme.bodyBaseRegularDark,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.softBlack50),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  borderSide: const BorderSide(color: SColors.green500),
+                ),
               ),
-              // Text Password field
-              labelText: STexts.passwordField,
-              labelStyle: dark
-                  ? STextTheme.bodyBaseRegularLight
-                  : STextTheme.bodyBaseRegularDark,
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              hintText: STexts.passwordField,
-              hintStyle: dark
-                  ? STextTheme.bodyBaseRegularLight
-                  : STextTheme.bodyBaseRegularDark,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                borderSide: const BorderSide(color: SColors.softBlack50),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                borderSide: const BorderSide(color: SColors.green500),
-              ),
+              validator: (value) {
+                // Validasi password
+                if (value == null || value.isEmpty) {
+                  return 'Password tidak boleh kosong';
+                }
+                if (value.length < 6) {
+                  return 'Password harus minimal 6 karakter';
+                }
+                return null;
+              },
             ),
-          ),
-        ],
-      );
-    },
-  );
-}
+          ],
+        );
+      },
+    );
+  }
 
 
-  //-------------------- Confirm Password Field --------------------//
-  static Widget confirmPasswordField(BuildContext context, bool dark) {
+
+  static Widget confirmPasswordField(BuildContext context, bool dark, TextEditingController passwordController) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
@@ -205,7 +225,7 @@ class InputFields {
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  padding: const EdgeInsets.only(top: SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
                   child: Icon(
                     SIcons.password,
                     color: isFocused
@@ -231,7 +251,7 @@ class InputFields {
                     ),
                   ),
                 ),
-                // Text Password field
+                // Text Confirm Password field
                 labelText: STexts.confirmPasswordField,
                 labelStyle: dark
                     ? STextTheme.bodyBaseRegularLight
@@ -253,6 +273,16 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                // Validasi confirm password
+                if (value == null || value.isEmpty) {
+                  return 'Konfirmasi password tidak boleh kosong';
+                }
+                if (value != passwordController.text) {
+                  return 'Konfirmasi password harus sama dengan password';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -324,6 +354,12 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Username tidak boleh kosong';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -396,15 +432,16 @@ class InputFields {
                 ),
               ),
               validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Nomor HP tidak boleh kosong';
-              }
-              final RegExp phoneRegExp = RegExp(r'^\+?62[0-9]{9,13}$');
-              if (!phoneRegExp.hasMatch(value)) {
-                return 'Masukkan nomor Hanphone yang valid';
-              }
-              return null;
-            },
+                if (value == null || value.isEmpty) {
+                  return 'Nomor HP tidak boleh kosong';
+                }
+                // RegExp untuk validasi nomor telepon dengan +62 atau 08
+                final RegExp phoneRegExp = RegExp(r'^(\+62|08)[0-9]{8,13}$');
+                if (!phoneRegExp.hasMatch(value)) {
+                  return 'Masukkan nomor Handphone yang valid';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -465,6 +502,17 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Nomor HP tidak boleh kosong';
+                }
+                // RegExp untuk validasi nomor telepon dengan +62 atau 08
+                final RegExp phoneRegExp = RegExp(r'^(\+62|08)[0-9]{8,13}$');
+                if (!phoneRegExp.hasMatch(value)) {
+                  return 'Masukkan nomor Handphone yang valid';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -529,6 +577,12 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Alamat tidak boleh kosong';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -650,6 +704,12 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Harap masukan nama penerima';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -721,6 +781,12 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Username tidak boleh kosong';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -793,6 +859,12 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Nama tidak boleh kosong';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -865,6 +937,18 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                // Validasi email
+                if (value == null || value.isEmpty) {
+                  return 'Email tidak boleh kosong';
+                }
+                // Regex untuk validasi email
+                final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$');
+                if (!emailRegex.hasMatch(value)) {
+                  return 'Format email tidak valid';
+                }
+                return null;
+              },
             ),
           ],
         );
@@ -937,6 +1021,17 @@ class InputFields {
                   borderSide: const BorderSide(color: SColors.green500),
                 ),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Nomor HP tidak boleh kosong';
+                }
+                // RegExp untuk validasi nomor telepon dengan +62 atau 08
+                final RegExp phoneRegExp = RegExp(r'^(\+62|08)[0-9]{8,13}$');
+                if (!phoneRegExp.hasMatch(value)) {
+                  return 'Masukkan nomor Handphone yang valid';
+                }
+                return null;
+              },
             ),
           ],
         );
