@@ -12,7 +12,7 @@ class SColors {
   static const Color softWhite = Color(0xFFF9F9F9);
   static const Color slateBlack = Color(0xFF1C2229);
   static const Color pureBlack = Color(0xFF000000);
-  
+  static const Color shadow = Color(0xFF404852);
 
   // Primary Colors
   static const Color green50 = Color(0xFFEDF7EE);

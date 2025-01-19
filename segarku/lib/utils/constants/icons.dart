@@ -48,6 +48,7 @@ class SIcons {
   static const IconData pickUp = HugeIcons.strokeRoundedStore04;
   static const IconData share = HugeIcons.strokeRoundedShare05;
   static const IconData notificationItem = HugeIcons.strokeRoundedNotificationSquare;
+  static const IconData forgetPassword = HugeIcons.strokeRoundedForgotPassword;
 
   // Button Icon
   static Widget notificationIcon(bool dark) {

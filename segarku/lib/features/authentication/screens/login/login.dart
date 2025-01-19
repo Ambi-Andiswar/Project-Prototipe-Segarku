@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:segarku/features/authentication/controller/auth_controller.dart';
 import 'package:segarku/features/authentication/screens/forgetPass/forget_password.dart';
-import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/models/fields.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
@@ -19,6 +19,7 @@ class LoginScreen extends StatelessWidget {
     bool isChecked = false;
     final formKey = GlobalKey<FormState>();
     final TextEditingController passwordController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
 
 
     return SingleChildScrollView(
@@ -27,7 +28,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           children: [
             // Email Field
-            InputFields.emailField(context, dark),
+            InputFields.emailField(context, dark, emailController),
             const SizedBox(height: SSizes.md),
             
             // Password Field
@@ -87,9 +88,11 @@ class LoginScreen extends StatelessWidget {
             // Button Mulai sekarang
             ElevatedButton(
                 onPressed: () {
-                  // Validasi form
                   if (formKey.currentState!.validate()) {
-                    Get.to(() => const NavigationMenu());
+                    AuthService().loginUser(
+                      emailController.text.trim(),
+                      passwordController.text.trim(),
+                    );
                   }
                 },
                 style: ElevatedButton.styleFrom(

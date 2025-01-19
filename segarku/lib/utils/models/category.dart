@@ -62,6 +62,7 @@ class SCategory extends StatelessWidget {
               color: darkMode ? SColors.slateBlack : SColors.pureWhite,
               boxShadow: [
                 BoxShadow(
+                  // ignore: deprecated_member_use
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 2,
                   blurRadius: 4,

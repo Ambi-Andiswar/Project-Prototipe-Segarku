@@ -19,7 +19,7 @@ class SAppTheme {
     primaryColor: Colors.green,
     textTheme: STextTheme.lightTextTheme,
     chipTheme: SChipTheme.lightchipTheme,
-    scaffoldBackgroundColor: SColors.softWhite,
+    scaffoldBackgroundColor: SColors.pureWhite,
     appBarTheme: SAppBarTheme.lightAppBarTheme,
     checkboxTheme: SCheckboxTheme.lightCheckboxTheme,
     bottomSheetTheme: SBottomSheetTheme.lightBottomSheetTheme,

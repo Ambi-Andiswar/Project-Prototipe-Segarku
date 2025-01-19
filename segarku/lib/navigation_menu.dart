@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/features/carts/cart.dart';
-import 'package:segarku/features/history/history.dart';
+import 'package:segarku/features/history/order.dart';
 import 'package:segarku/features/personalizations/Profile/profile.dart';
 import 'package:segarku/features/shop/screens/home.dart';
+import 'package:segarku/utils/constants/drop_shadow.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/constants/colors.dart';
@@ -37,6 +38,11 @@ class NavigationMenu extends StatelessWidget {
               return STextTheme.noSelectText; // Gaya saat tidak terpilih
             }),
           ),
+          child: Container(
+            decoration: BoxDecoration(
+              color: darkMode ? SColors.softBlack900 : SColors.pureWhite,
+              boxShadow: [SShadows.contentShadow],
+            ),
           child: NavigationBar(
             height: 82,
             elevation: 0,
@@ -74,6 +80,7 @@ class NavigationMenu extends StatelessWidget {
               },
             ),
           ),
+          ),
         ),
       ),
       body: Obx(() => controller.screens[controller.selectedIndex.value]),
@@ -102,7 +109,7 @@ class NavigationMenu extends StatelessWidget {
       case 1:
         return 'Keranjang';
       case 2:
-        return 'Riwayat';
+        return 'Pesanan';
       case 3:
         return 'Profile';
       default:
@@ -117,7 +124,7 @@ class NavigationController extends GetxController {
   final screens = [
     const HomeScreen(),
     const CartScreen(),
-    const HistoryScreen(),
+    const OrderScreen(),
     const ProfileScreen(),
   ];
 }

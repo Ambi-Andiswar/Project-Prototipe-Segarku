@@ -1,7 +1,7 @@
 // Untuk Membuat Ukuran, Jarak, Pading, Margin, dll
 class SSizes {
   // Pading and Margin
-  static const double defaultMargin = 15.0;
+  static const double defaultMargin = 16.0;
   static const double defaultContainerIcon = 40.0;
   static const double appBarHeight = 52.50;
   static const double xs = 4.0;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:segarku/commons/style/spacing_style.dart';
 import 'package:segarku/features/shop/products/models/product.dart';
 import 'package:segarku/utils/constants/colors.dart';
+import 'package:segarku/utils/constants/drop_shadow.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
@@ -44,7 +44,7 @@ class DescProductScreen extends StatelessWidget {
                 children: [
                   // AppBar Section
                   Container(
-                    height: 303,
+                    height: 375,
                     width: double.infinity,
                     decoration: BoxDecoration(
 
@@ -59,7 +59,11 @@ class DescProductScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: SSpacingStyle.paddingWithAppBarHeight,
+                          padding: const EdgeInsets.only(
+                            left: SSizes.defaultMargin,
+                            top: 69,
+                            right: SSizes.defaultMargin
+                          ),
                           child: Row(
                             children: [
                               Container(
@@ -142,98 +146,101 @@ class DescProductScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            // Nama Produk
+                            Text(
+                              product.name,
+                              style: dark
+                                  ? STextTheme.titleLgBolddark
+                                  : STextTheme.titleLgBoldLight,
+                            ),
+                            const SizedBox(height: SSizes.xs),
+
+                            // Size Produk
+                            Text(
+                              product.size,
+                              style: dark
+                                  ? STextTheme.bodyCaptionRegularDark
+                                  : STextTheme.bodyCaptionRegularLight,
+                            ),
+                            const SizedBox(height: SSizes.md),
+
+                            // Harga dan Tombol Tambah/Kurang
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-
-                                // nama produk
-                                Text(
-                                  product.name,
-                                  style: dark
-                                    ? STextTheme.titleLgBolddark
-                                    : STextTheme.titleLgBoldLight
-                                ),
-                                const SizedBox(height: SSizes.xs),
-
-                                // Size produk
-                                Text(
-                                  product.size,
-                                  style: dark
-                                    ? STextTheme.bodySmRegularDark
-                                    : STextTheme.bodySmRegularLight
-                                ),
-                                const SizedBox(height: SSizes.md),
-
                                 // Harga Produk
                                 Text(
                                   NumberFormat.currency(
-                                    locale: 'id', 
-                                    symbol: 'Rp. ', 
-                                    decimalDigits: 0 // Mengatur agar tidak ada angka desimal
+                                    locale: 'id',
+                                    symbol: 'Rp. ',
+                                    decimalDigits: 0,
                                   ).format(product.price),
                                   style: STextTheme.titleLgBolddark.copyWith(
                                     color: SColors.green500,
                                   ),
-                                ),      
-                                const SizedBox(height: SSizes.xs),
-                              ],
-                            ),
-                            const Spacer(),
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () => showAddToCartPopup(context, product.price, product.name),
-                                  child: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
+                                ),
+                                const SizedBox(width: SSizes.md),
+
+                                // Row Tambah/Kurang
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () => showAddToCartPopup(context, product.price, product.name),
+                                      child: Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
                                           color: Colors.transparent,
                                           border: Border.all(
-                                            color: dark 
-                                              ? SColors.green50 
-                                              : SColors.softBlack50,
+                                            color: dark ? SColors.green50 : SColors.softBlack50,
                                           ),
-                                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                          borderRadius:
+                                              BorderRadius.circular(SSizes.borderRadiussm),
                                         ),
-                                    child: Icon(
+                                        child: Icon(
                                           Icons.remove,
                                           size: 16,
                                           color: dark
-                                            ? SColors.green100 
-                                            : SColors.softBlack100,
-                                          ),
-                                  ),
-                                ),
-                                const SizedBox(width: SSizes.md),
-                                Text(
-                                  '0',
-                                  style: dark
-                                    ? STextTheme.titleBaseBoldDark
-                                    : STextTheme.titleBaseBoldLight
-                                ),
-                                const SizedBox(width: SSizes.md),
-                                GestureDetector(
-                                  onTap: () => showAddToCartPopup(context, product.price, product.name), // Kirim harga produk
-                                  child: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      color: SColors.green100,
-                                      borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                              ? SColors.green100
+                                              : SColors.softBlack100,
+                                        ),
+                                      ),
                                     ),
-                                    child: const Icon(
-                                      Icons.add,
-                                      size: 16,
-                                      color: SColors.green500,
+                                    const SizedBox(width: SSizes.md),
+                                    Text(
+                                      '0',
+                                      style: dark
+                                          ? STextTheme.titleBaseBoldDark
+                                          : STextTheme.titleBaseBoldLight,
                                     ),
-                                  ),
+                                    const SizedBox(width: SSizes.md),
+                                    GestureDetector(
+                                      onTap: () => showAddToCartPopup(context, product.price, product.name),
+                                      child: Container(
+                                        width: 24,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                          color: SColors.green100,
+                                          borderRadius:
+                                              BorderRadius.circular(SSizes.borderRadiussm),
+                                        ),
+                                        child: const Icon(
+                                          Icons.add,
+                                          size: 16,
+                                          color: SColors.green500,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ],
                         ),
+
                         const SizedBox(height: SSizes.md2),
                         Text(
                           'Deskripsi Produk',
@@ -265,15 +272,13 @@ class DescProductScreen extends StatelessWidget {
                                     ? STextTheme.titleBaseBoldDark
                                     : STextTheme.titleBaseBoldLight,
                               ),
-                              const SizedBox(height: SSizes.md), // Jarak vertikal
+                              const SizedBox(height: SSizes.sm2), // Jarak vertikal
                               Divider(
                                 thickness: 1.0,
                                 color: dark
                                   ? SColors.green50
                                   : SColors.softBlack50,
                               ),
-                              const SizedBox(height: SSizes.md), // Jarak vertikal
-
                               // Product Horizontal
                               const SProductH(), // Widget produk
                             ],
@@ -288,12 +293,20 @@ class DescProductScreen extends StatelessWidget {
           ),
           // Footer Tetap
           Container(
-            color: dark ? SColors.softBlack500 : SColors.pureWhite,
-            padding: const EdgeInsets.only(left: SSizes.defaultMargin, top: SSizes.md, right: SSizes.defaultMargin, bottom: SSizes.xl),
+            decoration: BoxDecoration(
+              color: dark ? SColors.softBlack500 : SColors.pureWhite,
+              boxShadow: [SShadows.contentShadow],
+              borderRadius: BorderRadius.circular(SSizes.borderRadiusmd), // Tambahkan jika border radius dibutuhkan
+            ),
+            padding: const EdgeInsets.only(
+                left: SSizes.defaultMargin,
+                top: SSizes.md,
+                right: SSizes.defaultMargin,
+                bottom: SSizes.xl),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded( // Membuat tombol memenuhi ruang yang tersedia
+                Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: SColors.green500,
@@ -303,17 +316,15 @@ class DescProductScreen extends StatelessWidget {
                     ),
                     onPressed: () => Get.to(() => const NavigationMenu(initialIndex: 1)),
                     child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          SIcons.addToCart,
-                          color: SColors.pureWhite,
-                          size: SSizes.defaultIconxs),
+                        Icon(SIcons.addToCart,
+                            color: SColors.pureWhite, size: SSizes.defaultIconxs),
                         SizedBox(width: SSizes.sm2),
                         Text(
                           STexts.addToCart,
-                          style: STextTheme.titleBaseBoldDark
-                          ),
+                          style: STextTheme.titleBaseBoldDark,
+                        ),
                       ],
                     ),
                   ),

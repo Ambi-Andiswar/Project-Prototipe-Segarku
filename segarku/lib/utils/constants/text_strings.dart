@@ -171,10 +171,12 @@ class STexts{
   static const String metodePembayaran = "Metode Pembayaran";
   static const String subMetodePembayaran = "Pilih metode pembayaran yang Anda inginkan";
   static const String subNoNotificationProfile = "Lihat notifikasi terbaru disini";
-  static const String myVoucher = "Voucher Saya";
-  static const String subVoucher = "Cek daftar kupon anda";
+  static const String order = "Riwayat Pesanan";
+  static const String subOrder = "Cek riwayat pesanan disini";
   static const String myAddress = "Alamat saya";
-  static const String subMyAddress = "Silahkan atur alamat pengiriman Anda";
+  static const String subMyAddress = "Silahkan atur alamat pengiriman";
+  static const String resetPasswordProfile = "Ubah Kata Sandi";
+  static const String subresetPasswordProfile = "Ganti password anda disini";
   static const String logout = "Keluar";
   static const String subLogout = "Keluar dari akun anda?";
   static const String logoutConfirmationTitle = "Konfirmasi Logout";

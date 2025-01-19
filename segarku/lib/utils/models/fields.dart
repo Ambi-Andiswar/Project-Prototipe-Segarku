@@ -6,15 +6,12 @@ import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class InputFields {
-  //-------------------- Email Field --------------------//
-  static Widget emailField(BuildContext context, bool dark) {
-    // FocusNode untuk mendeteksi fokus
+  static Widget emailField(BuildContext context, bool dark, TextEditingController emailController) {
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
 
     return StatefulBuilder(
       builder: (context, setState) {
-        // Listener untuk fokus
         focusNode.addListener(() {
           setState(() {
             isFocused = focusNode.hasFocus;
@@ -24,7 +21,6 @@ class InputFields {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Text Email
             Text(
               STexts.email,
               style: dark
@@ -32,23 +28,26 @@ class InputFields {
                   : STextTheme.titleCaptionBoldLight,
             ),
             const SizedBox(height: SSizes.xs),
-
-            // Text & Icons Form Field Email
             TextFormField(
               focusNode: focusNode,
+              controller: emailController,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
-                // Menambahkan Icon di dalam field
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: SSizes.md2,
+                  vertical: SSizes.md,
+                ),
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  padding: const EdgeInsets.only(
+                    top: SSizes.md,
+                    bottom: SSizes.md,
+                    left: SSizes.md2,
+                    right: SSizes.sm2,
+                  ),
                   child: Icon(
                     SIcons.email,
-                    color: isFocused
-                        ? (dark ? SColors.green500 : SColors.green500)
-                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
+                    color: isFocused ? SColors.green500 : SColors.softBlack300,
                   ),
                 ),
-                // Text email field
                 labelText: STexts.emailField,
                 labelStyle: dark
                     ? STextTheme.bodyBaseRegularLight
@@ -63,18 +62,23 @@ class InputFields {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                  borderSide: const BorderSide(color: SColors.softBlack50),
+                  borderSide: const BorderSide(
+                    color: SColors.softBlack50,
+                  ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                  borderSide: const BorderSide(color: SColors.green500),
+                  borderSide: const BorderSide(
+                    color: SColors.green500,
+                  ),
                 ),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Email tidak boleh kosong';
                 }
-                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                    .hasMatch(value)) {
                   return 'Masukkan email yang valid';
                 }
                 return null;
@@ -85,6 +89,7 @@ class InputFields {
       },
     );
   }
+
 
 
   static Widget passwordField(BuildContext context, bool dark, TextEditingController passwordController) {

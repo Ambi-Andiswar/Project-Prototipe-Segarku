@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
 import 'package:segarku/features/shop/products/models/product.dart';
+import 'package:segarku/utils/constants/drop_shadow.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -118,6 +119,7 @@ class SProductV extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
               color: darkMode ? SColors.slateBlack : SColors.pureWhite,
+              boxShadow: [SShadows.contentShadow]
             ),
             child: Padding(
               padding: const EdgeInsets.all(SSizes.md),

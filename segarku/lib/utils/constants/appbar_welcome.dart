@@ -32,7 +32,9 @@ class AppBarWelcome extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
+                    // ignore: deprecated_member_use
                     overlayColor.withOpacity(0.0), // Warna dengan opasitas 0% di atas
+                    // ignore: deprecated_member_use
                     overlayColor.withOpacity(1.0), // Warna dengan opasitas 100% di bawah
                   ],
                 ),

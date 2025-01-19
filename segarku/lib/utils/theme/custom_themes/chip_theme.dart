@@ -6,6 +6,7 @@ class SChipTheme {
   SChipTheme._();
 
   static ChipThemeData lightchipTheme = ChipThemeData(
+    // ignore: deprecated_member_use
     disabledColor: Colors.grey.withOpacity(0.4),
     labelStyle: const TextStyle(color: Colors.black),
     selectedColor: Colors.green,

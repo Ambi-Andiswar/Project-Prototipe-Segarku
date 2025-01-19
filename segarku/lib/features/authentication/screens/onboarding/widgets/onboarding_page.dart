@@ -106,7 +106,8 @@ class OnBoardingPage extends StatelessWidget {
                         ),
                         SizedBox(width: SSizes.sm2),
                         // Icon Right
-                        Icon(SIcons.right),
+                        Icon(SIcons.right,
+                        color: SColors.pureWhite,),
                       ],
                     ),
                   ),

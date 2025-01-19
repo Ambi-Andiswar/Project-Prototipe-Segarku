@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:segarku/commons/widget/cart/no_carts.dart';
-import 'package:segarku/features/carts/widget/dialog_voucher.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
 import 'package:segarku/features/shop/products/models/product.dart';
 import 'package:segarku/features/transaction/transaction_checkout.dart';
+import 'package:segarku/utils/constants/drop_shadow.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -23,9 +23,30 @@ class CartsProductScreen extends StatefulWidget {
 }
 
 class _CartsProductScreenState extends State<CartsProductScreen> {
-  final int itemCount = 1;
+  final int itemCount = 4;
 
   final List<Product> products = [
+      Product(
+        id: '7',
+        image: SImages.bayam,
+        name: "Bayam",
+        size: "500 gr/pack",
+        price: 8000,
+        description: "Bayam adalah jenis sayuran hijau yang kaya akan nutrisi dan sering digunakan dalam berbagai masakan. Tanaman ini berasal dari keluarga Amaranthaceae dan dikenal dengan daun hijau yang lembut serta rasa yang ringan. Bayam mengandung banyak zat gizi penting, seperti vitamin A, vitamin C, vitamin K, zat besi, kalsium, dan serat, yang bermanfaat untuk kesehatan tubuh.Bayam dapat dimasak dengan berbagai cara, seperti ditumis, direbus, atau dijadikan campuran dalam sup. Selain itu, bayam juga sering diolah menjadi jus atau smoothie sehat. Konsumsi bayam secara rutin dapat membantu meningkatkan daya tahan tubuh, menjaga kesehatan mata, dan mendukung sistem pencernaan yang baik."),
+      Product(
+        id: '8',
+        image: SImages.semangka,
+        name: "Semangka",
+        size: "800gr-1kg /pack",
+        price: 15000,
+        description: "Semangka adalah buah segar yang kaya akan kandungan air, menjadikannya pilihan sempurna untuk menghidrasi tubuh. Buah ini memiliki daging berwarna merah cerah atau kuning dengan rasa manis alami yang nikmat. Semangka kaya akan vitamin A, vitamin C, dan antioksidan seperti likopen, yang baik untuk menjaga kesehatan kulit, meningkatkan daya tahan tubuh, dan melindungi dari radikal bebas. Buah ini sering dinikmati sebagai camilan segar, jus, atau sebagai pelengkap salad buah."),
+      Product(
+        id: '3',
+        image: SImages.tomat,
+        name: "Tomat",
+        size: "300-500 gr/pack",
+        price: 5000,
+        description: "Tomat adalah buah yang sering dianggap sebagai sayuran karena penggunaannya dalam masakan. Tomat memiliki rasa asam dan manis yang segar, serta kaya akan likopen, vitamin C, dan kalium, yang baik untuk kesehatan jantung, kulit, dan daya tahan tubuh. Tomat dapat dimakan mentah, dijadikan jus, atau digunakan sebagai bahan utama dalam saus, sup, dan berbagai hidangan."),
       Product(
         id: '1',
         image: SImages.brokoli,
@@ -33,6 +54,7 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
         size: "300-500 gr/pack",
         price: 25000,
         description: "Brokoli adalah sayuran hijau dari keluarga cruciferous yang kaya akan vitamin C, vitamin K, serat, dan antioksidan. Sayuran ini bermanfaat untuk mendukung kesehatan tulang, meningkatkan sistem imun, dan melawan peradangan dalam tubuh. Brokoli dapat dimasak dengan cara dikukus, direbus, atau ditumis, dan sering menjadi bahan favorit dalam sup, salad, atau hidangan tumisan."),
+      
   ];
 
   List<bool> selectedItems = [];
@@ -154,12 +176,16 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(SSizes.defaultMargin),
+                padding: const EdgeInsets.symmetric(horizontal : SSizes.defaultMargin, vertical: SSizes.sm2),
                 child: Column(
                   children: [
                     // Container untuk daftar produk
                     Container(
-                      padding: const EdgeInsets.all(SSizes.defaultMargin),
+                      padding: const EdgeInsets.only(
+                        top : SSizes.defaultMargin,
+                        right: SSizes.defaultMargin,
+                        bottom: SSizes.defaultMargin
+                        ),
                       decoration: BoxDecoration(
                         color: darkMode ? SColors.pureBlack : Colors.white,
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
@@ -171,139 +197,152 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                       ),
                       child: Column(
                         children: List.generate(products.length, (index) {
-                        final product = products[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DescProductScreen(product: product),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: SSizes.sm),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                              ),
-                              child: Row(
-                                children: [
-                                  Transform.scale(
-                                    scale: 1.3,
-                                    child: 
-                                     Checkbox(
-                                        value: selectedItems[index],
-                                        onChanged: (value) => toggleItemSelection(index, value),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                                        ),
-                                        side: BorderSide(
-                                          color: darkMode ? SColors.green50 : SColors.softBlack50,
-                                          width: 1,
-                                        ),
-                                        visualDensity: VisualDensity.compact,
-                                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                      ),
+                          final product = products[index];
+                          return Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DescProductScreen(product: product),
                                     ),
-                                  const SizedBox(width: SSizes.sm2),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.asset(
-                                      product.image,
-                                      width: 80.0,
-                                      height: 80.0,
-                                      fit: BoxFit.cover,
-                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.only(left: SSizes.sm2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.transparent,
+                                    borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                                   ),
-                                  const SizedBox(width: SSizes.sm2),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          product.name,
-                                          style: darkMode
-                                              ? STextTheme.titleBaseBlackDark
-                                              : STextTheme.titleBaseBlackLight,
-                                        ),
-                                        Text(
-                                          product.size,
-                                          style: darkMode
-                                              ? STextTheme.bodySmRegularDark
-                                              : STextTheme.bodySmRegularLight,
-                                        ),
-                                        const SizedBox(height: SSizes.sm),
-                                        Text(
-                                         'Rp. ${NumberFormat.decimalPattern('id').format(product.price)}',
-                                          style: STextTheme.titleBaseBoldLight.copyWith(
-                                            color: SColors.green500,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
+                                  child: Row(
                                     children: [
-                                      GestureDetector(
-                                        onTap: () => updateQuantity(index, -1),
-                                        child: Container(
-                                          width: 24,
-                                          height: 24,
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            border: Border.all(
-                                              color: darkMode
-                                                  ? SColors.green50
-                                                  : SColors.softBlack50,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(SSizes.borderRadiussm),
+                                      Transform.scale(
+                                        scale: 1.3,
+                                        child: Checkbox(
+                                          value: selectedItems[index],
+                                          onChanged: (value) => toggleItemSelection(index, value),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                                           ),
-                                          child: Icon(
-                                            Icons.remove,
-                                            size: 16,
-                                            color: darkMode
-                                                ? SColors.green100
-                                                : SColors.softBlack100,
+                                          side: BorderSide(
+                                            color: darkMode ? SColors.green50 : SColors.softBlack50,
+                                            width: 1,
                                           ),
+                                          visualDensity: VisualDensity.compact,
+                                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         ),
                                       ),
-                                      const SizedBox(width: SSizes.md),
-                                      Text(
-                                        '${itemQuantities[index]}',
-                                        style: darkMode
-                                            ? STextTheme.titleBaseBoldDark
-                                            : STextTheme.titleBaseBoldLight,
+                                      const SizedBox(width: SSizes.sm),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                                        child: Image.asset(
+                                          product.image,
+                                          width: 80.0,
+                                          height: 80.0,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                      const SizedBox(width: SSizes.md),
-                                      GestureDetector(
-                                        onTap: () => updateQuantity(index, 1),
-                                        child: Container(
-                                          width: 24,
-                                          height: 24,
-                                          decoration: BoxDecoration(
-                                            color: SColors.green100,
-                                            borderRadius:
-                                                BorderRadius.circular(SSizes.borderRadiussm),
-                                          ),
-                                          child: const Icon(
-                                            Icons.add,
-                                            size: 16,
-                                            color: SColors.green500,
-                                          ),
+                                      const SizedBox(width: SSizes.sm2),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            // Teks nama dan ukuran
+                                            Text(
+                                              product.name,
+                                              style: darkMode
+                                                  ? STextTheme.titleBaseBlackDark
+                                                  : STextTheme.titleBaseBlackLight,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              product.size,
+                                              style: darkMode
+                                                  ? STextTheme.bodySmRegularDark
+                                                  : STextTheme.bodySmRegularLight,
+                                            ),
+                                            const SizedBox(height: 8),
+                                            // Harga dan kontrol kuantitas dalam 1 Row
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                // Teks harga
+                                                Text(
+                                                  'Rp. ${NumberFormat.decimalPattern('id').format(product.price)}',
+                                                  style: STextTheme.titleBaseBoldLight.copyWith(
+                                                    color: SColors.green500,
+                                                  ),
+                                                ),
+                                                // Kontrol kuantitas
+                                                Row(
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () => updateQuantity(index, -1),
+                                                      child: Container(
+                                                        width: 24,
+                                                        height: 24,
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.transparent,
+                                                          border: Border.all(
+                                                            color: darkMode
+                                                                ? SColors.green50
+                                                                : SColors.softBlack50,
+                                                          ),
+                                                          borderRadius: BorderRadius.circular(
+                                                              SSizes.borderRadiussm),
+                                                        ),
+                                                        child: Icon(
+                                                          Icons.remove,
+                                                          size: 16,
+                                                          color: darkMode
+                                                              ? SColors.green100
+                                                              : SColors.softBlack100,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: SSizes.md),
+                                                    Text(
+                                                      '${itemQuantities[index]}',
+                                                      style: darkMode
+                                                          ? STextTheme.titleBaseBoldDark
+                                                          : STextTheme.titleBaseBoldLight,
+                                                    ),
+                                                    const SizedBox(width: SSizes.md),
+                                                    GestureDetector(
+                                                      onTap: () => updateQuantity(index, 1),
+                                                      child: Container(
+                                                        width: 24,
+                                                        height: 24,
+                                                        decoration: BoxDecoration(
+                                                          color: SColors.green100,
+                                                          borderRadius: BorderRadius.circular(
+                                                              SSizes.borderRadiussm),
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.add,
+                                                          size: 16,
+                                                          color: SColors.green500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      }),
+                              if (index != products.length - 1)
+                                const SizedBox(height: 20), // Jarak antar produk
+                            ],
+                          );
+                        }),
                       ),
                     ),
 
@@ -311,10 +350,6 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                     const SizedBox(height: SSizes.md2),
                     Container(
                       color: Colors.transparent,
-                      padding: const EdgeInsets.only(
-                        top: SSizes.lg,
-                        bottom: SSizes.lg,
-                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -324,7 +359,6 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                                 ? STextTheme.titleBaseBoldDark
                                 : STextTheme.titleBaseBoldLight,
                           ),
-                          const SizedBox(height: SSizes.md),
                           const SProductH(),
                         ],
                       ),
@@ -341,66 +375,13 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
             decoration: BoxDecoration(
               color: Theme.of(context).scaffoldBackgroundColor,
               boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 8.0,
-                ),
+                SShadows.buttonShadow
               ],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Voucher Button
-                Container(
-                  margin: const EdgeInsets.only(bottom: 8.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: SColors.green500),
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.transparent,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      // Menampilkan popup voucher
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
-                        builder: (BuildContext context) {
-                          return const VoucherPopup(); // Memanggil widget popup
-                        },
-                      );
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 21.0, vertical: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                SIcons.voucher,
-                                color: SColors.green500,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                STexts.buttonVoucher,
-                                style: STextTheme.ctaSm,
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            SIcons.arrowRight,
-                            color: SColors.green500,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: SSizes.md2),
                 // Total and Pay Button Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

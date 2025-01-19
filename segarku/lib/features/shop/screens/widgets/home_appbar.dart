@@ -21,9 +21,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       title:  RichText(
           text: TextSpan(
             text: 'Belanja ',
-            style: dark 
+            style: (dark 
               ? STextTheme.titleMdBoldDark
-              : STextTheme.titleMdBoldLight,
+              : STextTheme.titleMdBoldLight).copyWith(fontSize: 20),
             children: [
               TextSpan(
                 text: 'buah ',
@@ -32,13 +32,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   : STextTheme.titleMdBoldLight
                   ).copyWith(
                     color: SColors.green500,
+                    fontSize: 20
                   ),
               ),
               TextSpan(
                 text: 'dan ',
-                style: dark 
+                style: (dark 
                   ? STextTheme.titleMdBoldDark
-                  : STextTheme.titleMdBoldLight,
+                  : STextTheme.titleMdBoldLight).copyWith(fontSize: 20),
               ),
               TextSpan(
                 text: 'sayur ',
@@ -47,13 +48,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   : STextTheme.titleMdBoldLight
                   ).copyWith(
                     color: SColors.green500,
+                    fontSize: 20
                   ),
               ),
               TextSpan(
                 text: 'mudah dan cepat.',
-                style: dark 
+                style: (dark 
                   ? STextTheme.titleMdBoldDark
-                  : STextTheme.titleMdBoldLight,
+                  : STextTheme.titleMdBoldLight).copyWith(fontSize: 20),
               ),
             ],
         ),
@@ -61,6 +63,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       // Notification Button
       actions: [
+        const SizedBox(width: 67.0),
         Container(
           width: 40,
           height: 40,

@@ -107,7 +107,7 @@ class NavigationWelcome extends StatelessWidget {
                 if (controller.selectedIndex.value == 0) {
                   return const LoginScreen();
                 } else if (controller.selectedIndex.value == 1) {
-                  return RegisterScreen();
+                  return const RegisterScreen();
                 } else {
                   return const SizedBox.shrink();
                 }

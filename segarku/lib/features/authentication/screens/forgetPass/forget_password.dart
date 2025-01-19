@@ -15,6 +15,7 @@ class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
+    final TextEditingController emailController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -29,7 +30,7 @@ class ResetPasswordScreen extends StatelessWidget {
             child: Column(
               children: [
                 // Padding di atas AppBar
-                const SizedBox(height: 52),
+                const SizedBox(height: 20),
                 SCustomAppBar(
                   title: STexts.resetPassword,
                   darkMode: dark, 
@@ -79,7 +80,7 @@ class ResetPasswordScreen extends StatelessWidget {
                               const SizedBox(height: SSizes.lg2),
 
                               // Email
-                              InputFields.emailField(context, dark),
+                              InputFields.emailField(context, dark, emailController),
                             ],
                           ),
                         ),

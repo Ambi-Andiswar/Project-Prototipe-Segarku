@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:segarku/features/authentication/screens/welcome.dart';
+import 'package:segarku/features/authentication/controller/auth_controller.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/models/fields.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
@@ -9,11 +8,45 @@ import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
+  @override
+  // ignore: library_private_types_in_public_api
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final AuthController _authService = AuthController();
+  final AuthControllerGoogle _authServiceGoogle = AuthControllerGoogle();
+
+  bool _isLoading = false;
+
+  // ignore: non_constant_identifier_names
+  Future<void> _LoginGoogle() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final user = await _authServiceGoogle.signInWithGoogle();
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (user != null) {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
+      );
+    } else {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Login dengan Google gagal.')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +55,12 @@ class RegisterScreen extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Form(
-        key: formKey, // Kaitkan Form dengan _formKey
+        key: formKey,
         child: Column(
           children: [
             InputFields.usernameField(context, dark),
             const SizedBox(height: SSizes.md),
-            InputFields.emailField(context, dark),
+            InputFields.emailField(context, dark, emailController),
             const SizedBox(height: SSizes.md),
             InputFields.noHandphoneField(context, dark),
             const SizedBox(height: SSizes.md),
@@ -35,16 +68,13 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(height: SSizes.md),
             InputFields.confirmPasswordField(context, dark, passwordController),
             const SizedBox(height: SSizes.md),
-            
-            // Checkbox RememberMe & Forget Password
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    // Checkbox
                     Transform.scale(
-                      scale: 1.33, // Sesuaikan dengan rasio skala untuk ukuran 40
+                      scale: 1.33,
                       child: Checkbox(
                         value: isChecked,
                         onChanged: (value) {},
@@ -59,168 +89,144 @@ class RegisterScreen extends StatelessWidget {
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                     ),
-        
                     const SizedBox(width: SSizes.sm),
-                    // Text RememberMe
                     Text(
-                      STexts.forgetMe, 
-                      style: dark 
-                      ? STextTheme.bodyCaptionRegularDark
-                      : STextTheme.bodyCaptionRegularLight
+                      STexts.forgetMe,
+                      style: dark
+                          ? STextTheme.bodyCaptionRegularDark
+                          : STextTheme.bodyCaptionRegularLight,
                     ),
                   ],
                 ),
               ],
             ),
-            
             const SizedBox(height: SSizes.lg2),
-            
-            // Button Mulai sekarang
             ElevatedButton(
-              onPressed: () {
-                  // Validasi form
-                  if (formKey.currentState!.validate()) {
-                    Get.to(() => const WelcomeScreen(isLogin: false));
-                  }
-                },
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  await _authService.registerUser(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                  );
+                }
+              },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
-                  vertical: SSizes.lg2, // Padding vertikal sama dengan Container
+                  vertical: SSizes.lg2,
                 ),
-                minimumSize: const Size(double.infinity, 50), // Membuat tombol selebar kontainer dan tinggi tertentu
+                minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd), // Sudut membulat yang sama
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                 ),
                 side: const BorderSide(
-                  color: SColors.green500, // Sesuaikan dengan tema
-                  width: 2, // Lebar border
+                  color: SColors.green500,
+                  width: 2,
                 ),
               ),
               child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center, // Menyusun elemen secara horizontal di tengah
-                crossAxisAlignment: CrossAxisAlignment.center, // Menyusun elemen secara vertikal di tengah
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Text Register
                   Text(
-                    STexts.register, // Teks tombol
+                    STexts.register,
                     style: STextTheme.titleBaseBoldDark,
                   ),
                 ],
               ),
             ),
-        
             const SizedBox(height: SSizes.md),
-            
-            // Divider & text or SignUp with
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-        
-                // Divider kiri
                 const Flexible(
                   child: Divider(
                     color: SColors.softBlack50,
                     thickness: 1.5,
-                  )
+                  ),
                 ),
-        
                 const SizedBox(width: SSizes.md2),
-        
-                // Text atau Masuk dengan
-                Text(STexts.orSignUpWith,
-                  style: dark 
-                    ? STextTheme.bodyCaptionRegularDark
-                    : STextTheme.bodyCaptionRegularLight),
-        
+                Text(
+                  STexts.orSignUpWith,
+                  style: dark
+                      ? STextTheme.bodyCaptionRegularDark
+                      : STextTheme.bodyCaptionRegularLight,
+                ),
                 const SizedBox(width: SSizes.md2),
-                
-                // divider kanan
                 const Flexible(
                   child: Divider(
-                    color:  SColors.softBlack50,
+                    color: SColors.softBlack50,
                     thickness: 1.5,
-                  )
+                  ),
                 ),
               ],
             ),
-        
             const SizedBox(height: SSizes.md),
-        
-            // Tombol Daftar dengan google
             ElevatedButton(
-              onPressed: () 
-                {},
+              onPressed: _isLoading ? null : _LoginGoogle,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
-                  vertical: SSizes.lg2, // Padding vertikal sama dengan Container
+                  vertical: SSizes.lg2,
                 ),
-                minimumSize: const Size(double.infinity, 50), // Membuat tombol selebar kontainer dan tinggi tertentu
+                minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd), // Sudut membulat yang sama
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                 ),
                 side: const BorderSide(
-                  color: SColors.softBlack50, // Sesuaikan dengan tema
-                  width: 1, // Lebar border
+                  color: SColors.softBlack50,
+                  width: 1,
                 ),
-                backgroundColor: dark 
-                    ? SColors.pureBlack
-                    : SColors.pureWhite,
+                backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center, // Menyusun elemen secara horizontal di tengah
-                crossAxisAlignment: CrossAxisAlignment.center, // Menyusun elemen secara vertikal di tengah
-                children: [
-                  // Logo google
-                  Image.asset(
-                    SImages.google,
-                    height: 18.0),
-                  const SizedBox(width: SSizes.md2),
-                  // Text google
-                  Text(
-                    STexts.google, // Teks tombol
-                    style: dark 
-                      ? STextTheme.titleBaseBoldDark
-                      : STextTheme.titleBaseBoldLight,
-                  ),
-                ],
-              ),
+              child: _isLoading
+                  ? const CircularProgressIndicator()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(SImages.google, height: 18.0),
+                        const SizedBox(width: SSizes.md2),
+                        Text(
+                          STexts.google,
+                          style: dark
+                              ? STextTheme.titleBaseBoldDark
+                              : STextTheme.titleBaseBoldLight,
+                        ),
+                      ],
+                    ),
             ),
-        
             const SizedBox(height: 50),
-        
-            // Text Agree to Policy
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: RichText(
                 textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: '${STexts.agreeToRegister} ',
-                    style: dark 
-                    ? STextTheme.bodyCaptionRegularDark
-                    : STextTheme.bodyCaptionRegularLight,
-                    children: [
-                      TextSpan(
-                        text: STexts.agreeToTerms,
-                        style: dark 
-                        ? STextTheme.titleCaptionBoldDark
-                        : STextTheme.titleCaptionBoldLight,
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                      ),
-                      TextSpan(
-                        text: ' ${STexts.and} ',
-                        style: dark 
-                        ? STextTheme.bodyCaptionRegularDark
-                        : STextTheme.bodyCaptionRegularLight
-                        ),
-                      TextSpan(
-                        text: STexts.privacyPolicy,
-                        style: dark 
-                        ? STextTheme.titleCaptionBoldDark
-                        : STextTheme.titleCaptionBoldLight,
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                        ),
-                      ],
-                  ),
+                text: TextSpan(
+                  text: '${STexts.agreeToRegister} ',
+                  style: dark
+                      ? STextTheme.bodyCaptionRegularDark
+                      : STextTheme.bodyCaptionRegularLight,
+                  children: [
+                    TextSpan(
+                      text: STexts.agreeToTerms,
+                      style: dark
+                          ? STextTheme.titleCaptionBoldDark
+                          : STextTheme.titleCaptionBoldLight,
+                      recognizer: TapGestureRecognizer()..onTap = () {},
+                    ),
+                    TextSpan(
+                      text: ' ${STexts.and} ',
+                      style: dark
+                          ? STextTheme.bodyCaptionRegularDark
+                          : STextTheme.bodyCaptionRegularLight,
+                    ),
+                    TextSpan(
+                      text: STexts.privacyPolicy,
+                      style: dark
+                          ? STextTheme.titleCaptionBoldDark
+                          : STextTheme.titleCaptionBoldLight,
+                      recognizer: TapGestureRecognizer()..onTap = () {},
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

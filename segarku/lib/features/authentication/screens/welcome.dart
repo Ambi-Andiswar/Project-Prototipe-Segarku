@@ -149,7 +149,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 const SizedBox(height: SSizes.lg2),
                 Expanded(
-                  child: isLogin ? const LoginScreen() : RegisterScreen(),
+                  child: isLogin ? const LoginScreen() : const RegisterScreen(),
                 ),
               ],
             ),

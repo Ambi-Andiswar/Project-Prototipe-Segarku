@@ -8,18 +8,18 @@ import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+class OrderScreen extends StatefulWidget {
+  const OrderScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _HistoryScreenState createState() => _HistoryScreenState();
+  _OrderScreenState createState() => _OrderScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _OrderScreenState extends State<OrderScreen> {
   int activeIndex = 0;
 
-  Widget _getHistoryContent() {
+  Widget _getOrderContent() {
     switch (activeIndex) {
       case 0:
         return const AllProductHistory();
@@ -103,7 +103,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           // Konten di tengah-tengah layar
           Expanded(
             child: Center(
-              child: _getHistoryContent(),
+              child: _getOrderContent(),
             ),
           ),
         ],

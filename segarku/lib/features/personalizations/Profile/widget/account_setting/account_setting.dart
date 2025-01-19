@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:segarku/commons/widget/notification/notification.dart';
-import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/Voucher/my_voucher.dart';
+import 'package:segarku/features/authentication/screens/forgetPass/forget_password.dart';
+import 'package:segarku/features/history/order.dart';
 import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/address/my_address.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -86,63 +87,7 @@ class AccountSetting extends StatelessWidget {
                   onPressed: () => Get.to(() => const NotificationScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
-                    color: dark ? SColors.pureWhite :  SColors.green700,
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: SSizes.lg2),
-
-            // Voucher
-            Row(
-              children: [
-                // Logo with background
-                Container(
-                  width: 40.0,
-                  height: 40.0,
-                  decoration: BoxDecoration(
-                    color: SColors.green500,
-                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Iconsax.ticket_discount4,
-                      size: SSizes.defaultIcon,
-                      color: SColors.pureWhite,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(width: SSizes.md2),
-
-                // Name & Description
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        STexts.myVoucher,
-                        style: dark
-                          ? STextTheme.titleCaptionBoldDark
-                          : STextTheme.titleCaptionBoldLight
-                      ),
-                      Text(
-                        STexts.subVoucher,
-                        style: dark
-                          ? STextTheme.bodyCaptionRegularDark
-                          : STextTheme.bodyCaptionRegularLight
-                      ),
-                    ],
-                  ),
-                ),
-
-                IconButton(
-                  onPressed: () => Get.to(() => const MyVoucherScreen()),
-                  icon: Icon(
-                    Iconsax.arrow_right_3,
-                    color: dark ? SColors.pureWhite :  SColors.green700,
+                    color: dark ? SColors.pureWhite :  SColors.green500,
                   ),
                 ),
               ],
@@ -204,6 +149,119 @@ class AccountSetting extends StatelessWidget {
                 ),
               ],
             ),
+
+            const SizedBox(height: SSizes.lg2),
+
+            // history
+            Row(
+              children: [
+                // Logo with background
+                Container(
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: SColors.green500,
+                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      SIcons.history,
+                      size: SSizes.defaultIcon,
+                      color: SColors.pureWhite,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: SSizes.md2),
+
+                // Name & Description
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        STexts.order,
+                        style: dark
+                          ? STextTheme.titleCaptionBoldDark
+                          : STextTheme.titleCaptionBoldLight
+                      ),
+                      Text(
+                        STexts.subOrder,
+                        style: dark
+                          ? STextTheme.bodyCaptionRegularDark
+                          : STextTheme.bodyCaptionRegularLight
+                      ),
+                    ],
+                  ),
+                ),
+
+                IconButton(
+                  onPressed: () => Get.to(() => const OrderScreen()),
+                  icon: Icon(
+                    Iconsax.arrow_right_3,
+                    color: dark ? SColors.pureWhite :  SColors.green700,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: SSizes.lg2),
+
+            // Reset Password
+            Row(
+              children: [
+                // Logo with background
+                Container(
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: SColors.green500,
+                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                  ),
+                  child: const Center(
+                    child: Icon(
+                      SIcons.forgetPassword,
+                      size: SSizes.defaultIcon,
+                      color: SColors.pureWhite,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: SSizes.md2),
+
+                // Name & Description
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        STexts.resetPasswordProfile,
+                        style: dark
+                          ? STextTheme.titleCaptionBoldDark
+                          : STextTheme.titleCaptionBoldLight
+                      ),
+                      Text(
+                        STexts.subresetPasswordProfile,
+                        style: dark
+                          ? STextTheme.bodyCaptionRegularDark
+                          : STextTheme.bodyCaptionRegularLight
+                      ),
+                    ],
+                  ),
+                ),
+
+                IconButton(
+                  onPressed: () => Get.to(() => const ResetPasswordScreen()),
+                  icon: Icon(
+                    Iconsax.arrow_right_3,
+                    color: dark ? SColors.pureWhite :  SColors.green700,
+                  ),
+                ),
+              ],
+            ),
+            
           ],
         ),
       ),
