@@ -10,6 +10,7 @@ import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -17,21 +18,18 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = SHelperFunctions.isDarkMode(context);
+    final User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       body: Column(
         children: [
-          // Kontainer di bagian atas
+          // Header
           Container(
             padding: const EdgeInsets.only(top: 70, bottom: 24),
             decoration: BoxDecoration(
-              color: dark
-                ? SColors.pureBlack
-                : SColors.pureWhite,
+              color: dark ? SColors.pureBlack : SColors.pureWhite,
               border: Border(
                 bottom: BorderSide(
-                  color: dark
-                    ? SColors.green50
-                    : SColors.softBlack50,
+                  color: dark ? SColors.green50 : SColors.softBlack50,
                   width: 1.0,
                 ),
               ),
@@ -40,52 +38,66 @@ class ProfileScreen extends StatelessWidget {
               child: Text(
                 STexts.profile,
                 style: dark
-                  ? STextTheme.titleBaseBoldDark
-                  : STextTheme.titleBaseBoldLight
+                    ? STextTheme.titleBaseBoldDark
+                    : STextTheme.titleBaseBoldLight,
               ),
             ),
           ),
 
-          // Konten Profil
+          // Profil dan Pengaturan
           Expanded(
             child: SingleChildScrollView(
-              child: 
-                Column(
-                  children: [
-                    const SizedBox(height: SSizes.md2),
-                    SUserProfileTitle(
-                      onPressed: () => Get.to(() => const UserProfileScreen())),
-                
-                    const SizedBox(height: SSizes.md2),
-                    Padding(
-                      padding:  const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
-                      child: Divider(
-                        color: dark
-                          ? SColors.green50
-                          : SColors.softBlack50,
-                        thickness: 1,
-                        ),
+              child: Column(
+                children: [
+                  const SizedBox(height: SSizes.md2),
+
+                  // Profil Pengguna
+                  SUserProfileTitle(
+                    onPressed: () => Get.to(() => const UserProfileScreen()),
+                    user: user, // Data pengguna
+                  ),
+
+                  const SizedBox(height: SSizes.md2),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: SSizes.defaultMargin),
+                    child: Divider(
+                      color: dark ? SColors.green50 : SColors.softBlack50,
+                      thickness: 1,
                     ),
-                
-                    const SizedBox(height: SSizes.md2),
-                    AccountSetting(
-                      onPressed: () {}),
-                    
-                    const SizedBox(height: SSizes.md2),
-                    Padding(
-                      padding:  const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
-                      child: Divider(
-                        color: dark ? SColors.green50 : SColors.softBlack50,
-                        thickness: 1,
-                        ),
+                  ),
+
+                  const SizedBox(height: SSizes.md2),
+
+                  // Pengaturan Akun
+                  AccountSetting(
+                    onPressed: () {
+                      // Tambahkan logika pengaturan akun
+                    },
+                  ),
+
+                  const SizedBox(height: SSizes.md2),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: SSizes.defaultMargin),
+                    child: Divider(
+                      color: dark ? SColors.green50 : SColors.softBlack50,
+                      thickness: 1,
                     ),
-                
-                    const SizedBox(height: SSizes.md2),
-                    LogoutSetting(
-                      onPressed: () => Get.to(() => const WelcomeScreen())),
-                    const SizedBox(height: SSizes.md2),
-                  ],
-                ),
+                  ),
+
+                  const SizedBox(height: SSizes.md2),
+
+                  // Logout
+                  LogoutSetting(
+                    onPressed: () async {
+                      await FirebaseAuth.instance.signOut();
+                      Get.offAll(() => const WelcomeScreen());
+                    },
+                  ),
+                  const SizedBox(height: SSizes.md2),
+                ],
+              ),
             ),
           ),
         ],

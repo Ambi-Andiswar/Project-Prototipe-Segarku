@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -15,38 +14,27 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
-    // Atur status bar secara global
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // Menghilangkan warna background
-      statusBarIconBrightness: darkMode ? Brightness.light : Brightness.dark, // Ikon status bar
-      statusBarBrightness: darkMode ? Brightness.dark : Brightness.light, // Untuk perangkat iOS
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness:
+          darkMode ? Brightness.light : Brightness.dark,
+      statusBarBrightness:
+          darkMode ? Brightness.dark : Brightness.light,
     ));
+
+    final AuthControllerGoogle authController = Get.put(AuthControllerGoogle());
 
     return GetMaterialApp(
       themeMode: ThemeMode.system,
       theme: SAppTheme.lightTheme,
       darkTheme: SAppTheme.darkTheme,
-      home: StreamBuilder<User?>(
-        stream: AuthControllerGoogle().authState,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.connectionState == ConnectionState.done ||
-              snapshot.connectionState == ConnectionState.active) {
-            if (snapshot.hasData) {
-              return const NavigationMenu(initialIndex: 0);
-            } else {
-              return const OnBoardingScreen();
-            }
-          } else {
-            return Center(
-              child: Text('State: ${snapshot.connectionState}'),
-            );
-          }
+      home: Obx(() {
+        if (authController.user != null) {
+          return const NavigationMenu(initialIndex: 0);
+        } else {
+          return const OnBoardingScreen();
         }
-      )
+      }),
     );
   }
 }

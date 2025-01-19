@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
-import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class SUserProfileTitle extends StatelessWidget {
   final VoidCallback onPressed;
+  final User? user; // Tambahkan parameter user
 
-  const SUserProfileTitle({super.key, required this.onPressed});
+  const SUserProfileTitle({super.key, required this.onPressed, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +30,21 @@ class SUserProfileTitle extends StatelessWidget {
             // Profile Image
             LayoutBuilder(
               builder: (context, constraints) {
-                final size = constraints.maxWidth * 0.12; // Responsif berdasarkan lebar kontainer
+                final size = constraints.maxWidth * 0.12;
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                  child: Image.asset(
-                    SImages.profile,
-                    width: size.clamp(38.0, 48.0), // Ukuran minimum 40 dan maksimum 60
-                    height: size.clamp(38.0, 48.0),
-                  ),
+                  child: user?.photoURL != null
+                      ? Image.network(
+                          user!.photoURL!,
+                          width: size.clamp(38.0, 48.0),
+                          height: size.clamp(38.0, 48.0),
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          SImages.profile, // Ganti dengan gambar default
+                          width: size.clamp(38.0, 48.0),
+                          height: size.clamp(38.0, 48.0),
+                        ),
                 );
               },
             ),
@@ -50,16 +58,16 @@ class SUserProfileTitle extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    STexts.exUser,
+                    user?.displayName ?? 'UserSegar',
                     style: dark
-                      ? STextTheme.titleBaseBoldDark
-                      : STextTheme.titleBaseBoldLight
+                        ? STextTheme.titleBaseBoldDark
+                        : STextTheme.titleBaseBoldLight,
                   ),
                   Text(
-                    STexts.exEmail,
+                    user?.email ?? 'Email Tidak Diketahui', 
                     style: dark
-                      ? STextTheme.bodyCaptionRegularDark
-                      : STextTheme.bodyCaptionRegularLight
+                        ? STextTheme.bodyCaptionRegularDark
+                        : STextTheme.bodyCaptionRegularLight,
                   ),
                 ],
               ),

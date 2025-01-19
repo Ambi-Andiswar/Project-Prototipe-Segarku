@@ -49,10 +49,10 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/logos/Segarku.png"
+  image_path: "assets/logos/SegarkuLogo.png"
   min_sdk_android: 16
   adaptive_icon_background: "#4DB251"
-  adaptive_icon_foreground: "assets/logos/Segarku.png"
+  adaptive_icon_foreground: "assets/logos/SegarkuLogo.png"
 
 flutter:
 

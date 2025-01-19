@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:segarku/features/authentication/controller/auth_controller.dart';
+import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/models/fields.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
@@ -30,18 +32,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() {
       _isLoading = true;
     });
+
     final user = await _authServiceGoogle.signInWithGoogle();
     setState(() {
       _isLoading = false;
     });
 
     if (user != null) {
-      // ignore: use_build_context_synchronously
+      Get.offAll(() => const NavigationMenu(initialIndex: 0));
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
       );
     } else {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login dengan Google gagal.')),
       );

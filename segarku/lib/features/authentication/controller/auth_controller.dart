@@ -35,7 +35,6 @@ class AuthController extends GetxController {
           colorText: SColors.pureWhite);
     }
   }
-
 }
 
 
@@ -67,22 +66,33 @@ class AuthService {
 }
 
 
-class AuthControllerGoogle {
+class AuthControllerGoogle extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  User get user => _auth.currentUser!;
-
-  Stream<User?> get authState => _auth.authStateChanges();
-
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  // Observable user
+  Rxn<User> firebaseUser = Rxn<User>();
+
+  @override
+  void onInit() {
+    firebaseUser.bindStream(_auth.authStateChanges());
+    super.onInit();
+  }
+
+  User? get user => firebaseUser.value;
 
   Future<User?> signInWithGoogle() async {
   try {
+    // Logout dari GoogleSignIn terlebih dahulu untuk memastikan dialog muncul
+    await _googleSignIn.signOut();
+
+    // Mulai proses sign-in
     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
     if (googleUser == null) {
       // Jika pengguna membatalkan login, kembalikan null
       return null;
     }
+
     final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
 
@@ -98,16 +108,15 @@ class AuthControllerGoogle {
       return userCredential.user; // Kembalikan user yang berhasil login
     }
   } on FirebaseAuthException catch (e) {
-    // ignore: avoid_print
     print('Error during Google sign-in: ${e.message}');
-    // ignore: avoid_print
     print(e.stackTrace.toString());
   }
   return null; // Jika terjadi kesalahan, kembalikan null
-}
 
+  }
 
   Future<void> signOut() async {
-    _auth.signOut();
+    await _googleSignIn.signOut();
+    await _auth.signOut();
   }
 }
