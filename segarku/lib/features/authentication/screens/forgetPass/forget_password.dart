@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
+import 'package:segarku/features/authentication/controller/auth_controller.dart';
 import 'package:segarku/features/authentication/screens/forgetPass/confirm_email.dart';
-import 'package:segarku/features/authentication/screens/welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/models/fields.dart';
@@ -16,12 +16,11 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
     final TextEditingController emailController = TextEditingController();
+    final AuthControllerResetPassword authController = Get.put(AuthControllerResetPassword());
 
     return Scaffold(
       body: Column(
         children: [
-          
-
           // SCustomAppBar dengan Divider di bawah
           Container(
             color: dark 
@@ -29,7 +28,6 @@ class ResetPasswordScreen extends StatelessWidget {
               : SColors.pureWhite, // Ganti dengan warna yang sesuai
             child: Column(
               children: [
-                // Padding di atas AppBar
                 const SizedBox(height: 20),
                 SCustomAppBar(
                   title: STexts.resetPassword,
@@ -88,40 +86,42 @@ class ResetPasswordScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Bagian bawah
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            STexts.rememberpassword,
-                            style: dark
-                                ? STextTheme.bodyCaptionRegularDark
-                                : STextTheme.bodyCaptionRegularLight,
-                          ),
-                          const SizedBox(width: SSizes.sm),
-                          TextButton(
-                            onPressed: () => Get.to(() => const WelcomeScreen()),
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            child: const Text(
-                              STexts.login,
-                              style: STextTheme.ctaSm,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: SSizes.md2),
+                      // Tombol Kirim
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => Get.to(() => const ConfirmEmailPassScreen()),
+                          onPressed: () {
+                            final email = emailController.text.trim();
+                            if (email.isNotEmpty && GetUtils.isEmail(email)) {
+                              // Memanggil fungsi untuk mengirim email reset password
+                              authController.sendPasswordResetEmail(email).then((_) {
+                                // Jika berhasil mengirim email, pindah ke halaman ConfirmEmailPassScreen
+                                Get.to(() => const ConfirmEmailPassScreen());
+                              }).catchError((e) {
+                                // Jika ada error saat mengirim email
+                                Get.snackbar(
+                                  "Error",
+                                  e.toString(),
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: SColors.danger500,
+                                  colorText: SColors.pureWhite,
+                                );
+                              });
+                            } else {
+                              // Jika email tidak valid
+                              Get.snackbar(
+                                "Invalid Email",
+                                "Please enter a valid email address.",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.orange,
+                                colorText: Colors.white,
+                              );
+                            }
+                          },
                           child: const Text(
                             STexts.send,
                             style: STextTheme.titleBaseBoldDark,

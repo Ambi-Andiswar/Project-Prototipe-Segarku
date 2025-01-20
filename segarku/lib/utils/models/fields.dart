@@ -296,7 +296,7 @@ class InputFields {
   }
 
   //-------------------- Username Field --------------------//
-  static Widget usernameField(BuildContext context, bool dark) {
+  static Widget usernameField(BuildContext context, bool dark, {String? initialValue}) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
@@ -325,11 +325,12 @@ class InputFields {
             // Text & Icons Form Field Username
             TextFormField(
               focusNode: focusNode,
+              initialValue: initialValue, // Tambahkan initialValue di sini
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+                  padding: const EdgeInsets.only(top: SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
                   child: Icon(
                     SIcons.username,
                     color: isFocused
@@ -371,6 +372,7 @@ class InputFields {
       },
     );
   }
+
 
   //-------------------- No Phone Field --------------------//
   static Widget noHandphoneField(BuildContext context, bool dark) {
@@ -879,7 +881,7 @@ class InputFields {
 
 
   //-------------------- Email Field --------------------//
-  static Widget editEmailField(BuildContext context, bool dark) {
+  static Widget editEmailField(BuildContext context, bool dark, {String? initialValue}) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
@@ -908,6 +910,7 @@ class InputFields {
             // Text & Icons Form Field Username
             TextFormField(
               focusNode: focusNode,
+              initialValue: initialValue,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
@@ -963,7 +966,7 @@ class InputFields {
 
 
   //-------------------- editNoPhone Field --------------------//
-  static Widget editNoPhoneField(BuildContext context, bool dark) {
+  static Widget editNoPhoneField(BuildContext context, bool dark, {String? initialValue}) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
@@ -992,6 +995,7 @@ class InputFields {
             // Text & Icons Form Field edit no HP
             TextFormField(
               focusNode: focusNode,
+              initialValue: initialValue,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field

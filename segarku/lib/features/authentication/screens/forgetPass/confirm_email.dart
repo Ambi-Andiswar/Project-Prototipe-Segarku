@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';  // Import FirebaseAuth
 import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/features/authentication/screens/welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
@@ -13,6 +14,11 @@ class ConfirmEmailPassScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
+
+    // Mendapatkan email dari pengguna yang sedang login
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String? email = user?.email ?? "Email not found"; // Default jika email kosong
+
     return Scaffold(
       body: Column(
         children: [
@@ -23,7 +29,6 @@ class ConfirmEmailPassScreen extends StatelessWidget {
               : SColors.pureWhite, // Ganti dengan warna yang sesuai
             child: Column(
               children: [
-                // Padding di atas AppBar
                 const SizedBox(height: 52),
                 SCustomAppBar(
                   title: STexts.confirmEmail,
@@ -44,7 +49,6 @@ class ConfirmEmailPassScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
                     child: Column(
@@ -62,9 +66,9 @@ class ConfirmEmailPassScreen extends StatelessWidget {
 
                         const SizedBox(height: SSizes.xs),
 
-                        // Subtitle
+                        // Subtitle - Menggunakan email yang diambil dari Firebase
                         Text(
-                          STexts.confirmEmailResetPasswordSubTitle,
+                          "Tautan untuk mengatur ulang kata sandi telah dikirimkan ke alamat email Anda, yaitu $email. Silakan buka email tersebut dan ikuti instruksi yang diberikan untuk mengatur ulang kata sandi Anda",
                           style: dark
                               ? STextTheme.bodyCaptionRegularDark
                               : STextTheme.bodyCaptionRegularLight,
@@ -95,7 +99,7 @@ class ConfirmEmailPassScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(width: SSizes.sm),
-                    // Text Active/button text
+                    // Kirim Ulang
                     TextButton(
                       onPressed: () => Get.to(() => const WelcomeScreen()),
                       style: TextButton.styleFrom(
@@ -117,7 +121,11 @@ class ConfirmEmailPassScreen extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => Get.to(() => const WelcomeScreen()),
+                    onPressed: () {
+                      Get.back();
+                      Get.back();
+          
+                    },
                     child: const Text(
                       STexts.done,
                       style: STextTheme.titleBaseBoldDark,
