@@ -132,8 +132,9 @@ class STexts{
   static const String deliverySchedule= "Jadwal Pengiriman";
   static const String selectLocation= "Pilih Lokasi";
   static const String address= "Alamat";
+  static const String detailAddress= "Detail alamat";
   static const String addressShop= "Alamat Toko :";
-  static const String exAddress= "Gg. Randu 9 No. 58, Segala Minder, Kec. Tj. Karang Barat, Kota BandarLampung, Lampung 35124, Indonesia ";
+  static const String exAddress= "Silahkan isi alamat dan dan penerima disini";
   static const String deliveryMothod = "Mode Pengiriman";
   static const String pickUp = "Ambil di toko";
   static const String free = "Free";
@@ -167,10 +168,12 @@ class STexts{
   static const String profile = "Profile Saya";
   static const String nameAccount = "Afif Wahidi";
   static const String emailAccount = "afifwahidi2@gmail.com";
-  static const String accountSettings = "Pengaturan Akun";
+  static const String accountSettings = "Menu Akun";
   static const String metodePembayaran = "Metode Pembayaran";
   static const String subMetodePembayaran = "Pilih metode pembayaran yang Anda inginkan";
   static const String subNoNotificationProfile = "Lihat notifikasi terbaru disini";
+  static const String chat = "Mulai Chat";
+  static const String subChat = "Tanyakan apa saja, kami ada di sini untuk membantu.";
   static const String order = "Riwayat Pesanan";
   static const String subOrder = "Cek riwayat pesanan disini";
   static const String myAddress = "Alamat saya";

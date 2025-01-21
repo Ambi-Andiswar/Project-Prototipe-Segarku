@@ -40,7 +40,7 @@ class AccountSetting extends StatelessWidget {
             ),
 
             const SizedBox(height: SSizes.lg),
-            // Payment Method
+            // Nottifikasi
             Row(
               children: [
                 // Logo with background
@@ -93,7 +93,62 @@ class AccountSetting extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(height: SSizes.lg2),
+            const SizedBox(height: SSizes.lg),
+
+            //Chat Admin
+            Row(
+              children: [
+                // Logo with background
+                Container(
+                  width: 40.0,
+                  height: 40.0,
+                  decoration: BoxDecoration(
+                    color: SColors.green500,
+                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                  ),
+                  child:const Center(
+                    child: Icon(
+                      SIcons.chat,
+                      size: SSizes.defaultIcon,
+                      color: SColors.pureWhite,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: SSizes.md2),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        STexts.chat,
+                        style: dark
+                          ? STextTheme.titleCaptionBoldDark
+                          : STextTheme.titleCaptionBoldLight
+                      ),
+                      Text(
+                        STexts.subChat,
+                        style: dark
+                          ? STextTheme.bodyCaptionRegularDark
+                          : STextTheme.bodyCaptionRegularLight
+                      ),
+                    ],
+                  ),
+                ),
+
+                IconButton(
+                  onPressed: () => Get.to(() => const NotificationScreen()),
+                  icon: Icon(
+                    Iconsax.arrow_right_3,
+                    color: dark ? SColors.pureWhite :  SColors.green500,
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: SSizes.lg),
 
             // Alamat Saya
             Row(
@@ -144,13 +199,13 @@ class AccountSetting extends StatelessWidget {
                   onPressed: () => Get.to(() => const MyAddressScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
-                    color: dark ? SColors.pureWhite :  SColors.green700,
+                    color: dark ? SColors.pureWhite :  SColors.green500,
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: SSizes.lg2),
+            const SizedBox(height: SSizes.lg),
 
             // history
             Row(
@@ -200,13 +255,13 @@ class AccountSetting extends StatelessWidget {
                   onPressed: () => Get.to(() => const OrderScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
-                    color: dark ? SColors.pureWhite :  SColors.green700,
+                    color: dark ? SColors.pureWhite :  SColors.green500,
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(height: SSizes.lg2),
+            const SizedBox(height: SSizes.lg),
 
             // Reset Password
             Row(
@@ -256,7 +311,7 @@ class AccountSetting extends StatelessWidget {
                   onPressed: () => Get.to(() => const ResetPasswordScreen()),
                   icon: Icon(
                     Iconsax.arrow_right_3,
-                    color: dark ? SColors.pureWhite :  SColors.green700,
+                    color: dark ? SColors.pureWhite :  SColors.green500,
                   ),
                 ),
               ],

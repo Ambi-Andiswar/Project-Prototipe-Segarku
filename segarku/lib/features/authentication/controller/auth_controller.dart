@@ -7,8 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthController extends GetxController {
   // ignore: unused_field
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  Future<void> registerUser(String email, String password) async {
+    Future<void> registerUser(String email, String password) async {
     try {
       // Buat akun menggunakan Firebase
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -19,6 +18,9 @@ class AuthController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: SColors.green500,
           colorText: SColors.pureWhite);
+
+      // Navigasi ke halaman NavigationMenu
+      Get.offAll(() => const NavigationMenu(initialIndex: 0));
     } on FirebaseAuthException catch (e) {
       // Tampilkan pesan error
       String errorMessage;
@@ -33,8 +35,10 @@ class AuthController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: SColors.danger500,
           colorText: SColors.pureWhite);
+        print('Error saat registrasi: $errorMessage');
     }
   }
+
 }
 
 

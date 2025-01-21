@@ -69,7 +69,7 @@ class LogoutSetting extends StatelessWidget {
                   },
                   icon: Icon(
                     Iconsax.arrow_right_3,
-                    color: dark ? SColors.pureWhite : SColors.green700,
+                    color: dark ? SColors.pureWhite : SColors.green500,
                   ),
                 ),
               ],

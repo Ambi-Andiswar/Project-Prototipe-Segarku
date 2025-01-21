@@ -7,16 +7,27 @@ import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:get/get.dart';
 
-class SelectLocation extends StatelessWidget {
+class SelectLocation extends StatefulWidget {
   const SelectLocation({super.key});
+
+  @override
+  _SelectLocationState createState() => _SelectLocationState();
+}
+
+class _SelectLocationState extends State<SelectLocation> {
+  String _selectedAddress = STexts.exAddress; // Nilai default untuk alamat
+  String _addressDetail = ""; // Default nama pengguna
+  String _userName = ""; // Default nama pengguna
+  String _userPhone = ""; // Default nomor telepon pengguna
 
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
 
     return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
+      onTap: () async {
+        // Menampilkan modal dan menunggu data baru
+        final result = await showModalBottomSheet<Map<String, String>>(
           context: context,
           isScrollControlled: true,
           backgroundColor: dark ? SColors.softBlack50 : SColors.pureWhite,
@@ -29,6 +40,16 @@ class SelectLocation extends StatelessWidget {
             return const AddressPopup();
           },
         );
+
+        if (result != null) {
+          // Perbarui data jika ada hasil
+          setState(() {
+            _selectedAddress = result['address'] ?? _selectedAddress;
+            _addressDetail = result['addressdetail'] ?? _addressDetail;
+            _userName = result['name'] ?? _userName;
+            _userPhone = result['phone'] ?? _userPhone;
+          });
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(SSizes.defaultMargin),
@@ -61,7 +82,7 @@ class SelectLocation extends StatelessWidget {
                       ),
                       const SizedBox(height: SSizes.sm2),
                       Text(
-                        STexts.exAddress,
+                        _addressDetail + _selectedAddress, // Menggunakan alamat yang dipilih
                         style: (dark
                                 ? STextTheme.bodyCaptionRegularDark
                                 : STextTheme.bodyCaptionRegularLight)
@@ -73,7 +94,7 @@ class SelectLocation extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            STexts.exUser,
+                            _userName, // Nama penerima
                             style: dark
                                 ? STextTheme.titleCaptionBoldDark
                                 : STextTheme.titleCaptionBoldLight,
@@ -87,7 +108,7 @@ class SelectLocation extends StatelessWidget {
                           ),
                           const SizedBox(width: SSizes.sm2),
                           Text(
-                            STexts.exNumberphone,
+                            _userPhone, // Nomor telepon
                             style: dark
                                 ? STextTheme.bodyCaptionRegularDark
                                 : STextTheme.bodyCaptionRegularLight,
@@ -111,3 +132,4 @@ class SelectLocation extends StatelessWidget {
     );
   }
 }
+
