@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';  // Import FirebaseAuth
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/features/authentification/screens/welcome.dart';
+import 'package:segarku/features/authentification/controller/Reset_password/reset_password_auth_controller.dart'; // Import controller
+import 'package:segarku/features/authentification/screens/forgetPass/succesfull_reset_pass.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../../utils/constants/text_strings.dart';
 
 class ConfirmEmailPassScreen extends StatelessWidget {
-  const ConfirmEmailPassScreen ({super.key});
+  const ConfirmEmailPassScreen({
+    super.key,
+    required this.email, // Tambahkan parameter email
+  });
+
+  final String email; // Deklarasikan variabel untuk menyimpan email
 
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
-
-    // Mendapatkan email dari pengguna yang sedang login
-    final User? user = FirebaseAuth.instance.currentUser;
-    final String? email = user?.email ?? "Email not found"; // Default jika email kosong
+    final AuthControllerResetPassword authController = Get.put(AuthControllerResetPassword()); // Tambahkan controller
 
     return Scaffold(
       body: Column(
@@ -29,7 +31,7 @@ class ConfirmEmailPassScreen extends StatelessWidget {
               : SColors.pureWhite, // Ganti dengan warna yang sesuai
             child: Column(
               children: [
-                const SizedBox(height: 52),
+                const SizedBox(height: 20),
                 SCustomAppBar(
                   title: STexts.confirmEmail,
                   darkMode: dark, 
@@ -66,7 +68,7 @@ class ConfirmEmailPassScreen extends StatelessWidget {
 
                         const SizedBox(height: SSizes.xs),
 
-                        // Subtitle - Menggunakan email yang diambil dari Firebase
+                        // Subtitle - Menggunakan email yang diambil dari parameter
                         Text(
                           "Tautan untuk mengatur ulang kata sandi telah dikirimkan ke alamat email Anda, yaitu $email. Silakan buka email tersebut dan ikuti instruksi yang diberikan untuk mengatur ulang kata sandi Anda",
                           style: dark
@@ -101,7 +103,24 @@ class ConfirmEmailPassScreen extends StatelessWidget {
                     const SizedBox(width: SSizes.sm),
                     // Kirim Ulang
                     TextButton(
-                      onPressed: () => Get.to(() => const WelcomeScreen()),
+                      onPressed: () {
+                        // Mengirim ulang email reset password
+                        authController.sendPasswordResetEmail(email).then((_) {
+                          // Jika berhasil mengirim email
+                          
+                        }).catchError((e) {
+                          // Jika ada error saat mengirim email
+                          Get.snackbar(
+                            "Error",
+                            e.toString(),
+                            snackPosition: SnackPosition.TOP,
+                            backgroundColor: SColors.danger500,
+                            colorText: SColors.pureWhite,
+                            borderRadius: 12,
+                            margin: const EdgeInsets.all(16),
+                          );
+                        });
+                      },
                       style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
                         minimumSize: Size.zero,
@@ -122,9 +141,7 @@ class ConfirmEmailPassScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.back();
-                      Get.back();
-          
+                      Get.to(() => const SuccesfullResetPassScreen());
                     },
                     child: Text(
                       STexts.done,

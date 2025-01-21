@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentification/controller/auth_controller.dart';
+import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
 import 'package:segarku/features/authentification/controller/signup/signup_auth_contorller.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';

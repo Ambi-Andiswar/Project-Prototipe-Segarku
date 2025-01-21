@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   // ignore: unused_field
-  final AuthControllerGoogle _AuthContorllerLogin = AuthControllerGoogle();
+  final AuthControllerLogin _AuthContorllerLogin = AuthControllerLogin();
   final AuthControllerGoogle _AuthContorllerLoginGoogle = AuthControllerGoogle();
 
   bool _isLoading = false;
@@ -43,12 +43,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (user != null) {
       Get.offAll(() => const NavigationMenu(initialIndex: 0));
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
+      Get.snackbar(
+        STexts.loginSuccessTitle,
+        '${STexts.loginSuccessMessage} ${user.email ?? ''}',
+        backgroundColor: SColors.green500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.check_circle, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 12,
+        margin: const EdgeInsets.all(16),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login dengan Google gagal.')),
+      Get.snackbar(
+        STexts.loginFailedTitle,
+        STexts.loginFailed,
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 12,
+        margin: const EdgeInsets.all(16),
       );
     }
   }
@@ -60,7 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final formKey = GlobalKey<FormState>();
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
-
 
     return SingleChildScrollView(
       child: Form(
@@ -129,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    AuthContorllerLogin().loginUser(
+                    AuthControllerLogin().loginUser(
                       emailController.text.trim(),
                       passwordController.text.trim(),
                     );

@@ -406,6 +406,7 @@ class InputFields {
             // Text & Icons Form Field no Phone
             TextFormField(
               focusNode: focusNode,
+              keyboardType: TextInputType.phone, 
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
                 // Menambahkan Icon di dalam field
@@ -486,6 +487,7 @@ class InputFields {
             // Text & Icons Form Field no Phone
             TextFormField(
               focusNode: focusNode,
+              keyboardType: TextInputType.phone, 
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
 
@@ -997,6 +999,7 @@ class InputFields {
             // Text & Icons Form Field edit no HP
             TextFormField(
               focusNode: focusNode,
+              keyboardType: TextInputType.phone, 
               initialValue: initialValue,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),

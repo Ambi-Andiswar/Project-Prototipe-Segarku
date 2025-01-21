@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/features/authentification/controller/auth_controller.dart';
+import 'package:segarku/features/authentification/controller/Reset_password/reset_password_auth_controller.dart';
 import 'package:segarku/features/authentification/screens/forgetPass/confirm_email.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -100,25 +100,29 @@ class ResetPasswordScreen extends StatelessWidget {
                               // Memanggil fungsi untuk mengirim email reset password
                               authController.sendPasswordResetEmail(email).then((_) {
                                 // Jika berhasil mengirim email, pindah ke halaman ConfirmEmailPassScreen
-                                Get.to(() => const ConfirmEmailPassScreen());
+                                Get.to(() => ConfirmEmailPassScreen(email: email));
                               }).catchError((e) {
                                 // Jika ada error saat mengirim email
                                 Get.snackbar(
                                   "Error",
                                   e.toString(),
-                                  snackPosition: SnackPosition.BOTTOM,
+                                  snackPosition: SnackPosition.TOP,
                                   backgroundColor: SColors.danger500,
                                   colorText: SColors.pureWhite,
+                                  borderRadius: 12,
+                                  margin: const EdgeInsets.all(16),
                                 );
                               });
                             } else {
                               // Jika email tidak valid
                               Get.snackbar(
-                                "Invalid Email",
-                                "Please enter a valid email address.",
-                                snackPosition: SnackPosition.BOTTOM,
-                                backgroundColor: Colors.orange,
+                                "Oops, Ada yang salah",
+                                "Email Anda kemungkinan kosong atau tidak valid.",
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: SColors.danger500,
                                 colorText: Colors.white,
+                                borderRadius: 12,
+                                margin: const EdgeInsets.all(16),
                               );
                             }
                           },

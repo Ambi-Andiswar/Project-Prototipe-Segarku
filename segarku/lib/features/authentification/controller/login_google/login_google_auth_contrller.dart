@@ -18,36 +18,35 @@ class AuthControllerGoogle extends GetxController {
   User? get user => firebaseUser.value;
 
   Future<User?> signInWithGoogle() async {
-  try {
-    // Logout dari GoogleSignIn terlebih dahulu untuk memastikan dialog muncul
-    await _googleSignIn.signOut();
+    try {
+      // Logout dari GoogleSignIn terlebih dahulu untuk memastikan dialog muncul
+      await _googleSignIn.signOut();
 
-    // Mulai proses sign-in
-    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) {
-      // Jika pengguna membatalkan login, kembalikan null
-      return null;
+      // Mulai proses sign-in
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // Jika pengguna membatalkan login, kembalikan null
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      if (googleAuth.accessToken != null && googleAuth.idToken != null) {
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final UserCredential userCredential =
+            await _auth.signInWithCredential(credential);
+
+        return userCredential.user; // Kembalikan user yang berhasil login
+      }
+    } on FirebaseAuthException catch (e) {
+      print('Error during Google sign-in: ${e.message}');
+      print(e.stackTrace.toString());
     }
-
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-
-    if (googleAuth.accessToken != null && googleAuth.idToken != null) {
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      final UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-
-      return userCredential.user; // Kembalikan user yang berhasil login
-    }
-  } on FirebaseAuthException catch (e) {
-    print('Error during Google sign-in: ${e.message}');
-    print(e.stackTrace.toString());
-  }
-  return null; // Jika terjadi kesalahan, kembalikan null
-
+    return null; // Jika terjadi kesalahan, kembalikan null
   }
 }

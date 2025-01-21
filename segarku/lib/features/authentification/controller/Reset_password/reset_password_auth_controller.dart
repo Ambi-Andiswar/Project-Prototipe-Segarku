@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/utils/constants/colors.dart';
+import 'package:segarku/utils/constants/text_strings.dart';
 
 class AuthControllerResetPassword extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -13,31 +15,25 @@ class AuthControllerResetPassword extends GetxController {
 
       // Menampilkan notifikasi sukses
       Get.snackbar(
-        "Success",
-        "A reset password link has been sent to your email.",
-        snackPosition: SnackPosition.BOTTOM,
+        STexts.resetPassTitle,
+        "Kami telah mengiriman verifikasi ke email anda. Coba Anda periksa email $email", // Sisipkan email user di sini
+        snackPosition: SnackPosition.TOP,
         backgroundColor: SColors.success500,
         colorText: SColors.pureWhite,
+        borderRadius: 12,
+        icon: const Icon(Icons.check_circle, color: Colors.white),
+        margin: const EdgeInsets.all(16),
+        
       );
 
-      // Menampilkan dialog popup sukses
-      Get.defaultDialog(
-        title: "Reset Password",
-        middleText: "Check your email to reset your password.",
-        confirmTextColor: SColors.pureWhite,
-        onConfirm: () {
-          // Aksi ketika tombol konfirmasi ditekan
-          Get.back();  // Menutup dialog
-        },
-      );
     } catch (e) {
       // Menampilkan pesan error jika terjadi kesalahan
-      String errorMessage = "An error occurred.";
+      String errorMessage = "Sementara ini belum bisa mereset password Anda";
       if (e is FirebaseAuthException) {
         if (e.code == 'user-not-found') {
-          errorMessage = "No user found for this email.";
+          errorMessage = STexts.userNotFound;
         } else if (e.code == 'invalid-email') {
-          errorMessage = "The email address is not valid.";
+          errorMessage = STexts.invalidEmail;
         }
       }
       Get.snackbar(
@@ -46,6 +42,8 @@ class AuthControllerResetPassword extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: SColors.danger500,
         colorText: SColors.pureWhite,
+        borderRadius: 12,
+        margin: const EdgeInsets.all(16),
       );
     }
   }

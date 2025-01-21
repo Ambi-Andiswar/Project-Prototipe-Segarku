@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
@@ -14,9 +15,14 @@ class AuthContorllerSignup extends GetxController {
         password: password,
       );
       Get.snackbar('Registrasi Berhasil', 'Akun Anda telah dibuat',
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
           backgroundColor: SColors.green500,
-          colorText: SColors.pureWhite);
+          colorText: SColors.pureWhite,
+          borderRadius: 12,
+          icon: const Icon(Icons.check_circle, color: Colors.white),
+          margin: const EdgeInsets.all(16),
+        );
+          
 
       // Navigasi ke halaman NavigationMenu
       Get.offAll(() => const NavigationMenu(initialIndex: 0));
@@ -31,9 +37,12 @@ class AuthContorllerSignup extends GetxController {
         errorMessage = e.message ?? 'Terjadi kesalahan.';
       }
       Get.snackbar('Registrasi Gagal', errorMessage,
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
           backgroundColor: SColors.danger500,
-          colorText: SColors.pureWhite);
+          colorText: SColors.pureWhite,
+          icon: const Icon(Icons.error, color: Colors.white),
+          borderRadius: 12,
+          margin: const EdgeInsets.all(16),);
         print('Error saat registrasi: $errorMessage');
     }
   }

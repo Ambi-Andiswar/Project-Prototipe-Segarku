@@ -2,6 +2,7 @@
 class STexts{
   // Global Text
   static const String login = "Masuk";
+  static const String loginAgain = "Masuk kembali";
   static const String register = "Daftar";
   static const String email = "Email";
   static const String password= "Kata sandi";
@@ -74,6 +75,23 @@ class STexts{
   static const String alreadyAccount = "Sudah punya akun?";
   static const String loginNow = "Login sekarang";
 
+  // snackbar Text
+  static const String loginSuccessTitle = "Berhasil Masuk!";
+  static const String loginSuccessMessage = "Selamat datang kembali di Segarku!";
+  static const String loginFailedTitle = "Gagal Masuk!";
+  static const String loginFailedMessage = "Oops, Email atau password Anda salah. Coba periksa kembali!";
+  static const String loginFailedsubTitle = "Terjadi kesalahan saat login. Silakan coba lagi.";
+  static const String errorMessage = "Pengguna tidak ditemukan. Pastikan email sudah benar.";
+  static const String loginFailed = "Oops, Belum bisa masuk dengan Google";
+  static const String userNotFound = "Belum bisa menemukan username yang Anda masukkan.";
+  static const String invalidEmail = "Email yang Anda masukan salah. Harap Periksa email Anda.";
+  static const String wrongPassword = "Kata sandi salah. Silakan coba lagi.";
+  static const String toManyRequest = "Terlalu banyak percobaan login. Coba lagi nanti.";
+  static const String resetPassTitle = "Verifikasi Berhasil";
+  static const String resetPassSubTitle = "Silahkan cek";
+  static const String resetPassFailedTitle = "Terlalu banyak percobaan login. Coba lagi nanti.";
+  static const String resetPassFailedSubTitle = "Terlalu banyak percobaan login. Coba lagi nanti.";
+
   // Login Text
   static const String loginTitle = "Selamat datang di SegarKu";
   static const String loginSubTitle = "Masuk ke akun anda";
@@ -102,6 +120,11 @@ class STexts{
   static const String confirmEmailResetPasswordSubTitle = 
   "Tautan untuk mengatur ulang kata sandi telah dikirimkan ke alamat email Anda, yaitu afifwahidi2@gmail.com. Silakan buka email tersebut dan ikuti instruksi yang diberikan untuk mengatur ulang kata sandi Anda";
   static const String noEmailSend = "Tidak menerima Email?";
+
+  // Succesfull Reset Password
+  static const String succesfullResetPassTitle = "Kata Sandi Berhasil Diubah!";
+  static const String succesfullResetPassSubTitle = "Kata sandi Anda telah berhasil diubah. Jika terjadi masalah lebih lanjut dengan akun Anda, kami akan segera memberitahukan Anda.";
+
 
   // Home Screen
   static const String seeAllProduct = "Lihat detail produk";
