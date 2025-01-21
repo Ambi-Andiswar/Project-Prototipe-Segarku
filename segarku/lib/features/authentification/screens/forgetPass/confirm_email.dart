@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';  // Import FirebaseAuth
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/features/authentication/screens/welcome.dart';
+import 'package:segarku/features/authentification/screens/welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';

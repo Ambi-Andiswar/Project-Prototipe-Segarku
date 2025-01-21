@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentication/controller/onboarding_controller.dart';
-import 'package:segarku/features/authentication/screens/onboarding/widgets/onboarding_button.dart';
-import 'package:segarku/features/authentication/screens/onboarding/widgets/onboarding_dot_navigator.dart';
-import 'package:segarku/features/authentication/screens/onboarding/widgets/onboarding_page.dart';
+import 'package:segarku/features/authentification/controller/onboarding_controller.dart';
+import 'package:segarku/features/authentification/screens/onboarding/widgets/onboarding_button.dart';
+import 'package:segarku/features/authentification/screens/onboarding/widgets/onboarding_dot_navigator.dart';
+import 'package:segarku/features/authentification/screens/onboarding/widgets/onboarding_page.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/features/authentication/controller/auth_controller.dart';
-import 'package:segarku/features/authentication/screens/forgetPass/confirm_email.dart';
+import 'package:segarku/features/authentification/controller/auth_controller.dart';
+import 'package:segarku/features/authentification/screens/forgetPass/confirm_email.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/models/fields.dart';

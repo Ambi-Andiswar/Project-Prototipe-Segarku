@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentication/controller/onboarding_controller.dart';
+import 'package:segarku/features/authentification/controller/onboarding_controller.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 

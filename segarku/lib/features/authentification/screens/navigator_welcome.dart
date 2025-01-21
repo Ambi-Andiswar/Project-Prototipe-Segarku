@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentication/screens/login/login.dart';
-import 'package:segarku/features/authentication/screens/register/register.dart';
+import 'package:segarku/features/authentification/screens/login/login.dart';
+import 'package:segarku/features/authentification/screens/register/register.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:segarku/features/authentication/screens/login/login.dart';
-import 'package:segarku/features/authentication/screens/register/register.dart';
+import 'package:segarku/features/authentification/screens/login/login.dart';
+import 'package:segarku/features/authentification/screens/register/register.dart';
 import 'package:segarku/utils/constants/appbar_welcome.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentication/screens/welcome.dart';
+import 'package:segarku/features/authentification/screens/welcome.dart';
 import 'package:segarku/features/personalizations/Personal_Information/profile_screen.dart';
 import 'package:segarku/features/personalizations/Profile/widget/account_setting/account_setting.dart';
 import 'package:segarku/features/personalizations/Profile/widget/logout/logout.dart';

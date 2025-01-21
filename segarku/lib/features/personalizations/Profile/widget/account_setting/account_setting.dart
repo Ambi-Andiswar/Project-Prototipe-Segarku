@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:segarku/commons/widget/notification/notification.dart';
-import 'package:segarku/features/authentication/screens/forgetPass/forget_password.dart';
+import 'package:segarku/features/authentification/screens/forgetPass/forget_password.dart';
 import 'package:segarku/features/history/order.dart';
 import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/address/my_address.dart';
 import 'package:segarku/utils/constants/icons.dart';

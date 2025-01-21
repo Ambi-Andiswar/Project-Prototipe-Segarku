@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:segarku/features/authentication/controller/onboarding_controller.dart';
+import 'package:segarku/features/authentification/controller/onboarding_controller.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

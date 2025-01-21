@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentication/controller/auth_controller.dart';
+import 'package:segarku/features/authentification/controller/auth_controller.dart';
+import 'package:segarku/features/authentification/controller/signup/signup_auth_contorller.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/models/fields.dart';
@@ -22,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final AuthController _authService = AuthController();
+  final AuthContorllerSignup _authService = AuthContorllerSignup();
   final AuthControllerGoogle _authServiceGoogle = AuthControllerGoogle();
 
   bool _isLoading = false;
