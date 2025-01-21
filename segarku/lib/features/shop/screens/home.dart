@@ -99,8 +99,6 @@ Widget build(BuildContext context) {
                         ? STextTheme.titleBaseBoldDark
                         : STextTheme.titleBaseBoldLight,
                   ),
-                  const SizedBox(height: SSizes.md), // Jarak vertikal
-      
                   // Product Horizontal
                   const SProductH(), // Widget produk
                 ],

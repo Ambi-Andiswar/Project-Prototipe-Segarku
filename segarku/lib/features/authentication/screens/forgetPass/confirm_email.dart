@@ -126,9 +126,11 @@ class ConfirmEmailPassScreen extends StatelessWidget {
                       Get.back();
           
                     },
-                    child: const Text(
+                    child: Text(
                       STexts.done,
-                      style: STextTheme.titleBaseBoldDark,
+                      style: dark
+                        ? STextTheme.titleBaseBoldLight
+                        : STextTheme.titleBaseBoldDark,
                     ),
                   ),
                 ),

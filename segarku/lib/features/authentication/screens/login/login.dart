@@ -147,12 +147,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: 1,
                   ),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       STexts.login,
-                      style: STextTheme.titleBaseBoldDark,
+                      style: dark
+                        ? STextTheme.titleBaseBoldLight
+                        : STextTheme.titleBaseBoldDark,
                   ),
                 ],
               ),

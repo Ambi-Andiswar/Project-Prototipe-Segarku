@@ -79,7 +79,9 @@ class SeeAddressShop extends StatelessWidget {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: SColors.pureWhite,
+                                color: dark
+                                  ? SColors.pureBlack
+                                  : SColors.pureWhite,
                                 borderRadius: BorderRadius.circular(32),
                                 border: Border.all(color: SColors.green500),
                               ),
@@ -88,6 +90,9 @@ class SeeAddressShop extends StatelessWidget {
                                   Image.asset(
                                     SImages.topRight,
                                     height: 12,
+                                    color: dark
+                                      ? SColors.pureWhite
+                                      : SColors.green500,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(

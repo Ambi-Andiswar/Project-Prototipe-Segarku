@@ -109,9 +109,11 @@ class UserProfileScreen extends StatelessWidget {
               width: constraints.maxWidth,
               child: ElevatedButton(
                 onPressed: () => Get.to(() => const NavigationMenu(initialIndex: 3)),
-                child: const Text(
+                child:  Text(
                   STexts.save,
-                  style: STextTheme.titleBaseBoldDark,
+                  style: dark
+                    ? STextTheme.titleBaseBoldLight
+                    : STextTheme.titleBaseBoldDark,
                 ),
               ),
             );

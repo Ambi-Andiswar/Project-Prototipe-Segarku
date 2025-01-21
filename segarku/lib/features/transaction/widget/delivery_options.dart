@@ -46,10 +46,12 @@ class DeliveryOptions extends StatelessWidget {
           // Container ke dua
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: dark
+              ? SColors.pureBlack
+              : SColors.pureWhite,
               borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
               border: Border.all(
-                color: dark ? SColors.green50 : SColors.softBlack50,
+                color: dark ? SColors.green100 : SColors.softBlack50,
               ),
             ),
             padding: const EdgeInsets.symmetric(
@@ -92,7 +94,9 @@ class DeliveryOptions extends StatelessWidget {
                       vertical: SSizes.sm2,
                     ),
                     decoration: BoxDecoration(
-                      color: SColors.pureWhite,
+                      color: dark
+                      ? SColors.pureBlack
+                      : SColors.pureWhite,
                       borderRadius:
                           BorderRadius.circular(SSizes.borderRadiusmd),
                       border: Border.all(color: SColors.green500),

@@ -71,7 +71,7 @@ class NotificationItemScreen extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(SSizes.defaultMargin),
                   decoration: BoxDecoration(
-                    color: dark ? SColors.softBlack50 : SColors.pureWhite,
+                    color: dark ? SColors.pureBlack : SColors.pureWhite,
                     borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
                     border: Border.all(
                       color: dark ? SColors.softBlack50 : SColors.green50,
@@ -89,7 +89,9 @@ class NotificationItemScreen extends StatelessWidget {
                             width: 48,
                             height: 48,
                             decoration: BoxDecoration(
-                              color: SColors.green50,
+                              color: dark
+                                ? SColors.softBlack50
+                                : SColors.green50,
                               borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                             ),
                             child: const Center(

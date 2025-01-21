@@ -112,7 +112,9 @@ class TransactionSuccess extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: SColors.pureWhite,
+                            color: dark
+                              ? SColors.softBlack500
+                              : SColors.softWhite,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
@@ -267,15 +269,15 @@ class TransactionSuccess extends StatelessWidget {
                     onPressed: () {},
                     icon: const Icon(
                       SIcons.download, // Ikon diambil dari SIcon.download
-                      color: SColors.green700, // Warna ikon
+                      color: SColors.green500, // Warna ikon
                     ),
                     label: Text(
                       STexts.saveStruk,
                       style: STextTheme.titleBaseBoldDark.copyWith(
-                          color: SColors.green700),
+                          color: SColors.green500),
                     ),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: SColors.green700),
+                      side: const BorderSide(color: SColors.green500),
                       backgroundColor: Colors.transparent,
                     ),
                   ),
@@ -288,9 +290,11 @@ class TransactionSuccess extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () => Get.to(() => const NavigationMenu(initialIndex: 2)),
-                    child: const Text(
+                    child: Text(
                       STexts.done,
-                      style: STextTheme.titleBaseBoldDark,
+                      style: dark
+                        ? STextTheme.titleBaseBoldLight
+                        : STextTheme.titleBaseBoldDark,
                     ),
                   ),
                 ),

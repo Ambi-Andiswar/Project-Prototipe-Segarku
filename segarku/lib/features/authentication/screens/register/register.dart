@@ -125,13 +125,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: 2,
                 ),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     STexts.register,
-                    style: STextTheme.titleBaseBoldDark,
+                    style: dark
+                      ? STextTheme.titleBaseBoldLight
+                      : STextTheme.titleBaseBoldDark,
                   ),
                 ],
               ),

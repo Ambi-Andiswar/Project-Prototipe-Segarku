@@ -45,7 +45,7 @@ class InputFields {
                   ),
                   child: Icon(
                     SIcons.email,
-                    color: isFocused ? SColors.green500 : SColors.softBlack300,
+                    color: isFocused ? SColors.green500 : SColors.softBlack50,
                   ),
                 ),
                 labelText: STexts.emailField,

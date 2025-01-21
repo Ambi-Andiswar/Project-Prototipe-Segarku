@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:segarku/utils/constants/colors.dart';
+import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
+import 'package:get/get.dart';
 
 class LocationPicker extends StatefulWidget {
   @override
@@ -81,6 +84,7 @@ class _LocationPickerState extends State<LocationPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final bool dark = context.isDarkMode;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Pilih Lokasi"),
@@ -115,7 +119,9 @@ class _LocationPickerState extends State<LocationPicker> {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: dark
+                  ? SColors.pureBlack
+                  : SColors.pureWhite,
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
@@ -129,9 +135,11 @@ class _LocationPickerState extends State<LocationPicker> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "Alamat saat ini:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: dark
+                      ? STextTheme.titleBaseBoldDark
+                      : STextTheme.titleBaseBoldLight
                   ),
                   Text(_address),
                 ],
@@ -146,7 +154,11 @@ class _LocationPickerState extends State<LocationPicker> {
               onPressed: () {
                 Navigator.pop(context, _address);
               },
-              child: const Text("Simpan Lokasi"),
+              child: Text(
+                "Simpan Lokasi",
+                style: dark
+                  ? STextTheme.titleBaseBoldLight
+                  : STextTheme.titleBaseBoldDark),
             ),
           ),
         ],

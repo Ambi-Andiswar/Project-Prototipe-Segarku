@@ -87,7 +87,9 @@ class MyAddressScreen extends StatelessWidget {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: SColors.pureWhite,
+                              color: dark
+                              ? SColors.pureBlack
+                              : SColors.pureWhite,
                               borderRadius: BorderRadius.circular(32),
                               border: Border.all(color: SColors.green500),
                             ),
@@ -96,8 +98,11 @@ class MyAddressScreen extends StatelessWidget {
                                 Image.asset(
                                   SImages.topRight,
                                   height: 12,
+                                  color: dark 
+                                    ? SColors.green500
+                                    : SColors.softBlack500
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: SSizes.sm),
                                 Text(
                                   STexts.selectLocation,
                                   style: dark

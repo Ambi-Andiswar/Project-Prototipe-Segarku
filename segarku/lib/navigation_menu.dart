@@ -40,7 +40,7 @@ class NavigationMenu extends StatelessWidget {
           ),
           child: Container(
             decoration: BoxDecoration(
-              color: darkMode ? SColors.softBlack900 : SColors.pureWhite,
+              color: darkMode ? SColors.softBlack500 : SColors.pureWhite,
               boxShadow: [SShadows.contentShadow],
             ),
           child: NavigationBar(
@@ -49,7 +49,7 @@ class NavigationMenu extends StatelessWidget {
             selectedIndex: controller.selectedIndex.value,
             onDestinationSelected: (index) =>
                 controller.selectedIndex.value = index,
-            backgroundColor: darkMode ? SColors.softBlack900 : SColors.pureWhite,
+            backgroundColor: darkMode ? SColors.softBlack500 : SColors.pureWhite,
             destinations: List.generate(
               controller.screens.length,
               (index) {

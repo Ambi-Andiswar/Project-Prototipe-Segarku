@@ -73,7 +73,7 @@ class ConfirmationDialog extends StatelessWidget {
                               backgroundColor: SColors.green500,
                               child: Icon(
                                 SIcons.delivery,
-                                color: SColors.pureWhite,
+                                color:  SColors.pureWhite,
                                 size: SSizes.defaultIcon,
                               ),
                             ),
@@ -81,7 +81,7 @@ class ConfirmationDialog extends StatelessWidget {
                             Text(
                               STexts.delivery,
                               style: (dark
-                                  ? STextTheme.titleBaseBoldDark
+                                  ? (selectedPaymentMethod == 'delivery' ? STextTheme.titleBaseBoldLight : STextTheme.titleBaseBoldDark)
                                   : STextTheme.titleBaseBoldLight)
                                   .copyWith(fontSize: 15),
                             ),
@@ -129,7 +129,7 @@ class ConfirmationDialog extends StatelessWidget {
                             Text(
                               STexts.pickUp,
                               style: (dark
-                                  ? STextTheme.titleBaseBoldDark
+                                  ? (selectedPaymentMethod == 'pickup' ? STextTheme.titleBaseBoldLight : STextTheme.titleBaseBoldDark)
                                   : STextTheme.titleBaseBoldLight)
                                   .copyWith(fontSize: 15),
                             ),

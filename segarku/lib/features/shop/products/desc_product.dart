@@ -315,15 +315,19 @@ class DescProductScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () => Get.to(() => const NavigationMenu(initialIndex: 1)),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(SIcons.addToCart,
-                            color: SColors.pureWhite, size: SSizes.defaultIconxs),
-                        SizedBox(width: SSizes.sm2),
+                            color: dark
+                            ? SColors.pureBlack
+                            : SColors.pureWhite, size: SSizes.defaultIconxs),
+                        const SizedBox(width: SSizes.sm2),
                         Text(
                           STexts.addToCart,
-                          style: STextTheme.titleBaseBoldDark,
+                          style: dark
+                            ? STextTheme.titleBaseBoldLight
+                            : STextTheme.titleBaseBoldDark,
                         ),
                       ],
                     ),
@@ -450,9 +454,11 @@ class _AddToCartPopupState extends State<AddToCartPopup> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _addToCart,
-              child: const Text(
+              child: Text(
                 STexts.addToCart,
-                style: STextTheme.titleBaseBoldDark),
+                style:  darkMode
+                 ? STextTheme.titleBaseBoldLight
+                 : STextTheme.titleBaseBoldDark),
             ),
           ),
         ],

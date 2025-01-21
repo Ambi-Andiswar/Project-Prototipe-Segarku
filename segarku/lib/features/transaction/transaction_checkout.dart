@@ -27,6 +27,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   DateTime deliveryTime = DateTime.now(); // Variabel untuk menyimpan waktu pengiriman
 
   Future<bool> _onWillPop() async {
+  final bool dark = context.isDarkMode;
     bool? shouldExit = await showModalBottomSheet<bool>(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -38,18 +39,26 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Batalkan pembelian?', style: STextTheme.titleBaseBoldLight),
+            Text('Batalkan pembelian?', 
+              style: dark 
+                ? STextTheme.titleBaseBoldDark
+                : STextTheme.titleBaseBoldLight),
             const SizedBox(height: SSizes.sm2),
-            const Text('Apakah Anda yakin ingin membatalkan pembelian?', style: STextTheme.bodyBaseRegularLight),
+            Text('Apakah Anda yakin ingin membatalkan pembelian?',
+              style: dark 
+              ? STextTheme.bodyBaseRegularDark
+              : STextTheme.bodyBaseRegularLight),
             const SizedBox(height: SSizes.lg),
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text(
+                    child: Text(
                       'Batal',
-                      style: STextTheme.titleBaseBoldLight
+                      style: dark 
+                      ? STextTheme.titleBaseBoldDark
+                      : STextTheme.titleBaseBoldLight
                     ),
                   ),
                 ),
@@ -57,9 +66,11 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(true),
-                    child: const Text(
+                    child: Text(
                       'Keluar',
-                      style: STextTheme.titleBaseBoldDark,
+                      style: dark
+                      ? STextTheme.titleBaseBoldLight
+                      : STextTheme.titleBaseBoldDark,
                     ),
                   ),
                 ),
@@ -97,6 +108,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
       ),
       builder: (context) {
         final DateTime now = DateTime.now();
+        final bool dark = context.isDarkMode;
         final DateTime initialDateTime = deliveryTime.isBefore(now) ? now : deliveryTime;
 
         return Padding(
@@ -107,9 +119,11 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: SSizes.md2),
-                const Text(
+                Text(
                   "Jadwalin sekarang",
-                  style:  STextTheme.titleBaseBoldLight,
+                  style: dark
+                    ? STextTheme.titleBaseBoldDark
+                    : STextTheme.titleBaseBoldLight,
                 ),
                 const SizedBox(height: SSizes.md),
                 Expanded(
@@ -144,9 +158,11 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                       ),
                     ),
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(
+                    child: Text(
                       "Selesai",
-                      style: STextTheme.titleBaseBoldDark,
+                      style: dark
+                        ? STextTheme.titleBaseBoldLight
+                        : STextTheme.titleBaseBoldDark,
                     ),
                   ),
                 ),
@@ -461,14 +477,18 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                       mainAxisSize: MainAxisSize.min,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
+                                        Text(
                                           'Konfirmasi Pembelian',
-                                          style: STextTheme.titleBaseBoldLight
+                                          style: dark 
+                                            ? STextTheme.titleBaseBoldDark
+                                            : STextTheme.titleBaseBoldLight
                                         ),
                                         const SizedBox(height: SSizes.sm2),
-                                        const Text(
+                                        Text(
                                           'Apakah produk yang Anda beli sudah sesuai?',
-                                          style: STextTheme.bodyBaseRegularLight,
+                                          style: dark
+                                            ? STextTheme.bodyBaseRegularDark
+                                            : STextTheme.bodyBaseRegularLight,
                                         ),
                                         const SizedBox(height: SSizes.lg),
                                         Row(
@@ -478,7 +498,12 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
-                                                child: const Text('Batal'),
+                                                child: Text(
+                                                  'Batal',
+                                                  style: dark 
+                                                    ? STextTheme.titleBaseBoldDark
+                                                    : STextTheme.titleBaseBoldLight
+                                                  ),
                                               ),
                                             ),
                                             const SizedBox(width: SSizes.md),
@@ -488,7 +513,12 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                                   Navigator.of(context).pop();
                                                   Get.to(() => const TransactionSuccess());
                                                 },
-                                                child: const Text('Lanjutkan'),
+                                                child: Text(
+                                                  'Lanjutkan',
+                                                  style: dark 
+                                                    ? STextTheme.titleBaseBoldLight
+                                                    : STextTheme.titleBaseBoldDark
+                                                  ),
                                               ),
                                             ),
                                           ],
@@ -499,9 +529,11 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                 },
                               );
                             },
-                            child: const Text(
+                            child: Text(
                               STexts.buyNow,
-                              style: STextTheme.titleBaseBoldDark,
+                              style: dark
+                                ? STextTheme.titleBaseBoldLight
+                                : STextTheme.titleBaseBoldDark,
                             ),
                           ),
                         ),

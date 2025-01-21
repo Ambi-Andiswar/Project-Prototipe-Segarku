@@ -122,9 +122,11 @@ class ResetPasswordScreen extends StatelessWidget {
                               );
                             }
                           },
-                          child: const Text(
+                          child: Text(
                             STexts.send,
-                            style: STextTheme.titleBaseBoldDark,
+                            style: dark
+                              ? STextTheme.titleBaseBoldLight
+                              : STextTheme.titleBaseBoldDark,
                           ),
                         ),
                       ),

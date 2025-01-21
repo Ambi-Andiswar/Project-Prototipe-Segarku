@@ -118,7 +118,7 @@ class SProductV extends StatelessWidget {
                 color: darkMode ? SColors.green50 : SColors.softBlack50,
               ),
               borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
-              color: darkMode ? SColors.slateBlack : SColors.pureWhite,
+              color: darkMode ? SColors.pureBlack : SColors.pureWhite,
               boxShadow: [SShadows.contentShadow]
             ),
             child: Padding(
