@@ -18,7 +18,7 @@ class AuthControllerResetPassword extends GetxController {
         STexts.resetPassTitle,
         "Kami telah mengiriman verifikasi ke email anda. Coba Anda periksa email $email", // Sisipkan email user di sini
         snackPosition: SnackPosition.TOP,
-        backgroundColor: SColors.success500,
+        backgroundColor: SColors.green500,
         colorText: SColors.pureWhite,
         borderRadius: 12,
         icon: const Icon(Icons.check_circle, color: Colors.white),

@@ -41,10 +41,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (user != null) {
       Get.offAll(() => const NavigationMenu(initialIndex: 0));
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
       );
     } else {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login dengan Google gagal.')),
       );

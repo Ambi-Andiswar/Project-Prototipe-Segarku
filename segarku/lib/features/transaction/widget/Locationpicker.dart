@@ -7,13 +7,17 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:get/get.dart';
 
 class LocationPicker extends StatefulWidget {
+  const LocationPicker({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _LocationPickerState createState() => _LocationPickerState();
 }
 
 class _LocationPickerState extends State<LocationPicker> {
-  LatLng _pickedLocation = LatLng(-6.1751, 106.8650); // Koordinat default (Jakarta)
+  LatLng _pickedLocation = const LatLng(-6.1751, 106.8650); // Koordinat default (Jakarta)
   String _address = "Sedang mencari alamat...";
+  // ignore: unused_field
   late GoogleMapController _mapController;
 
   @override
@@ -125,6 +129,7 @@ class _LocationPickerState extends State<LocationPicker> {
                 borderRadius: BorderRadius.circular(8),
                 boxShadow: [
                   BoxShadow(
+                    // ignore: deprecated_member_use
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 2),

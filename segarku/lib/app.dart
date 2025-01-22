@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:segarku/commons/controller/no_connection/connectivity_controller.dart';
+import 'package:segarku/commons/widget/no_connection/no_connection.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
 import 'package:segarku/features/authentification/screens/onboarding/onboarding.dart';
 import 'package:segarku/navigation_menu.dart';
@@ -23,13 +25,16 @@ class App extends StatelessWidget {
     ));
 
     final AuthControllerGoogle authController = Get.put(AuthControllerGoogle());
+    final ConnectivityController connectivityController = Get.put(ConnectivityController());
 
     return GetMaterialApp(
       themeMode: ThemeMode.system,
       theme: SAppTheme.lightTheme,
       darkTheme: SAppTheme.darkTheme,
       home: Obx(() {
-        if (authController.user != null) {
+        if (!connectivityController.isConnected.value) {
+          return const NoConnectionScreen();
+        } else if (authController.user != null) {
           return const NavigationMenu(initialIndex: 0);
         } else {
           return const OnBoardingScreen();

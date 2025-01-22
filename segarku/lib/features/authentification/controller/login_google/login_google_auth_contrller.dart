@@ -44,7 +44,9 @@ class AuthControllerGoogle extends GetxController {
         return userCredential.user; // Kembalikan user yang berhasil login
       }
     } on FirebaseAuthException catch (e) {
+      // ignore: avoid_print
       print('Error during Google sign-in: ${e.message}');
+      // ignore: avoid_print
       print(e.stackTrace.toString());
     }
     return null; // Jika terjadi kesalahan, kembalikan null

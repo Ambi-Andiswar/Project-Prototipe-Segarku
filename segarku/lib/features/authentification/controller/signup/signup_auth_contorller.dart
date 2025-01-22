@@ -43,6 +43,7 @@ class AuthContorllerSignup extends GetxController {
           icon: const Icon(Icons.error, color: Colors.white),
           borderRadius: 12,
           margin: const EdgeInsets.all(16),);
+        // ignore: avoid_print
         print('Error saat registrasi: $errorMessage');
     }
   }

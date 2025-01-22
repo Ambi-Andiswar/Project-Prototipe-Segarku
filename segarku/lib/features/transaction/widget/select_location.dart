@@ -11,6 +11,7 @@ class SelectLocation extends StatefulWidget {
   const SelectLocation({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SelectLocationState createState() => _SelectLocationState();
 }
 

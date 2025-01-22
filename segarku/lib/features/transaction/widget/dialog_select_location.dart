@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:segarku/features/transaction/widget/Locationpicker.dart';
+import 'package:segarku/features/transaction/widget/locationpicker.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -11,6 +11,7 @@ class AddressPopup extends StatefulWidget {
   const AddressPopup({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddressPopupState createState() => _AddressPopupState();
 }
 
@@ -25,7 +26,7 @@ class _AddressPopupState extends State<AddressPopup> {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => LocationPicker(),
+        builder: (context) => const LocationPicker(),
       ),
     );
 
@@ -134,11 +135,11 @@ class _AddressPopupState extends State<AddressPopup> {
                 decoration: InputDecoration(
                   labelText: "Detail Alamat",
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: SColors.green500, width: 2),
+                    borderSide: const BorderSide(color: SColors.green500, width: 2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: SColors.softBlack50, width: 1),
+                    borderSide: const BorderSide(color: SColors.softBlack50, width: 1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -149,11 +150,11 @@ class _AddressPopupState extends State<AddressPopup> {
                 decoration: InputDecoration(
                   labelText: "Nama Penerima",
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: SColors.green500, width: 2),
+                    borderSide: const BorderSide(color: SColors.green500, width: 2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: SColors.softBlack50, width: 1),
+                    borderSide: const BorderSide(color: SColors.softBlack50, width: 1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -165,11 +166,11 @@ class _AddressPopupState extends State<AddressPopup> {
                 decoration: InputDecoration(
                   labelText: "Nomor Telepon",
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: SColors.green500, width: 2),
+                    borderSide: const BorderSide(color: SColors.green500, width: 2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: SColors.softBlack50, width: 1),
+                    borderSide: const BorderSide(color: SColors.softBlack50, width: 1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),

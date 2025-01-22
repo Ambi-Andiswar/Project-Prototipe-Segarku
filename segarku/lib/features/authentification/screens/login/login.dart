@@ -24,8 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  // ignore: unused_field
+  // ignore: unused_field, non_constant_identifier_names
   final AuthControllerLogin _AuthContorllerLogin = AuthControllerLogin();
+  // ignore: non_constant_identifier_names
   final AuthControllerGoogle _AuthContorllerLoginGoogle = AuthControllerGoogle();
 
   bool _isLoading = false;
