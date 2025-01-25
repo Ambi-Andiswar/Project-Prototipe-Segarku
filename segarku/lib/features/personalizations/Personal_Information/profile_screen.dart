@@ -81,7 +81,7 @@ class UserProfileScreen extends StatelessWidget {
                       const SizedBox(height: SSizes.xl),
 
                       // Input Fields dengan data user
-                      InputFields.usernameField(context, dark, initialValue: user?.displayName ?? ''),
+                      InputFields.usernameProfileField(context, dark, initialValue: user?.displayName ?? ''),
                       const SizedBox(height: SSizes.md),
                       InputFields.editEmailField(context, dark, initialValue: user?.email ?? ''),
                       const SizedBox(height: SSizes.md),

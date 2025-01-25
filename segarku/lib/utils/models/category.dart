@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:segarku/features/shop/products/list_product.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -6,21 +8,81 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 
-class SCategory extends StatelessWidget {
+class SCategory extends StatefulWidget {
   const SCategory({super.key});
+
+  @override
+  _SCategoryState createState() => _SCategoryState();
+}
+
+class _SCategoryState extends State<SCategory> {
+  List<Map<String, dynamic>> categories = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
+  Future<void> fetchCategories() async {
+    final url = Uri.parse("https://www.admin-segarku.online/api/categories");
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        // Parsing respons JSON
+        final json = jsonDecode(response.body);
+
+        if (json['success'] == true && json['data'] is List) {
+          // Ambil data dari JSON
+          final List<dynamic> data = json['data'];
+
+          setState(() {
+            categories = data.map((item) {
+              return {
+                'name': item['name'],
+                'products': item['Jumlah'] ?? 0, // Jumlah produk dari JSON
+                'image': _getCategoryImage(item['name']), // Tentukan gambar kategori
+              };
+            }).toList();
+            isLoading = false;
+          });
+        } else {
+          throw Exception("Unexpected response format");
+        }
+      } else {
+        throw Exception("Failed to fetch categories. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Error: $e");
+    }
+  }
+
+  // Fungsi untuk menentukan gambar berdasarkan nama kategori
+  String _getCategoryImage(String categoryName) {
+    switch (categoryName) {
+      case "Ini Sayur Dan Buah":
+        return SImages.buahCategory;
+      case "Daging & Protein":
+        return SImages.buahCategory;
+      case "Bumbu dan Rempah":
+        return SImages.herbalCategory;
+      case "Sembako":
+        return SImages.dapurCategory;
+      case "Paket Siap Masak":
+        return SImages.masakCategory;
+      default:
+        return SImages.sayurCategory;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
-
-    // Data dinamis kategori
-    final List<Map<String, dynamic>> categories = [
-      {'name': 'Sayuran', 'image': SImages.sayurCategory, 'products': 7},
-      {'name': 'Buah-buahan', 'image': SImages.buahCategory, 'products': 9},
-      {'name': 'Masak', 'image': SImages.masakCategory, 'products': 15},
-      {'name': 'Rempah', 'image': SImages.herbalCategory, 'products': 10},
-      {'name': 'Dapurku', 'image': SImages.dapurCategory, 'products': 12},
-    ];
 
     // Mendapatkan lebar layar
     final screenWidth = MediaQuery.of(context).size.width;
@@ -32,6 +94,14 @@ class SCategory extends StatelessWidget {
     }
     if (screenWidth >= 900) {
       crossAxisCount = 4; // Jika lebar >= 900, gunakan 4 kolom
+    }
+
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (categories.isEmpty) {
+      return const Center(child: Text("Tidak ada kategori yang tersedia"));
     }
 
     return GridView.builder(
@@ -48,7 +118,7 @@ class SCategory extends StatelessWidget {
         final category = categories[index];
 
         return GestureDetector(
-          onTap: () { // Navigasi ke halaman ListProductScreen
+          onTap: () {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -62,7 +132,6 @@ class SCategory extends StatelessWidget {
               color: darkMode ? SColors.slateBlack : SColors.pureWhite,
               boxShadow: [
                 BoxShadow(
-                  // ignore: deprecated_member_use
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 2,
                   blurRadius: 4,
@@ -81,7 +150,7 @@ class SCategory extends StatelessWidget {
                       children: [
                         // Nama kategori
                         Text(
-                          category['name']!, // Nama kategori
+                          category['name'], // Nama kategori
                           style: darkMode
                               ? STextTheme.titleCaptionBoldDark
                               : STextTheme.titleCaptionBoldLight,
@@ -106,7 +175,7 @@ class SCategory extends StatelessWidget {
                     bottomRight: Radius.circular(SSizes.borderRadiusmd2),
                   ),
                   child: Image.asset(
-                    category['image']!, // Gambar kategori
+                    category['image'], // Gambar kategori
                     fit: BoxFit.cover,
                     width: 72, // Ukuran gambar
                     height: double.infinity,

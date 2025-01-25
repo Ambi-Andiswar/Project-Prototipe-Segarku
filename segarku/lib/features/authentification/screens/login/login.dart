@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentification/controller/Login/login_auth_controller.dart';
+import 'package:segarku/features/authentification/controller/Login/auth_controller_firebase.dart';
+import 'package:segarku/features/authentification/controller/Login/auth_controller_mongodb.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
 import 'package:segarku/features/authentification/screens/forgetPass/forget_password.dart';
 import 'package:segarku/navigation_menu.dart';
@@ -25,11 +26,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   // ignore: unused_field, non_constant_identifier_names
-  final AuthControllerLogin _AuthContorllerLogin = AuthControllerLogin();
+  final AuthControllerLoginFb _AuthContorllerLoginfb = AuthControllerLoginFb();
+  // ignore: non_constant_identifier_names
+  final AuthControllerLoginMDb _AuthContorllerLoginMdb = AuthControllerLoginMDb();
   // ignore: non_constant_identifier_names
   final AuthControllerGoogle _AuthContorllerLoginGoogle = AuthControllerGoogle();
 
   bool _isLoading = false;
+
+  String selectedAuthMethod = "Firebase"; // Default ke Firebase
 
   // ignore: non_constant_identifier_names
   Future<void> _LoginGoogle() async {
@@ -139,35 +144,71 @@ class _LoginScreenState extends State<LoginScreen> {
             
             const SizedBox(height: SSizes.lg2),
             
+            
             // Button Mulai sekarang
             ElevatedButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    AuthControllerLogin().loginUser(
-                      emailController.text.trim(),
-                      passwordController.text.trim(),
+              onPressed: () async {
+                if (formKey.currentState!.validate()) {
+                  setState(() {
+                    _isLoading = true;
+                  });
+
+                  final result = await _AuthContorllerLoginMdb.loginUser(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                  );
+
+                  setState(() {
+                    _isLoading = false;
+                  });
+
+                  if (result['success']) {
+                    // Login berhasil, arahkan ke halaman berikutnya
+                    Get.offAll(() => const NavigationMenu(initialIndex: 0));
+                    Get.snackbar(
+                      STexts.loginSuccessTitle,
+                      result['message'],
+                      backgroundColor: SColors.green500,
+                      colorText: SColors.pureWhite,
+                      icon: const Icon(Icons.check_circle, color: Colors.white),
+                      snackPosition: SnackPosition.TOP,
+                      borderRadius: 12,
+                      margin: const EdgeInsets.all(16),
+                    );
+                  } else {
+                    // Login gagal, tampilkan pesan error
+                    Get.snackbar(
+                      STexts.loginFailedTitle,
+                      result['message'],
+                      backgroundColor: SColors.danger500,
+                      colorText: SColors.pureWhite,
+                      icon: const Icon(Icons.error, color: Colors.white),
+                      snackPosition: SnackPosition.TOP,
+                      borderRadius: 12,
+                      margin: const EdgeInsets.all(16),
                     );
                   }
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: SSizes.lg2,
-                  ),
-                  minimumSize: const Size(double.infinity, 30),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                  ),
-                  side: const BorderSide(
-                    color: SColors.green500,
-                    width: 1,
-                  ),
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: SSizes.lg2,
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      STexts.login,
-                      style: dark
+                minimumSize: const Size(double.infinity, 30),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                ),
+                side: const BorderSide(
+                  color: SColors.green500,
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    STexts.login,
+                    style: dark
                         ? STextTheme.titleBaseBoldLight
                         : STextTheme.titleBaseBoldDark,
                   ),

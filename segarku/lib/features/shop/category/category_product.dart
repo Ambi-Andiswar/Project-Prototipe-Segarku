@@ -42,9 +42,10 @@ class CategoryProductScreen extends StatelessWidget {
             ),
         
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: SSizes.lg,
-                horizontal: SSizes.defaultMargin
+              padding: const EdgeInsets.only(
+                top: SSizes.lg,
+                right: SSizes.defaultMargin,
+                left: SSizes.defaultMargin
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start, // Title ke paling kiri
@@ -55,8 +56,6 @@ class CategoryProductScreen extends StatelessWidget {
                         ? STextTheme.titleBaseBoldDark
                         : STextTheme.titleBaseBoldLight,
                   ),
-                  const SizedBox(height: SSizes.md), 
-        
                   const SCategory(),
                 ],
               ),

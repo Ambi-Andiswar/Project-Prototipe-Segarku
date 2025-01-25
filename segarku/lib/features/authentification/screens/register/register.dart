@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
-import 'package:segarku/features/authentification/controller/signup/signup_auth_contorller.dart';
+import 'package:segarku/features/authentification/controller/signup/auth_controller_mdb.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/models/fields.dart';
@@ -23,8 +23,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final AuthContorllerSignup _authService = AuthContorllerSignup();
+  final AuthControllerSignupMdb _authService = AuthControllerSignupMdb();
   final AuthControllerGoogle _authServiceGoogle = AuthControllerGoogle();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
 
   bool _isLoading = false;
 
@@ -63,11 +66,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         key: formKey,
         child: Column(
           children: [
-            InputFields.usernameField(context, dark),
+            InputFields.usernameField(context, dark, nameController),
             const SizedBox(height: SSizes.md),
             InputFields.emailField(context, dark, emailController),
             const SizedBox(height: SSizes.md),
-            InputFields.noHandphoneField(context, dark),
+            InputFields.noHandphoneField(context, dark, phoneController),
             const SizedBox(height: SSizes.md),
             InputFields.passwordField(context, dark, passwordController),
             const SizedBox(height: SSizes.md),
@@ -108,13 +111,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: SSizes.lg2),
             ElevatedButton(
               onPressed: () async {
-                if (formKey.currentState!.validate()) {
-                  await _authService.registerUser(
-                    emailController.text.trim(),
-                    passwordController.text.trim(),
+              if (formKey.currentState!.validate()) {
+                setState(() {
+                  _isLoading = true;
+                });
+
+                final result = await _authService.registerUser(
+                  emailController.text.trim(),
+                  passwordController.text.trim(),
+                  nameController.text.trim(), // Ambil dari username field
+                  phoneController.text.trim(), // Ambil dari phone number field
+                );
+
+                setState(() {
+                  _isLoading = false;
+                });
+
+                if (result['success']) {
+                  // Registrasi berhasil, navigasikan ke halaman login atau home
+                  Get.offAll(() => const NavigationMenu(initialIndex: 0));
+                  Get.snackbar(
+                    'Registrasi Berhasi',
+                    result['message'],
+                    backgroundColor: SColors.green500,
+                    colorText: SColors.pureWhite,
+                    icon: const Icon(Icons.check_circle, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    borderRadius: 12,
+                    margin: const EdgeInsets.all(16),
+                  );
+                } else {
+                  // Registrasi gagal, tampilkan error
+                  Get.snackbar(
+                    'Registrasi Gagal',
+                    result['message'],
+                    backgroundColor: SColors.danger500,
+                    colorText: SColors.pureWhite,
+                    icon: const Icon(Icons.error, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    borderRadius: 12,
+                    margin: const EdgeInsets.all(16),
                   );
                 }
-              },
+              }
+            },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   vertical: SSizes.lg2,

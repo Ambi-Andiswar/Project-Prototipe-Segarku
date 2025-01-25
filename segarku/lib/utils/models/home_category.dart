@@ -1,33 +1,100 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:segarku/features/shop/products/list_product.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 
-class SHomeCategories extends StatelessWidget {
+class SHomeCategories extends StatefulWidget {
   const SHomeCategories({super.key});
+
+  @override
+  _SHomeCategoriesState createState() => _SHomeCategoriesState();
+}
+
+class _SHomeCategoriesState extends State<SHomeCategories> {
+  List<Map<String, String>> categories = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCategories();
+  }
+
+  Future<void> fetchCategories() async {
+    final url = Uri.parse("https://www.admin-segarku.online/api/categories");
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final json = jsonDecode(response.body);
+
+        if (json['success'] == true && json['data'] is List) {
+          final List<dynamic> data = json['data'];
+
+          setState(() {
+            categories = data.map<Map<String, String>>((item) {
+              return {
+                'name': item['name'] as String,
+                'image': _getCategoryImage(item['name'] as String),
+              };
+            }).toList();
+            isLoading = false;
+          });
+
+        } else {
+          throw Exception("Unexpected response format");
+        }
+      } else {
+        throw Exception("Failed to fetch categories. Status code: ${response.statusCode}");
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Error: $e");
+    }
+  }
+
+  String _getCategoryImage(String categoryName) {
+    switch (categoryName) {
+      case "Ini Sayur Dan Buah":
+        return SImages.buahCategory;
+      case "Daging & Protein":
+        return SImages.dapurCategory;
+      case "Bumbu dan Rempah":
+        return SImages.herbalCategory;
+      case "Sembako":
+        return SImages.dapurCategory;
+      case "Paket Siap Masak":
+        return SImages.masakCategory;
+      default:
+        return SImages.sayurCategory;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
-    // Data kategori contoh
-    final List<Map<String, String>> categories = [
-      {"name": "Sayuran", "image": SImages.sayurCategory},
-      {"name": "Buah", "image": SImages.buahCategory},
-      {"name": "Masak", "image": SImages.masakCategory},
-      {"name": "Rempah", "image": SImages.herbalCategory},
-      {"name": "Dapurku", "image": SImages.dapurCategory},
-    ];
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (categories.isEmpty) {
+      return const Center(child: Text("Tidak ada kategori yang tersedia"));
+    }
 
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal, // Mengatur scroll secara horizontal
+      scrollDirection: Axis.horizontal,
       child: Row(
         children: List.generate(
-          categories.length, // Jumlah kategori berdasarkan data
+          categories.length,
           (index) => Padding(
-            padding: const EdgeInsets.only(right: 10), // Spasi antar kategori
+            padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(
               onTap: () {
                 Navigator.push(
@@ -38,7 +105,7 @@ class SHomeCategories extends StatelessWidget {
                 );
               },
               child: Container(
-                width: 67, // Atur lebar setiap kategori
+                width: 67,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
                   color: Colors.transparent,
@@ -48,20 +115,18 @@ class SHomeCategories extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Gambar kategori
                       ClipRRect(
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                         child: Image.asset(
-                          categories[index]["image"]!, // Gambar sesuai data
+                          categories[index]["image"]!,
                           fit: BoxFit.cover,
-                          height: 50  ,
+                          height: 50,
                           width: double.infinity,
                         ),
                       ),
                       const SizedBox(height: SSizes.sm2),
-                      // Nama kategori
                       Text(
-                        categories[index]["name"]!, // Nama sesuai data
+                        categories[index]["name"]!,
                         textAlign: TextAlign.center,
                         style: darkMode
                             ? STextTheme.titleCaptionBoldDark
