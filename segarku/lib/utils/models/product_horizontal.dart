@@ -29,36 +29,42 @@ class SProductH extends StatelessWidget {
           return const Center(child: Text('No products available'));
         }
 
+        // Sort products by quantity in descending order
         final products = snapshot.data!;
+        products.sort((a, b) => int.parse(b.qty).compareTo(int.parse(a.qty)));
 
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: products.map((product) {
+              final isOutOfStock = product.qty == "0"; // Cek apakah stok habis
+
               return Padding(
                 padding: const EdgeInsets.only(right: SSizes.md),
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DescProductScreen(
-                          product: SProduct(
-                            id: product.id,
-                            image: product.image,
-                            nama: product.nama,
-                            berat: product.berat,
-                            harga: product.harga,
-                            deskripsi: product.deskripsi,
-                            qty: product.qty,
-                            categoryId: product.categoryId,
-                            categoryName: product.categoryName,
-                            showPhoto: product.showPhoto,
-                            category: product.category,
+                    if (!isOutOfStock) { // Hanya navigasi jika stok tersedia
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DescProductScreen(
+                            product: SProduct(
+                              id: product.id,
+                              image: product.image,
+                              nama: product.nama,
+                              berat: product.berat,
+                              harga: product.harga,
+                              deskripsi: product.deskripsi,
+                              qty: product.qty,
+                              categoryId: product.categoryId,
+                              categoryName: product.categoryName,
+                              showPhoto: product.showPhoto,
+                              category: product.category,
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
+                    }
                   },
                   child: Container(
                     width: 140,
@@ -75,14 +81,36 @@ class SProductH extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                            child: Image.network(
-                              product.image,
-                              fit: BoxFit.cover,
-                              height: 100,
-                              width: double.infinity,
-                            ),
+                          Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                                child: Image.network(
+                                  product.image,
+                                  fit: BoxFit.cover,
+                                  height: 100,
+                                  width: double.infinity,
+                                ),
+                              ),
+                              if (isOutOfStock) // Tampilkan overlay jika stok habis
+                                Container(
+                                  width: double.infinity,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    // ignore: deprecated_member_use
+                                    color: Colors.black.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Stok Habis!',
+                                      style: 
+                                      STextTheme.titleCaptionBoldDark
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                           const SizedBox(height: SSizes.sm2),
                           Text(
@@ -111,39 +139,40 @@ class SProductH extends StatelessWidget {
                                     : STextTheme.titleCaptionBlackLight,
                               ),
                               const Spacer(),
-                              Container(
-                                width: 24,
-                                height: 24,
-                                decoration: BoxDecoration(
-                                  color: darkMode ? SColors.pureBlack : SColors.green50,
-                                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                                ),
-                                child: IconButton(
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(SSizes.borderRadiusmd2),
-                                        ),
-                                      ),
-                                      builder: (context) {
-                                        return SAddToCartPopup(
-                                          price: int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim()),
-                                          name: product.nama,
-                                          maxQuantity: int.parse(product.qty),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    SIcons.add,
-                                    color: SColors.primary,
-                                    size: 16,
+                              if (!isOutOfStock) // Hanya tampilkan tombol tambah jika stok tersedia
+                                Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    color: darkMode ? SColors.pureBlack : SColors.green50,
+                                    borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                                   ),
-                                  padding: EdgeInsets.zero,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(SSizes.borderRadiusmd2),
+                                          ),
+                                        ),
+                                        builder: (context) {
+                                          return SAddToCartPopup(
+                                            price: int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim()),
+                                            name: product.nama,
+                                            maxQuantity: int.parse(product.qty),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      SIcons.add,
+                                      color: SColors.primary,
+                                      size: 16,
+                                    ),
+                                    padding: EdgeInsets.zero,
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ],

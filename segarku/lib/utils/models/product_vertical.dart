@@ -55,29 +55,32 @@ class SProductV extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final product = products[index];
+            final isOutOfStock = product.qty == "0"; // Cek apakah stok habis
 
             return GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DescProductScreen(
-                      product: SProduct(
-                        id: product.id,
-                        image: product.image,
-                        nama: product.nama,
-                        berat: product.berat,
-                        harga: product.harga, // Pastikan ini sudah dalam format yang benar
-                        deskripsi: product.deskripsi,
-                        qty: product.qty, // Tambahkan ini
-                        categoryId: product.categoryId, // Tambahkan ini
-                        categoryName: product.categoryName, // Tambahkan ini
-                        showPhoto: product.showPhoto, // Tambahkan ini
-                        category: product.category, // Tambahkan ini
+                if (!isOutOfStock) { // Hanya navigasi jika stok tersedia
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DescProductScreen(
+                        product: SProduct(
+                          id: product.id,
+                          image: product.image,
+                          nama: product.nama,
+                          berat: product.berat,
+                          harga: product.harga,
+                          deskripsi: product.deskripsi,
+                          qty: product.qty,
+                          categoryId: product.categoryId,
+                          categoryName: product.categoryName,
+                          showPhoto: product.showPhoto,
+                          category: product.category,
+                        ),
                       ),
                     ),
-                  ),
-                );
+                  );
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -86,22 +89,45 @@ class SProductV extends StatelessWidget {
                   ),
                   borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
                   color: darkMode ? SColors.pureBlack : SColors.pureWhite,
-                  boxShadow: [SShadows.contentShadow]
+                  boxShadow: [SShadows.contentShadow],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(SSizes.md),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Gambar produk
+                      // Gambar produk dengan overlay jika stok habis
                       Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                          child: Image.network(
-                            product.image,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(SSizes.borderRadiusmd),
+                              child: Image.network(
+                                product.image,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                            if (isOutOfStock) // Tampilkan overlay jika stok habis
+                              Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                decoration: BoxDecoration(
+                                  // ignore: deprecated_member_use
+                                  color: Colors.black.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(
+                                      SSizes.borderRadiusmd),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    'Stok Habis!',
+                                    style: STextTheme.titleCaptionBoldDark,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                       Padding(
@@ -133,50 +159,58 @@ class SProductV extends StatelessWidget {
                               children: [
                                 Text(
                                   NumberFormat.currency(
-                                  locale: 'id', 
-                                  symbol: 'Rp. ', 
-                                  decimalDigits: 0 // Mengatur agar tidak ada angka desimal
-                                ).format(int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim())),
+                                    locale: 'id',
+                                    symbol: 'Rp. ',
+                                    decimalDigits: 0,
+                                  ).format(int.parse(product.harga
+                                      .replaceAll('Rp.', '')
+                                      .replaceAll(',', '')
+                                      .trim())),
                                   style: darkMode
                                       ? STextTheme.titleBaseBlackDark
                                       : STextTheme.titleBaseBlackLight,
                                 ),
                                 const Spacer(),
-                                Container(
-                                  width: 24,
-                                  height: 24,
-                                  decoration: BoxDecoration(
-                                    color: darkMode
-                                        ? SColors.pureBlack
-                                        : SColors.green50,
-                                    borderRadius: BorderRadius.circular(
-                                        SSizes.borderRadiussm),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(16)),
-                                        ),
-                                        builder: (context) {
-                                          return SAddToCartPopup(
-                                            price: int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim()),
-                                            name: product.nama,
-                                            maxQuantity: int.parse(product.qty), // Tambahkan ini
-                                          );
-                                        },
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      SIcons.add,
-                                      color: SColors.primary,
-                                      size: 16,
+                                if (!isOutOfStock) // Hanya tampilkan tombol tambah jika stok tersedia
+                                  Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      color: darkMode
+                                          ? SColors.pureBlack
+                                          : SColors.green50,
+                                      borderRadius: BorderRadius.circular(
+                                          SSizes.borderRadiussm),
                                     ),
-                                    padding: EdgeInsets.zero,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                                top: Radius.circular(16)),
+                                          ),
+                                          builder: (context) {
+                                            return SAddToCartPopup(
+                                              price: int.parse(product.harga
+                                                  .replaceAll('Rp.', '')
+                                                  .replaceAll(',', '')
+                                                  .trim()),
+                                              name: product.nama,
+                                              maxQuantity:
+                                                  int.parse(product.qty),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: const Icon(
+                                        SIcons.add,
+                                        color: SColors.primary,
+                                        size: 16,
+                                      ),
+                                      padding: EdgeInsets.zero,
+                                    ),
                                   ),
-                                ),
                               ],
                             ),
                           ],

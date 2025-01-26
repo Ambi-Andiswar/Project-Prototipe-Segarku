@@ -12,7 +12,6 @@ class STexts{
   static const String welcomeSegarku = "Selamat datang di SegarKu";
   static const String google = "Google";
   static const String resend = "Kirim ulang";
-  static const String category = "Kategori";
   static const String vegetable = "Sayur";
   static const String selectAll = "Pilih Semua";
   static const String buy = "Bayar";
@@ -34,6 +33,8 @@ class STexts{
   static const String editProfile = "Edit Profil";
   static const String search = "Pencarian";
   static const String voucher= "Voucher";
+  static const String category = "Kategori";
+  static const String history = "History";
 
   // Button Text
   static const String send = "Kirim";
@@ -136,6 +137,10 @@ class STexts{
   static const String noNotification = "Tidak ada notifikasi baru";
   static const String subNoNotification = "Yuk, lihat produk segar hari ini!";
 
+  // No Internet
+  static const String noConnection = "Oops, Tidak Ada Koneksi!";
+  static const String subNoConnection = "Periksa jaringanmu dan coba lagi, ya!";
+
   // Search
   static const String noResult = "Maaf, hasil Tidak Ditemukan";
   static const String subNoResult = "Coba kata kunci lain atau jelajahi kategori kami untuk temukan yang Anda cari.";
@@ -151,6 +156,7 @@ class STexts{
   // History
   static const String noHistoryCart = "Oops, belum ada riwayat transaksi";
   static const String subnoHistoryCart = "Mulai belanja dan temukan produk sehat dan segari";
+  static const String historyOrder = "Riwayat Pesanan";
 
   // Description Product
   static const String deskription= "Bayam adalah jenis sayuran hijau yang kaya akan nutrisi dan sering digunakan dalam berbagai masakan. Tanaman ini berasal dari keluarga Amaranthaceae dan dikenal dengan daun hijau yang lembut serta rasa yang ringan. Bayam mengandung banyak zat gizi penting, seperti vitamin A, vitamin C, vitamin K, zat besi, kalsium, dan serat, yang bermanfaat untuk kesehatan tubuh.\n Bayam dapat dimasak dengan berbagai cara, seperti ditumis, direbus, atau dijadikan campuran dalam sup. Selain itu, bayam juga sering diolah menjadi jus atau smoothie sehat. Konsumsi bayam secara rutin dapat membantu meningkatkan daya tahan tubuh, menjaga kesehatan mata, dan mendukung sistem pencernaan yang baik.";

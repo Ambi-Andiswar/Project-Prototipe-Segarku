@@ -32,7 +32,7 @@ class NoConnectionScreen extends StatelessWidget {
 
               // Judul
               Text(
-                STexts.noNotification,
+                STexts.noConnection,
                 style: dark
                     ? STextTheme.titleMdBoldDark
                     : STextTheme.titleMdBoldLight,
@@ -42,7 +42,7 @@ class NoConnectionScreen extends StatelessWidget {
 
               // Subjudul
               Text(
-                STexts.subNoNotification,
+                STexts.subNoConnection,
                 style: dark
                     ? STextTheme.bodyCaptionRegularDark
                     : STextTheme.bodyCaptionRegularLight,

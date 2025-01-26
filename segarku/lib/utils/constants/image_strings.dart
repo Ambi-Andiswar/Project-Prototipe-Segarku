@@ -37,6 +37,11 @@ class SImages {
 // Kategory
   static const String sayurCategory = "assets/images/kategori_sayur.jpg";
   static const String buahCategory = "assets/images/kategori_buah.png";
+  static const String categoryBuahSayur = "assets/images/category/kategori_buah&sayur.jpg";
+  static const String categoryBumbuRempah = "assets/images/category/kategori_bumbu.jpg";
+  static const String categoryDagingProtein = "assets/images/category/kategori_daging.jpg";
+  static const String categorySembako = "assets/images/category/kategori_sembako.png";
+  static const String categoryPaketMasak = "assets/images/category/kategori_paketmasak.jpg";
   static const String masakCategory = "assets/images/kategori_masak.png";
   static const String herbalCategory = "assets/images/kategori_herbal.png";
   static const String dapurCategory = "assets/images/kategori_dapur.png";

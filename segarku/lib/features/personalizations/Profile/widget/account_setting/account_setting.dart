@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:segarku/commons/widget/notification/notification.dart';
 import 'package:segarku/features/authentification/screens/forgetPass/forget_password.dart';
-import 'package:segarku/features/history/order.dart';
+import 'package:segarku/features/orders/widget/history_profile/history_order_profile.dart';
 import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/address/my_address.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -221,7 +220,7 @@ class AccountSetting extends StatelessWidget {
 
             // history
             InkWell(
-              onTap: () => Get.to(() => const OrderScreen()),
+              onTap: () => Get.to(() => const HistoryOrderProfile()),
               child: Row(
                 children: [
                   // Logo with background

@@ -179,7 +179,7 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
           Padding(
             padding: const EdgeInsets.only(top: 8),
             child: Text(
-              'Stok tersedia: ${stokTersedia}', // Menampilkan stok yang tersedia
+              'Stok tersedia: $stokTersedia', // Menampilkan stok yang tersedia
               style: dark
                 ? STextTheme.bodyCaptionRegularDark
                 : STextTheme.bodyCaptionRegularLight.copyWith(

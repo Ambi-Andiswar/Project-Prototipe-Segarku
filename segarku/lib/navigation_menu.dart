@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/features/carts/cart.dart';
-import 'package:segarku/features/history/order.dart';
+import 'package:segarku/features/orders/order.dart';
 import 'package:segarku/features/personalizations/Profile/profile.dart';
 import 'package:segarku/features/shop/screens/home.dart';
 import 'package:segarku/utils/constants/drop_shadow.dart';

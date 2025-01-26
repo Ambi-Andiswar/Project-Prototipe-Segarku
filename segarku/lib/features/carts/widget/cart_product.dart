@@ -109,7 +109,7 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
 
       // Cek apakah daftar produk kosong
     if (products.isEmpty) {
-      return const NoTransactionScreen();
+      return const NoItemCartScreen();
     }
 
     return Scaffold(

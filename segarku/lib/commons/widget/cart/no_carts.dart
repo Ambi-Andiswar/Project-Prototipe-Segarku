@@ -5,8 +5,8 @@ import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
-class NoTransactionScreen extends StatelessWidget {
-  const NoTransactionScreen({super.key});
+class NoItemCartScreen extends StatelessWidget {
+  const NoItemCartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
