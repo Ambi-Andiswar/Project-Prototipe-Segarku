@@ -1,75 +1,92 @@
+// slider_widget.dart
 import 'package:flutter/material.dart';
-import 'package:segarku/utils/constants/image_strings.dart';
+import 'package:segarku/features/shop/controller/slider_controller.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-// ignore: camel_case_types
-class sliderWidget extends StatefulWidget {
-  const sliderWidget({super.key});
+class SliderWidget extends StatefulWidget {
+  const SliderWidget({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _sliderWidgetState createState() => _sliderWidgetState();
+  _SliderWidgetState createState() => _SliderWidgetState();
 }
 
-// ignore: camel_case_types
-class _sliderWidgetState extends State<sliderWidget> {
+class _SliderWidgetState extends State<SliderWidget> {
   final PageController controller = PageController();
-  final List<String> sliders = [
-    SImages.slider1,
-    SImages.slider2,
-    SImages.slider3,
-  ];
+  final SliderService sliderService = SliderService(); // Instance dari SliderService
+  List<String> sliders = [];
+  bool isLoading = true;
 
-  final bool darkMode = false; // Change this based on your app's theme.
+  @override
+  void initState() {
+    super.initState();
+    loadSliders();
+  }
+
+  // Fungsi untuk memuat data slider
+  Future<void> loadSliders() async {
+    try {
+      final fetchedSliders = await sliderService.fetchSliders();
+      setState(() {
+        sliders = fetchedSliders;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      // Handle error, misalnya tampilkan pesan error
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.width * 0.33, // Responsive height
-            child: PageView.builder(
-              controller: controller,
-              itemCount: sliders.length,
-              itemBuilder: (context, index) {
-                final slider = sliders[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: SSizes.sm2), // Spacing between banners
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(SSizes.borderRadiusmd)),
-                    child: Image.asset(
-                      slider,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.width * 0.33, // Responsive height
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : PageView.builder(
+                  controller: controller,
+                  itemCount: sliders.length,
+                  itemBuilder: (context, index) {
+                    final slider = sliders[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: SSizes.sm2),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(Radius.circular(SSizes.borderRadiusmd)),
+                        child: Image.network(
+                          slider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+        ),
+        const SizedBox(height: SSizes.sm2),
+        SmoothPageIndicator(
+          controller: controller,
+          count: sliders.length,
+          effect: CustomizableEffect(
+            spacing: 5.0,
+            activeDotDecoration: DotDecoration(
+              width: 31,
+              height: 6,
+              color: Colors.green.shade800,
+              borderRadius: BorderRadius.circular(3),
+            ),
+            dotDecoration: DotDecoration(
+              width: 6,
+              height: 6,
+              color: Colors.green.shade300,
+              borderRadius: BorderRadius.circular(3),
             ),
           ),
-          const SizedBox(height: SSizes.sm2),
-          SmoothPageIndicator(
-            controller: controller,
-            count: sliders.length,
-            effect: CustomizableEffect(
-              spacing: 5.0,
-              activeDotDecoration: DotDecoration(
-                width: 31,
-                height: 6,
-                color: darkMode ? Colors.white : Colors.green.shade800,
-                borderRadius: BorderRadius.circular(3),
-              ),
-              dotDecoration: DotDecoration(
-                width: 6,
-                height: 6,
-                color: darkMode ? Colors.grey.shade300 : Colors.green.shade300,
-                borderRadius: BorderRadius.circular(3),
-              ),
-            ),
-          ),
-        ],
-      
+        ),
+      ],
     );
   }
 }
-

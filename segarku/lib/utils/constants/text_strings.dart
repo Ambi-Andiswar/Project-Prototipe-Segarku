@@ -32,6 +32,7 @@ class STexts{
   static const String payment = "Pembayaran";
   static const String orderDetail = "Rincian Pesanan";
   static const String editProfile = "Edit Profil";
+  static const String search = "Pencarian";
   static const String voucher= "Voucher";
 
   // Button Text
@@ -134,6 +135,10 @@ class STexts{
   // Notification
   static const String noNotification = "Tidak ada notifikasi baru";
   static const String subNoNotification = "Yuk, lihat produk segar hari ini!";
+
+  // Search
+  static const String noResult = "Maaf, hasil Tidak Ditemukan";
+  static const String subNoResult = "Coba kata kunci lain atau jelajahi kategori kami untuk temukan yang Anda cari.";
 
   // Category
   static const String allCategory = "Semua Kategori";

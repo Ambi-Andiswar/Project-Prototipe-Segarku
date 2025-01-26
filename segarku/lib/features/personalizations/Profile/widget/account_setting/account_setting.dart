@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:segarku/commons/widget/notification/notification.dart';
+// import 'package:segarku/commons/widget/notification/notification.dart';
 import 'package:segarku/features/authentification/screens/forgetPass/forget_password.dart';
 import 'package:segarku/features/history/order.dart';
 import 'package:segarku/features/personalizations/Profile/widget/account_setting/widget/address/my_address.dart';
@@ -41,60 +41,60 @@ class AccountSetting extends StatelessWidget {
             ),
 
             const SizedBox(height: SSizes.lg),
-            // Nottifikasi
-            InkWell(
-              onTap: () => Get.to(() => const NotificationScreen()),
-              child: Row(
-                children: [
-                  // Logo with background
-                  Container(
-                    width: 40.0,
-                    height: 40.0,
-                    decoration: BoxDecoration(
-                      color: SColors.green500,
-                      borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        SIcons.notification,
-                        size: SSizes.defaultIcon,
-                        color: SColors.pureWhite,
-                      ),
-                    ),
-                  ),
+            // // Nottifikasi
+            // InkWell(
+            //   onTap: () => Get.to(() => const NotificationScreen()),
+            //   child: Row(
+            //     children: [
+            //       // Logo with background
+            //       Container(
+            //         width: 40.0,
+            //         height: 40.0,
+            //         decoration: BoxDecoration(
+            //           color: SColors.green500,
+            //           borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+            //         ),
+            //         child: const Center(
+            //           child: Icon(
+            //             SIcons.notification,
+            //             size: SSizes.defaultIcon,
+            //             color: SColors.pureWhite,
+            //           ),
+            //         ),
+            //       ),
 
-                  const SizedBox(width: SSizes.md2),
+            //       const SizedBox(width: SSizes.md2),
 
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          STexts.notification,
-                          style: dark
-                              ? STextTheme.titleCaptionBoldDark
-                              : STextTheme.titleCaptionBoldLight,
-                        ),
-                        Text(
-                          STexts.subNoNotificationProfile,
-                          style: dark
-                              ? STextTheme.bodyCaptionRegularDark
-                              : STextTheme.bodyCaptionRegularLight,
-                        ),
-                      ],
-                    ),
-                  ),
+            //       Expanded(
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Text(
+            //               STexts.notification,
+            //               style: dark
+            //                   ? STextTheme.titleCaptionBoldDark
+            //                   : STextTheme.titleCaptionBoldLight,
+            //             ),
+            //             Text(
+            //               STexts.subNoNotificationProfile,
+            //               style: dark
+            //                   ? STextTheme.bodyCaptionRegularDark
+            //                   : STextTheme.bodyCaptionRegularLight,
+            //             ),
+            //           ],
+            //         ),
+            //       ),
 
-                  Icon(
-                    Iconsax.arrow_right_3,
-                    color: dark ? SColors.pureWhite : SColors.green500,
-                  ),
-                ],
-              ),
-            ),
+            //       Icon(
+            //         Iconsax.arrow_right_3,
+            //         color: dark ? SColors.pureWhite : SColors.green500,
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
-            const SizedBox(height: SSizes.lg),
+            // const SizedBox(height: SSizes.lg),
 
             // Chat Admin
             InkWell(

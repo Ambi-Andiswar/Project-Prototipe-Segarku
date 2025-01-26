@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:segarku/features/shop/products/models/product.dart';
+import 'package:segarku/features/shop/products/add_to_cart_popup.dart';
+import 'package:segarku/features/shop/products/data/product.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/drop_shadow.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
-import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/models/product_horizontal.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../navigation_menu.dart';
 
 class DescProductScreen extends StatelessWidget {
-  final Product product;
+  final SProduct product; // Ganti Product dengan SProduct
 
   const DescProductScreen({super.key, required this.product});
 
@@ -21,14 +21,18 @@ class DescProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
 
-    void showAddToCartPopup(BuildContext context, int productPrice, String productName) {
+    void showAddToCartPopup(BuildContext context, int productPrice, String productName, String productImage) {
       showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(SSizes.borderRadiusmd2)),
         ),
         builder: (context) {
-          return AddToCartPopup(price: productPrice, name: productName,);
+          return SAddToCartPopup(
+            price: productPrice,
+            name: productName,
+            maxQuantity: int.parse(product.qty), // Gunakan qty dari SProduct
+          );
         },
       );
     }
@@ -47,13 +51,9 @@ class DescProductScreen extends StatelessWidget {
                     height: 375,
                     width: double.infinity,
                     decoration: BoxDecoration(
-
-                      // Image produk
                       image: DecorationImage(
-                        image: AssetImage(
-                          product.image,
-                        ),
-                        fit: BoxFit.cover, // Untuk memastikan gambar menutupi seluruh background
+                        image: NetworkImage(product.image), // Gunakan NetworkImage untuk URL
+                        fit: BoxFit.cover, // Pastikan gambar menutupi area yang tersedia
                       ),
                     ),
                     child: Column(
@@ -151,7 +151,7 @@ class DescProductScreen extends StatelessWidget {
                           children: [
                             // Nama Produk
                             Text(
-                              product.name,
+                              product.nama, // Ganti product.name dengan product.nama
                               style: dark
                                   ? STextTheme.titleLgBolddark
                                   : STextTheme.titleLgBoldLight,
@@ -160,7 +160,7 @@ class DescProductScreen extends StatelessWidget {
 
                             // Size Produk
                             Text(
-                              product.size,
+                              product.berat, // Ganti product.size dengan product.berat
                               style: dark
                                   ? STextTheme.bodyCaptionRegularDark
                                   : STextTheme.bodyCaptionRegularLight,
@@ -177,7 +177,7 @@ class DescProductScreen extends StatelessWidget {
                                     locale: 'id',
                                     symbol: 'Rp. ',
                                     decimalDigits: 0,
-                                  ).format(product.price),
+                                  ).format(int.parse(product.harga.replaceAll(RegExp(r'[^0-9]'), ''))), // Konversi harga ke int
                                   style: STextTheme.titleLgBolddark.copyWith(
                                     color: SColors.green500,
                                   ),
@@ -188,7 +188,7 @@ class DescProductScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     GestureDetector(
-                                      onTap: () => showAddToCartPopup(context, product.price, product.name),
+                                      onTap: () => showAddToCartPopup(context, int.parse(product.harga.replaceAll(RegExp(r'[^0-9]'), '')), product.nama, product.image),
                                       child: Container(
                                         width: 24,
                                         height: 24,
@@ -218,7 +218,7 @@ class DescProductScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(width: SSizes.md),
                                     GestureDetector(
-                                      onTap: () => showAddToCartPopup(context, product.price, product.name),
+                                      onTap: () => showAddToCartPopup(context, int.parse(product.harga.replaceAll(RegExp(r'[^0-9]'), '')), product.nama, product.image),
                                       child: Container(
                                         width: 24,
                                         height: 24,
@@ -251,7 +251,7 @@ class DescProductScreen extends StatelessWidget {
                         //sub deskripsi 
                         const SizedBox(height: SSizes.sm2),
                         Text(
-                          product.description,
+                          product.deskripsi, // Ganti product.description dengan product.deskripsi
                           textAlign: TextAlign.justify,
                           style: dark 
                             ? STextTheme.bodyCaptionRegularDark
@@ -334,131 +334,6 @@ class DescProductScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
- class AddToCartPopup extends StatefulWidget {
-  final int price; // Harga produk
-  final String name;
-
-  const AddToCartPopup({super.key, required this.price, required this.name});
-
-  @override
-  State<AddToCartPopup> createState() => _AddToCartPopupState();
-}
-
-class _AddToCartPopupState extends State<AddToCartPopup> {
-  int quantity = 1;
-
-  void _addToCart() {
-    // Logika untuk menambahkan item ke keranjang bisa ditambahkan di sini
-    Navigator.pop(context); // Menutup BottomSheet setelah item ditambahkan ke keranjang
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final darkMode = SHelperFunctions.isDarkMode(context);
-
-    return Padding(
-      padding: const EdgeInsets.all(SSizes.defaultMargin),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                widget.name, // Ubah sesuai nama produk jika dinamis
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.close),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: quantity > 1
-                        ? () => setState(() => quantity--)
-                        : null,
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                          color: darkMode 
-                            ? SColors.green50 
-                            : SColors.softBlack50,
-                        ),
-                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                      ),
-                      child: Icon(
-                        Icons.remove,
-                        size: 16,
-                        color: darkMode 
-                          ? SColors.green100 
-                          : SColors.softBlack100,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: SSizes.md),
-                  Text(
-                    '$quantity',
-                    style: darkMode
-                      ? STextTheme.titleBaseBoldDark
-                      : STextTheme.titleBaseBoldLight,
-                  ),
-                  const SizedBox(width: SSizes.md),
-                  GestureDetector(
-                    onTap: () => setState(() => quantity++),
-                    child: Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: SColors.green100,
-                        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        size: 16,
-                        color: SColors.green500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Text(
-                'Rp. ${widget.price * quantity}', // Hitung total harga
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: SColors.green500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: _addToCart,
-              child: Text(
-                STexts.addToCart,
-                style:  darkMode
-                 ? STextTheme.titleBaseBoldLight
-                 : STextTheme.titleBaseBoldDark),
             ),
           ),
         ],

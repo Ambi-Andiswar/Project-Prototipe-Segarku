@@ -111,50 +111,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: SSizes.lg2),
             ElevatedButton(
               onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                setState(() {
-                  _isLoading = true;
-                });
+                if (formKey.currentState!.validate()) {
+                  setState(() {
+                    _isLoading = true;
+                  });
 
-                final result = await _authService.registerUser(
-                  emailController.text.trim(),
-                  passwordController.text.trim(),
-                  nameController.text.trim(), // Ambil dari username field
-                  phoneController.text.trim(), // Ambil dari phone number field
-                );
+                  // Debug log untuk validasi
+                  print('Register button pressed');
 
-                setState(() {
-                  _isLoading = false;
-                });
-
-                if (result['success']) {
-                  // Registrasi berhasil, navigasikan ke halaman login atau home
-                  Get.offAll(() => const NavigationMenu(initialIndex: 0));
-                  Get.snackbar(
-                    'Registrasi Berhasi',
-                    result['message'],
-                    backgroundColor: SColors.green500,
-                    colorText: SColors.pureWhite,
-                    icon: const Icon(Icons.check_circle, color: Colors.white),
-                    snackPosition: SnackPosition.TOP,
-                    borderRadius: 12,
-                    margin: const EdgeInsets.all(16),
+                  // Panggil API register user
+                  final result = await _authService.registerUser(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                    nameController.text.trim(),
+                    phoneController.text.trim(),
                   );
-                } else {
-                  // Registrasi gagal, tampilkan error
-                  Get.snackbar(
-                    'Registrasi Gagal',
-                    result['message'],
-                    backgroundColor: SColors.danger500,
-                    colorText: SColors.pureWhite,
-                    icon: const Icon(Icons.error, color: Colors.white),
-                    snackPosition: SnackPosition.TOP,
-                    borderRadius: 12,
-                    margin: const EdgeInsets.all(16),
-                  );
+
+                  setState(() {
+                    _isLoading = false;
+                  });
+
+                  // Debug log untuk respons API
+                  print('Register result: $result');
+
+                  if (result['success']) {
+                    // Snackbar untuk registrasi berhasil
+                    Get.snackbar(
+                      'Selamat, ${nameController.text.trim()}!',
+                      'Akun Anda berhasil dibuat. Selamat bergabung di komunitas kami!',
+                      backgroundColor: SColors.green500,
+                      colorText: SColors.pureWhite,
+                      icon: const Icon(Icons.check_circle, color: Colors.white),
+                      snackPosition: SnackPosition.TOP,
+                      borderRadius: 12,
+                      margin: const EdgeInsets.all(16),
+                    );
+
+                    // Navigasikan user ke halaman berikutnya
+                    Get.offAll(() => const NavigationMenu(initialIndex: 0));
+                  } else {
+                    // Snackbar untuk registrasi gagal
+                    Get.snackbar(
+                      'Yah, sayang sekali Anda saat ini belum bisa membuat akun',
+                      result['message'],
+                      backgroundColor: SColors.danger500,
+                      colorText: SColors.pureWhite,
+                      icon: const Icon(Icons.error, color: Colors.white),
+                      snackPosition: SnackPosition.TOP,
+                      borderRadius: 12,
+                      margin: const EdgeInsets.all(16),
+                    );
+                  }
                 }
-              }
-            },
+              },
+
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   vertical: SSizes.lg2,

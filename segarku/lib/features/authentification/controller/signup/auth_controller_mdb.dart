@@ -20,14 +20,22 @@ class AuthControllerSignupMdb {
         }),
       );
 
-      if (response.statusCode == 200) {
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      // Anggap sukses jika status code 200 atau 201
+      if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
-        return {'success': true, 'message': responseData['message']};
+        return {
+          'success': responseData['status'] == 'success',
+          'message': responseData['message']
+        };
       } else {
         final errorData = jsonDecode(response.body);
         return {'success': false, 'message': errorData['message'] ?? 'Unknown error'};
       }
     } catch (e) {
+      print('Error occurred: $e');
       return {'success': false, 'message': 'Error occurred: $e'};
     }
   }

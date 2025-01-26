@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:segarku/commons/widget/cart/no_carts.dart';
-import 'package:segarku/features/shop/products/desc_product.dart';
 import 'package:segarku/features/shop/products/models/product.dart';
 import 'package:segarku/features/transaction/transaction_checkout.dart';
 import 'package:segarku/utils/constants/drop_shadow.dart';
@@ -202,12 +201,12 @@ class _CartsProductScreenState extends State<CartsProductScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => DescProductScreen(product: product),
-                                    ),
-                                  );
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => DescProductScreen(product: product),
+                                  //   ),
+                                  // );
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.only(left: SSizes.sm2),

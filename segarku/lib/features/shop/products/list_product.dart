@@ -57,8 +57,6 @@ class ListProductScreen extends StatelessWidget {
                 ],
               ),
             ),
-              
-            
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:segarku/commons/widget/notification/notification.dart';
+// import 'package:get/get.dart';
+// import 'package:segarku/commons/widget/notification/notification.dart';
 import 'package:segarku/utils/constants/colors.dart';
-import 'package:segarku/utils/constants/icons.dart';
+// import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -62,20 +62,20 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
 
       // Notification Button
-      actions: [
-        const SizedBox(width: 67.0),
-        Container(
-          width: 40,
-          height: 40,
-          alignment: Alignment.center,
-          child: IconButton(
-            padding: EdgeInsets.zero, // Menghilangkan padding bawaan
-            constraints: const BoxConstraints(), // Menghilangkan batasan tambahan
-            icon: SIcons.notificationIcon(dark),
-            onPressed: ()  => Get.to(() => const NotificationScreen()),
-          ),
-        ),
-      ],
+      // actions: [
+      //   const SizedBox(width: 67.0),
+      //   Container(
+      //     width: 40,
+      //     height: 40,
+      //     alignment: Alignment.center,
+      //     child: IconButton(
+      //       padding: EdgeInsets.zero, // Menghilangkan padding bawaan
+      //       constraints: const BoxConstraints(), // Menghilangkan batasan tambahan
+      //       icon: SIcons.notificationIcon(dark),
+      //       onPressed: ()  => Get.to(() => const NotificationScreen()),
+      //     ),
+      //   ),
+      // ],
     );
   }
 

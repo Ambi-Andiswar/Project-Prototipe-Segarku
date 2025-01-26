@@ -29,6 +29,7 @@ class NoNotificationScreen extends StatelessWidget {
               style: dark
                   ? STextTheme.titleMdBoldDark
                   : STextTheme.titleMdBoldLight,
+              textAlign: TextAlign.center, 
             ),
             const SizedBox(height: SSizes.xs),
             Text(
@@ -36,6 +37,7 @@ class NoNotificationScreen extends StatelessWidget {
               style: dark
                   ? STextTheme.bodyCaptionRegularDark
                   : STextTheme.bodyCaptionRegularLight,
+              textAlign: TextAlign.center, 
             ),
           ],
         ),

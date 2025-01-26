@@ -61,18 +61,18 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
 
   String _getCategoryImage(String categoryName) {
     switch (categoryName) {
-      case "Ini Sayur Dan Buah":
+      case "Sayur & Buah":
         return SImages.buahCategory;
       case "Daging & Protein":
         return SImages.dapurCategory;
-      case "Bumbu dan Rempah":
+      case "Bumbu & Rempah":
         return SImages.herbalCategory;
       case "Sembako":
         return SImages.dapurCategory;
-      case "Paket Siap Masak":
+      case "Paket Masak":
         return SImages.masakCategory;
       default:
-        return SImages.sayurCategory;
+        return SImages.appLogo;
     }
   }
 
@@ -91,6 +91,7 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start, // Ini yang diubah
         children: List.generate(
           categories.length,
           (index) => Padding(
@@ -113,14 +114,14 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: SSizes.sm),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center, // Teks tetap di tengah
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                         child: Image.asset(
                           categories[index]["image"]!,
                           fit: BoxFit.cover,
-                          height: 50,
+                          height: 55,
                           width: double.infinity,
                         ),
                       ),
@@ -129,8 +130,8 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
                         categories[index]["name"]!,
                         textAlign: TextAlign.center,
                         style: darkMode
-                            ? STextTheme.titleCaptionBoldDark
-                            : STextTheme.titleCaptionBoldLight,
+                            ? STextTheme.titleSmBoldDark
+                            : STextTheme.titleSmBoldLight,
                       ),
                     ],
                   ),
