@@ -101,7 +101,9 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ListProductScreen(),
+                    builder: (context) => ListCategoryProductScreen(
+                      categoryName: categories[index]["name"]!.replaceAll('&amp;', '&').trim(),
+                    ),
                   ),
                 );
               },

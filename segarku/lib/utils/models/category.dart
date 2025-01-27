@@ -119,13 +119,15 @@ class _SCategoryState extends State<SCategory> {
 
         return GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const ListProductScreen(),
-              ),
-            );
-          },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ListCategoryProductScreen(
+                      categoryName: categories[index]["name"]!,
+                    ),
+                  ),
+                );
+              },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),

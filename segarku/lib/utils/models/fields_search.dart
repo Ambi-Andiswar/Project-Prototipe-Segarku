@@ -102,64 +102,64 @@ class InputFieldSearch {
   }
 
   //-------------------- Field Search All --------------------//
-  static Widget fieldSearchAll(BuildContext context, bool dark) {
-    // FocusNode untuk mendeteksi fokus
-    final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
-
-    return StatefulBuilder(
-      builder: (context, setState) {
-        // Listener untuk fokus
-        focusNode.addListener(() {
-          setState(() {
-            isFocused = focusNode.hasFocus;
-          });
-        });
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Text & Icons Form Field search
-            TextFormField(
-              focusNode: focusNode,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
-                // Menambahkan Icon di dalam field
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md+1),
-                  child: Icon(
-                    SIcons.search,
-                    color: isFocused
-                        ? (dark ? SColors.green500 : SColors.green500)
-                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
-                  ),
-                ),
-                // Text search field
-                labelText: STexts.fieldSearchHomeAll,
-                labelStyle: dark
-                    ? STextTheme.bodyBaseRegularLight
-                    : STextTheme.bodyBaseRegularDark,
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                hintText: STexts.fieldSearchHomeAll,
-                hintStyle: dark
-                    ? STextTheme.bodyBaseRegularLight 
-                    : STextTheme.bodyBaseRegularDark,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(100),
-                  borderSide: const BorderSide(color: SColors.softBlack50),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(100),
-                  borderSide: const BorderSide(color: SColors.green500),
-                ),
+  static Widget fieldSearchAll(
+    BuildContext context,
+    bool dark, {
+    required FocusNode focusNode,
+    required bool isFocused,
+    required Function(String) onChanged,
+    required TextEditingController controller,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Text & Icons Form Field search
+        TextFormField(
+          controller: controller, // Menggunakan controller yang diberikan
+          focusNode: focusNode, // Menggunakan focusNode yang diberikan
+          onChanged: onChanged, // Menggunakan callback onChanged
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: SSizes.md2,
+              vertical: SSizes.md,
+            ),
+            // Menambahkan Icon di dalam field
+            suffixIcon: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: SSizes.md2,
+                vertical: SSizes.md + 1,
+              ),
+              child: Icon(
+                SIcons.search,
+                color: isFocused
+                    ? (dark ? SColors.green500 : SColors.green500)
+                    : (dark ? SColors.softBlack50 : SColors.softBlack300),
               ),
             ),
-          ],
-        );
-      },
+            // Text search field
+            labelText: STexts.fieldSearchHomeAll,
+            labelStyle: dark
+                ? STextTheme.bodyBaseRegularLight
+                : STextTheme.bodyBaseRegularDark,
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            hintText: STexts.fieldSearchHomeAll,
+            hintStyle: dark
+                ? STextTheme.bodyBaseRegularLight
+                : STextTheme.bodyBaseRegularDark,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+              borderSide: const BorderSide(color: SColors.softBlack50),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100),
+              borderSide: const BorderSide(color: SColors.green500),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

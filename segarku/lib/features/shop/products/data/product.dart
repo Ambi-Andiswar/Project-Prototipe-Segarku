@@ -27,19 +27,22 @@ class SProduct {
 
   factory SProduct.fromJson(Map<String, dynamic> json) {
     return SProduct(
-      nama: (json['nama'] as String?)?.isNotEmpty == true ? json['nama'] : 'Produk',
-      harga: (json['harga'] as String?)?.isNotEmpty == true ? json['harga'] : 'Rp.0',
-      qty: (json['qty'] as String?)?.isNotEmpty == true ? json['qty'] : '0',
+      nama: json['nama'] ?? 'Produk',
+      harga: json['harga'] ?? 'Rp.0',
+      qty: json['qty'] ?? '0',
       categoryId: json['category_id'] ?? '',
-      berat: (json['berat'] as String?)?.isNotEmpty == true ? json['berat'] : '0 gr/pack',
-      deskripsi: (json['deskripsi'] as String?)?.isNotEmpty == true ? json['deskripsi'] : '',
-      image: (json['image'] as String?)?.isNotEmpty == true
-          ? json['image']
-          : 'https://image-segarku.s3.ap-southeast-2.amazonaws.com/products/Ao8e73xl5YWUIR0sbzwiJcqNhWwbmZ15j6RhXKLx.png',
+      berat: json['berat'] ?? '0 gr/pack',
+      deskripsi: json['deskripsi'] ?? '',
+      image: json['image'] ?? 'https://image-segarku.s3.ap-southeast-2.amazonaws.com/products/Ao8e73xl5YWUIR0sbzwiJcqNhWwbmZ15j6RhXKLx.png',
       id: json['id'] ?? '',
-      categoryName: json['category_name'] ?? '',
+      categoryName: _cleanCategoryName(json['category_name'] ?? ''), // Bersihkan category_name
       showPhoto: json['show_photo'] ?? '',
       category: json['category'] ?? {},
     );
+  }
+
+  // Method untuk membersihkan category_name
+  static String _cleanCategoryName(String categoryName) {
+    return categoryName.replaceAll('&amp;', '&').trim();
   }
 }
