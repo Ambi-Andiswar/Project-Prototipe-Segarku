@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import package intl
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:segarku/features/carts/controllers/cart_provider.dart';
+import 'package:segarku/features/shop/products/data/product.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
@@ -8,13 +11,17 @@ import 'package:segarku/utils/constants/colors.dart';
 class SAddToCartPopup extends StatefulWidget {
   final int price;
   final String name;
-  final int maxQuantity; // Batasan stok dari API
+  final int maxQuantity;
+  final String image;
+  final String size;
 
   const SAddToCartPopup({
     super.key,
     required this.price,
     required this.name,
-    required this.maxQuantity, // Terima maxQuantity dari parent
+    required this.maxQuantity,
+    required this.image,
+    required this.size,
   });
 
   @override
@@ -23,17 +30,33 @@ class SAddToCartPopup extends StatefulWidget {
 
 class _SAddToCartPopupState extends State<SAddToCartPopup> {
   int quantity = 1;
-
-  // Fungsi untuk menghitung stok tersedia
-  int get stokTersedia => widget.maxQuantity - quantity;
+  final CartController cartController = Get.find<CartController>();
 
   void _addToCart() {
-    // Pastikan quantity tidak melebihi stok yang tersedia
     if (quantity <= widget.maxQuantity) {
-      // Logika untuk menambahkan item ke keranjang bisa ditambahkan di sini
-      Navigator.pop(context); // Menutup BottomSheet setelah item ditambahkan ke keranjang
+      final product = SProduct(
+        id: widget.name, 
+        nama: widget.name,
+        harga: widget.price,
+        qty: quantity, // Tambahkan sesuai jumlah yang dipilih
+        categoryId: "", 
+        berat: widget.size,
+        deskripsi: "",
+        image: widget.image,
+        categoryName: "",
+        showPhoto: "",
+        category: {},
+      );
+
+      cartController.addToCart(product);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Produk ditambahkan ke keranjang!"),
+          backgroundColor: Colors.green,
+        ),
+      );
     } else {
-      // Tampilkan pesan error jika quantity melebihi stok
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Stok tidak mencukupi. Stok tersedia: ${widget.maxQuantity}'),
@@ -43,12 +66,11 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
     }
   }
 
-  // Fungsi untuk memformat harga dengan titik sebagai pemisah ribuan
   String _formatPrice(int price) {
     final formatCurrency = NumberFormat.currency(
-      locale: 'id_ID', // Lokalisasi Indonesia
-      symbol: '', // Menghilangkan simbol mata uang (Rp)
-      decimalDigits: 0, // Tidak menampilkan desimal
+      locale: 'id_ID',
+      symbol: '',
+      decimalDigits: 0,
     );
     return formatCurrency.format(price);
   }
@@ -59,9 +81,9 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
 
     return Padding(
       padding: const EdgeInsets.only(
-        right : SSizes.defaultMargin,
-        left : SSizes.defaultMargin,
-        bottom : SSizes.defaultMargin
+        right: SSizes.defaultMargin,
+        left: SSizes.defaultMargin,
+        bottom: SSizes.defaultMargin,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -69,14 +91,8 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                widget.name,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.close),
-              ),
+              Text(widget.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
             ],
           ),
           const SizedBox(height: 16),
@@ -85,105 +101,51 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
             children: [
               Row(
                 children: [
-                  // Tombol Kurang
                   GestureDetector(
-                    onTap: quantity > 1
-                        ? () => setState(() => quantity--)
-                        : null,
+                    onTap: quantity > 1 ? () => setState(() => quantity--) : null,
                     child: Container(
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
                         color: Colors.transparent,
-                        border: Border.all(
-                          color: dark 
-                            ? SColors.green50 
-                            : SColors.softBlack50,
-                        ),
+                        border: Border.all(color: dark ? SColors.green50 : SColors.softBlack50),
                         borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                       ),
-                      child: Icon(
-                        Icons.remove,
-                        size: 16,
-                        color: dark 
-                          ? SColors.green100 
-                          : SColors.softBlack100,
-                      ),
+                      child: Icon(Icons.remove, size: 16, color: dark ? SColors.green100 : SColors.softBlack100),
                     ),
                   ),
                   const SizedBox(width: SSizes.md),
-                  // Jumlah Item
-                  Text(
-                    '$quantity',
-                    style: dark
-                      ? STextTheme.titleBaseBoldDark
-                      : STextTheme.titleBaseBoldLight,
-                  ),
+                  Text('$quantity', style: dark ? STextTheme.titleBaseBoldDark : STextTheme.titleBaseBoldLight),
                   const SizedBox(width: SSizes.md),
-                  // Tombol Tambah
                   GestureDetector(
-                    onTap: quantity < widget.maxQuantity
-                        ? () => setState(() => quantity++)
-                        : null,
+                    onTap: quantity < widget.maxQuantity ? () => setState(() => quantity++) : null,
                     child: Container(
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
-                        color: quantity < widget.maxQuantity
-                            ? SColors.green100
-                            : Colors.transparent, // Nonaktifkan tombol jika stok habis
+                        color: quantity < widget.maxQuantity ? SColors.green100 : Colors.transparent,
                         borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                        border: Border.all(
-                          color: quantity < widget.maxQuantity
-                            ? Colors.transparent
-                            : SColors.softBlack50, // Nonaktifkan tombol jika stok habis
-                        )
+                        border: Border.all(color: quantity < widget.maxQuantity ? Colors.transparent : SColors.softBlack50),
                       ),
-                      child: Icon(
-                        Icons.add,
-                        size: 16,
-                        color: quantity < widget.maxQuantity
-                            ? SColors.green500
-                            : SColors.softBlack100, // Nonaktifkan tombol jika stok habis
-                      ),
+                      child: Icon(Icons.add, size: 16, color: quantity < widget.maxQuantity ? SColors.green500 : SColors.softBlack100),
                     ),
                   ),
                 ],
               ),
-              // Harga Total
               Text(
-                'Rp ${_formatPrice(widget.price * quantity)}', // Format harga dengan titik
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: SColors.green500,
-                ),
+                'Rp ${_formatPrice(widget.price * quantity)}',
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: SColors.green500),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          // Tombol Tambah ke Keranjang
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _addToCart,
               child: Text(
                 "Tambah ke Keranjang",
-                style: dark
-                  ? STextTheme.titleBaseBoldLight
-                  : STextTheme.titleBaseBoldDark,
-              ),
-            ),
-          ),
-          // Tampilkan pesan stok tersedia
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              'Stok tersedia: $stokTersedia', // Menampilkan stok yang tersedia
-              style: dark
-                ? STextTheme.bodyCaptionRegularDark
-                : STextTheme.bodyCaptionRegularLight.copyWith(
-                color: stokTersedia <= 0 ? Colors.red : Colors.black, // Ubah warna teks menjadi merah jika stok habis
+                style: dark ? STextTheme.titleBaseBoldLight : STextTheme.titleBaseBoldDark,
               ),
             ),
           ),

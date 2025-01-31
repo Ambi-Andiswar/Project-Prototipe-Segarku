@@ -16,10 +16,9 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
-    final User? user = FirebaseAuth.instance.currentUser; // Dapatkan data user dari FirebaseAuth
-
+    final User? user = FirebaseAuth.instance.currentUser; 
     return Scaffold(
-      resizeToAvoidBottomInset:true, // Penting untuk menghindari tumpang tindih keyboard
+      resizeToAvoidBottomInset:true, 
       body: SafeArea(
         child: Column(
           children: [
@@ -42,7 +41,6 @@ class UserProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(SSizes.defaultMargin),

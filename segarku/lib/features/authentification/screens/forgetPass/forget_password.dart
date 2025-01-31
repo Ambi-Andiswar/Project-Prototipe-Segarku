@@ -21,11 +21,11 @@ class ResetPasswordScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // SCustomAppBar dengan Divider di bawah
+          // SCustomAppBar
           Container(
             color: dark 
               ? SColors.pureBlack 
-              : SColors.pureWhite, // Ganti dengan warna yang sesuai
+              : SColors.pureWhite,
             child: Column(
               children: [
                 const SizedBox(height: 20),
@@ -37,7 +37,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 Divider(
                   color: dark ? SColors.green50 : SColors.softBlack50,
                   thickness: 1,
-                  height: 1, // Pastikan tidak ada ruang tambahan
+                  height: 1,
                 ),
               ],
             ),

@@ -147,7 +147,7 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
                         itemCount: filteredProducts.length,
                         itemBuilder: (context, index) {
                           final product = filteredProducts[index];
-                          final isOutOfStock = int.parse(product.qty) <= 0;
+                          final isOutOfStock = (product.qty) <= 0;
                           return Container(
                             decoration: BoxDecoration(
                               border: Border.all(
@@ -221,10 +221,7 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
                                                 locale: 'id',
                                                 symbol: 'Rp. ',
                                                 decimalDigits: 0,
-                                              ).format(int.parse(product.harga
-                                                  .replaceAll('Rp.', '')
-                                                  .replaceAll(',', '')
-                                                  .trim())),
+                                              ).format(product.harga),
                                               style: dark
                                                   ? STextTheme.titleBaseBlackDark
                                                   : STextTheme.titleBaseBlackLight,
@@ -248,12 +245,11 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
                                                       ),
                                                       builder: (context) {
                                                         return SAddToCartPopup(
-                                                          price: int.parse(product.harga
-                                                              .replaceAll('Rp.', '')
-                                                              .replaceAll(',', '')
-                                                              .trim()),
+                                                          price: (product.harga),
                                                           name: product.nama,
-                                                          maxQuantity: int.parse(product.qty),
+                                                          maxQuantity: (product.qty),
+                                                          image: product.image,
+                                                          size: product.berat,
                                                         );
                                                       },
                                                     );

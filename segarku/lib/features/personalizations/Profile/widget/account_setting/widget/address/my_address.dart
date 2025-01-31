@@ -15,11 +15,9 @@ class MyAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
-
     return Scaffold(
       body: Column(
         children: [
-          // AppBar
           Container(
             color: dark ? SColors.pureBlack : SColors.pureWhite,
             child: Column(

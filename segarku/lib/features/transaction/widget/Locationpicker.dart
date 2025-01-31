@@ -15,7 +15,7 @@ class LocationPicker extends StatefulWidget {
 }
 
 class _LocationPickerState extends State<LocationPicker> {
-  LatLng _pickedLocation = const LatLng(-6.1751, 106.8650); // Koordinat default (Jakarta)
+  LatLng _pickedLocation = const LatLng(-6.1751, 106.8650); 
   String _address = "Sedang mencari alamat...";
   // ignore: unused_field
   late GoogleMapController _mapController;
@@ -106,6 +106,7 @@ class _LocationPickerState extends State<LocationPicker> {
             onTap: (position) {
               setState(() {
                 _pickedLocation = position;
+                _address = "Sedang mencari alamat...";
               });
               _getAddressFromLatLng(position);
             },
@@ -116,6 +117,33 @@ class _LocationPickerState extends State<LocationPicker> {
               ),
             },
           ),
+
+          // Overlay Loading Jika Alamat Masih "Sedang mencari alamat..."
+          if (_address == "Sedang mencari alamat...") 
+            Positioned.fill(
+              child: Container(
+                // ignore: deprecated_member_use
+                color: Colors.black.withOpacity(0.3), // Transparan
+                child: const Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 16),
+                      Text(
+                        "Mencari alamat...",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
           Positioned(
             bottom: 100,
             left: 20,
@@ -151,6 +179,7 @@ class _LocationPickerState extends State<LocationPicker> {
               ),
             ),
           ),
+
           Positioned(
             bottom: 20,
             left: 20,
@@ -161,13 +190,13 @@ class _LocationPickerState extends State<LocationPicker> {
               },
               child: Text(
                 "Simpan Lokasi",
-                style: dark
+                style: context.isDarkMode
                   ? STextTheme.titleBaseBoldLight
                   : STextTheme.titleBaseBoldDark),
             ),
           ),
         ],
-      ),
+      )
     );
   }
 }

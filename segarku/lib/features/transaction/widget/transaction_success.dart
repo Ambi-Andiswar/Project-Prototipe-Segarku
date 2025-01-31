@@ -17,7 +17,6 @@ class TransactionSuccess extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // Kontainer di bagian atas
           Container(
             padding: const EdgeInsets.only(
                 top: 78.49,
@@ -30,7 +29,6 @@ class TransactionSuccess extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Tombol Close
                 GestureDetector(
                   onTap: () => Get.to(() => const NavigationMenu(initialIndex: 0)),
                   child: Container(

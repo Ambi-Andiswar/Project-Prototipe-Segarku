@@ -9,7 +9,7 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class SUserProfileTitle extends StatelessWidget {
   final VoidCallback onPressed;
-  final User? user; // Tambahkan parameter user
+  final User? user;
 
   const SUserProfileTitle({super.key, required this.onPressed, required this.user});
 
@@ -41,7 +41,7 @@ class SUserProfileTitle extends StatelessWidget {
                           fit: BoxFit.cover,
                         )
                       : Image.asset(
-                          SImages.profile, // Ganti dengan gambar default
+                          SImages.profile, 
                           width: size.clamp(38.0, 48.0),
                           height: size.clamp(38.0, 48.0),
                         ),

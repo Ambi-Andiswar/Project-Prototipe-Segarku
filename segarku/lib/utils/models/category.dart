@@ -65,15 +65,15 @@ class _SCategoryState extends State<SCategory> {
   // Fungsi untuk menentukan gambar berdasarkan nama kategori
   String _getCategoryImage(String categoryName) {
     switch (categoryName) {
-      case "sayur & buah":
+      case "Sayur & Buah":
         return SImages.categoryBuahSayur;
-      case "Daging Dam Protein":
+      case "Daging & Protein":
         return SImages.categoryDagingProtein;
-      case "Bumbu dan Rempah":
+      case "Bumbu & Rempah":
         return SImages.categoryBumbuRempah;
       case "Sembako":
         return SImages.categorySembako;
-      case "Paket Siap Masak":
+      case "Paket Masak":
         return SImages.categoryPaketMasak;
       default:
         return SImages.appLogo;
@@ -134,6 +134,7 @@ class _SCategoryState extends State<SCategory> {
               color: darkMode ? SColors.slateBlack : SColors.pureWhite,
               boxShadow: [
                 BoxShadow(
+                  // ignore: deprecated_member_use
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 2,
                   blurRadius: 4,

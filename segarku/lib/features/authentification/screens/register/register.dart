@@ -116,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     _isLoading = true;
                   });
 
-                  // Debug log untuk validasi
+                  // ignore: avoid_print
                   print('Register button pressed');
 
                   // Panggil API register user
@@ -131,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     _isLoading = false;
                   });
 
-                  // Debug log untuk respons API
+                  // ignore: avoid_print
                   print('Register result: $result');
 
                   if (result['success']) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:segarku/features/shop/products/add_to_cart_popup.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
 import 'package:segarku/utils/constants/drop_shadow.dart';
@@ -8,7 +9,7 @@ import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/colors.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
-import '.././../service/api_product.dart';
+import '../../service/api_product.dart';
 import 'package:segarku/features/shop/products/data/product.dart'; // Import SProduct
 
 class SProductH extends StatelessWidget {
@@ -22,7 +23,12 @@ class SProductH extends StatelessWidget {
       future: ApiServiceProduct.fetchProducts(), // Ambil data dari API
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(5, (index) => _buildShimmerProduct()),
+            ),
+          );
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -31,13 +37,11 @@ class SProductH extends StatelessWidget {
 
         // Sort products by quantity in descending order
         final products = snapshot.data!;
-        products.sort((a, b) => int.parse(b.qty).compareTo(int.parse(a.qty)));
-
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: products.map((product) {
-              final isOutOfStock = product.qty == "0"; // Cek apakah stok habis
+              final isOutOfStock = product.qty == 0; // Cek apakah stok habis
 
               return Padding(
                 padding: const EdgeInsets.only(right: SSizes.md),
@@ -47,21 +51,7 @@ class SProductH extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DescProductScreen(
-                            product: SProduct(
-                              id: product.id,
-                              image: product.image,
-                              nama: product.nama,
-                              berat: product.berat,
-                              harga: product.harga,
-                              deskripsi: product.deskripsi,
-                              qty: product.qty,
-                              categoryId: product.categoryId,
-                              categoryName: product.categoryName,
-                              showPhoto: product.showPhoto,
-                              category: product.category,
-                            ),
-                          ),
+                          builder: (context) => DescProductScreen(product: product),
                         ),
                       );
                     }
@@ -105,8 +95,7 @@ class SProductH extends StatelessWidget {
                                   child: const Center(
                                     child: Text(
                                       'Stok Habis!',
-                                      style: 
-                                      STextTheme.titleCaptionBoldDark
+                                      style: STextTheme.titleCaptionBoldDark,
                                     ),
                                   ),
                                 ),
@@ -133,12 +122,14 @@ class SProductH extends StatelessWidget {
                                   locale: 'id',
                                   symbol: 'Rp. ',
                                   decimalDigits: 0,
-                                ).format(int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim())),
+                                ).format(product.harga),
                                 style: darkMode
                                     ? STextTheme.titleCaptionBlackDark
                                     : STextTheme.titleCaptionBlackLight,
                               ),
                               const Spacer(),
+
+                              // Tombol tambah ke keranjang
                               if (!isOutOfStock) // Hanya tampilkan tombol tambah jika stok tersedia
                                 Container(
                                   width: 24,
@@ -158,9 +149,11 @@ class SProductH extends StatelessWidget {
                                         ),
                                         builder: (context) {
                                           return SAddToCartPopup(
-                                            price: int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim()),
+                                            price:(product.harga),
                                             name: product.nama,
-                                            maxQuantity: int.parse(product.qty),
+                                            maxQuantity: (product.qty),
+                                            image: product.image,
+                                            size: product.berat,
                                           );
                                         },
                                       );
@@ -185,6 +178,58 @@ class SProductH extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  /// Widget untuk efek shimmer loading produk
+  Widget _buildShimmerProduct() {
+    return Padding(
+      padding: const EdgeInsets.only(right: SSizes.md),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          width: 140,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(SSizes.md),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                  child: Container(
+                    height: 100,
+                    width: double.infinity,
+                    color: Colors.grey[300],
+                  ),
+                ),
+                const SizedBox(height: SSizes.sm2),
+                Container(
+                  height: 12,
+                  width: 100,
+                  color: Colors.grey[300],
+                ),
+                const SizedBox(height: SSizes.xs),
+                Container(
+                  height: 12,
+                  width: 50,
+                  color: Colors.grey[300],
+                ),
+                const SizedBox(height: SSizes.xs),
+                Container(
+                  height: 12,
+                  width: 80,
+                  color: Colors.grey[300],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -99,8 +99,8 @@ class AccountSetting extends StatelessWidget {
             InkWell(
               onTap: () {
                 // Membuka tautan WhatsApp dengan pesan default
-                const phoneNumber = "6281379153318"; // Nomor WhatsApp
-                const message = "Halo, saya ingin bertanya sesuatu Min..."; // Pesan default
+                const phoneNumber = "6281379153318";
+                const message = "Halo, saya ingin bertanya sesuatu Min..."; 
                 final url = "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
 
                 launchUrl(
@@ -110,7 +110,7 @@ class AccountSetting extends StatelessWidget {
               },
               child: Row(
                 children: [
-                  // Logo with background
+
                   Container(
                     width: 40.0,
                     height: 40.0,

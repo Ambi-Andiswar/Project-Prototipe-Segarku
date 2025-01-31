@@ -10,7 +10,6 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final bool isLogin;
-
   const WelcomeScreen({super.key, this.isLogin = true});
 
   @override
@@ -19,7 +18,6 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   late bool isLogin;
-
   @override
   void initState() {
     super.initState();
@@ -31,9 +29,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     final backgroundColor = Theme.of(context).brightness == Brightness.dark
         ? SColors.pureBlack
         : SColors.pureWhite;
-
     final dark = SHelperFunctions.isDarkMode(context);
-
     return Scaffold(
       body: Stack(
         children: [

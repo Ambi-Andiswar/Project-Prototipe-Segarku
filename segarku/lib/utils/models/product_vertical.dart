@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart'; // Import package shimmer
 import 'package:segarku/features/shop/products/add_to_cart_popup.dart';
 import 'package:segarku/features/shop/products/desc_product.dart';
 import 'package:segarku/utils/constants/drop_shadow.dart';
@@ -22,7 +23,7 @@ class SProductV extends StatelessWidget {
       future: ApiServiceProduct.fetchProducts(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return buildShimmerEffect(context); // Tampilkan shimmer effect saat loading
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -55,7 +56,7 @@ class SProductV extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final product = products[index];
-            final isOutOfStock = product.qty == "0"; // Cek apakah stok habis
+            final isOutOfStock = product.qty == 0; // Cek apakah stok habis
 
             return GestureDetector(
               onTap: () {
@@ -162,10 +163,7 @@ class SProductV extends StatelessWidget {
                                     locale: 'id',
                                     symbol: 'Rp. ',
                                     decimalDigits: 0,
-                                  ).format(int.parse(product.harga
-                                      .replaceAll('Rp.', '')
-                                      .replaceAll(',', '')
-                                      .trim())),
+                                  ).format(product.harga),
                                   style: darkMode
                                       ? STextTheme.titleBaseBlackDark
                                       : STextTheme.titleBaseBlackLight,
@@ -192,13 +190,11 @@ class SProductV extends StatelessWidget {
                                           ),
                                           builder: (context) {
                                             return SAddToCartPopup(
-                                              price: int.parse(product.harga
-                                                  .replaceAll('Rp.', '')
-                                                  .replaceAll(',', '')
-                                                  .trim()),
+                                              price: (product.harga),
                                               name: product.nama,
-                                              maxQuantity:
-                                                  int.parse(product.qty),
+                                              maxQuantity:(product.qty),
+                                              image: product.image,
+                                              size: product.berat,
                                             );
                                           },
                                         );
@@ -222,6 +218,92 @@ class SProductV extends StatelessWidget {
               ),
             );
           },
+        );
+      },
+    );
+  }
+
+  // Fungsi untuk membuat efek shimmer
+  Widget buildShimmerEffect(BuildContext context) {
+    final darkMode = SHelperFunctions.isDarkMode(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    int crossAxisCount = 2;
+    if (screenWidth >= 600) {
+      crossAxisCount = 3;
+    }
+    if (screenWidth >= 900) {
+      crossAxisCount = 4;
+    }
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 6, // Jumlah item shimmer yang ditampilkan
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.75,
+      ),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: darkMode ? Colors.grey[800]! : Colors.grey[300]!,
+          highlightColor: darkMode ? Colors.grey[700]! : Colors.grey[100]!,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: darkMode ? SColors.green50 : SColors.softBlack50,
+              ),
+              borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+              color: darkMode ? SColors.pureBlack : SColors.pureWhite,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(SSizes.md),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Shimmer untuk gambar produk
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: SSizes.sm2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Shimmer untuk nama produk
+                        Container(
+                          width: double.infinity,
+                          height: 16,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(height: SSizes.xs),
+                        // Shimmer untuk ukuran produk
+                        Container(
+                          width: 100,
+                          height: 12,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(height: SSizes.xs),
+                          // Shimmer untuk harga produk
+                        Container( 
+                          width: 80,
+                          height: 14,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );

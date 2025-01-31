@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:segarku/features/carts/controllers/cart_provider.dart';
 import 'package:segarku/features/shop/products/add_to_cart_popup.dart';
 import 'package:segarku/features/shop/products/data/product.dart';
 import 'package:segarku/utils/constants/colors.dart';
@@ -20,6 +21,7 @@ class DescProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
+    final CartController cartController = Get.find<CartController>();
 
     void showAddToCartPopup(BuildContext context, int productPrice, String productName, String productImage) {
       showModalBottomSheet(
@@ -31,7 +33,9 @@ class DescProductScreen extends StatelessWidget {
           return SAddToCartPopup(
             price: productPrice,
             name: productName,
-            maxQuantity: int.parse(product.qty), // Gunakan qty dari SProduct
+            maxQuantity: (product.qty),
+            image: product.image,
+            size: product.berat,
           );
         },
       );
@@ -177,7 +181,7 @@ class DescProductScreen extends StatelessWidget {
                                     locale: 'id',
                                     symbol: 'Rp. ',
                                     decimalDigits: 0,
-                                  ).format(int.parse(product.harga.replaceAll(RegExp(r'[^0-9]'), ''))), // Konversi harga ke int
+                                  ).format(product.harga), // Tidak perlu parsing lagi
                                   style: STextTheme.titleLgBolddark.copyWith(
                                     color: SColors.green500,
                                   ),
@@ -188,7 +192,7 @@ class DescProductScreen extends StatelessWidget {
                                 Row(
                                   children: [
                                     GestureDetector(
-                                      onTap: () => showAddToCartPopup(context, int.parse(product.harga.replaceAll(RegExp(r'[^0-9]'), '')), product.nama, product.image),
+                                      onTap: () => showAddToCartPopup(context, (product.harga), product.nama, product.image),
                                       child: Container(
                                         width: 24,
                                         height: 24,
@@ -218,7 +222,7 @@ class DescProductScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(width: SSizes.md),
                                     GestureDetector(
-                                      onTap: () => showAddToCartPopup(context, int.parse(product.harga.replaceAll(RegExp(r'[^0-9]'), '')), product.nama, product.image),
+                                      onTap: () => showAddToCartPopup(context,(product.harga), product.nama, product.image),
                                       child: Container(
                                         width: 24,
                                         height: 24,
@@ -291,7 +295,7 @@ class DescProductScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Footer Tetap
+          // tombol tambah keranjang 
           Container(
             decoration: BoxDecoration(
               color: dark ? SColors.softBlack500 : SColors.pureWhite,
@@ -314,7 +318,17 @@ class DescProductScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                       ),
                     ),
-                    onPressed: () => Get.to(() => const NavigationMenu(initialIndex: 1)),
+                    onPressed: () {
+                      cartController.addToCart(product);
+                      Get.snackbar(
+                        "Berhasil!",
+                        "${product.nama} ditambahkan ke keranjang",
+                        snackPosition: SnackPosition.BOTTOM,
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Colors.green,
+                        colorText: Colors.white,
+                      );
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

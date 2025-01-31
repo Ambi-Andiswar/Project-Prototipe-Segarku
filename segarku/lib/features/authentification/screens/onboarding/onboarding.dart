@@ -14,7 +14,7 @@ class OnBoardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(OnboardingController());
 
-    // Mulai auto-scroll saat halaman dibuat
+    // auto-scroll saat halaman dibuat
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.startAutoScroll();
     });

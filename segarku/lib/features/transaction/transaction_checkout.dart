@@ -23,7 +23,7 @@ class TransactionCheckoutScreen extends StatefulWidget {
 }
 
 class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
-  bool isDelivery = true;
+  bool isDelivery = false;
   DateTime deliveryTime = DateTime.now(); // Variabel untuk menyimpan waktu pengiriman
 
   Future<bool> _onWillPop() async {

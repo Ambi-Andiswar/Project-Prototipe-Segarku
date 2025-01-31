@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
+import 'package:segarku/features/orders/widget/no_history.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
@@ -16,45 +17,49 @@ class HistoryOrderProfile extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // SCustomAppBar dengan Divider di bawah
           Container(
-            color: dark 
-              ? SColors.pureBlack 
-              : SColors.pureWhite, // Ganti dengan warna yang sesuai
+            color: dark ? SColors.pureBlack : SColors.pureWhite,
             child: Column(
               children: [
-                // Padding di atas AppBar
                 const SizedBox(height: 20),
                 SCustomAppBar(
                   title: STexts.history,
-                  darkMode: dark, 
+                  darkMode: dark,
                 ),
                 const SizedBox(height: SSizes.md),
                 Divider(
                   color: dark ? SColors.green50 : SColors.softBlack50,
                   thickness: 1,
-                  height: 1, // Pastikan tidak ada ruang tambahan
+                  height: 1,
                 ),
               ],
             ),
           ),
-
-          // Gunakan Expanded untuk mengisi sisa ruang yang tersedia
           Expanded(
             child: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Tambahkan teks di atas AllProductHistory
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: SSizes.defaultMargin,
-                      vertical: SSizes.md,
+                      vertical: SSizes.lg2,
                     ),
-                    child: Text(
-                      STexts.historyOrder,
-                      style: dark
-                          ? STextTheme.titleBaseBoldDark
-                          : STextTheme.titleBaseBoldLight,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        STexts.historyOrder,
+                        style: dark
+                            ? STextTheme.titleBaseBoldDark
+                            : STextTheme.titleBaseBoldLight,
+                      ),
+                    ),
+                  ),
+                  // NoHistoryScreen di tengah vertikal dan horizontal
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: const Center(
+                      child: NoHistoryScreen(),
                     ),
                   ),
                 ],

@@ -39,7 +39,7 @@ class SeeAddressShop extends StatelessWidget {
                           : STextTheme.bodyCaptionRegularLight,
                     ),
                     Text(
-                      STexts.exAddress, // Tetap exAddress
+                      STexts.exAddress2, // Tetap exAddress
                       style: (dark
                               ? STextTheme.bodyCaptionRegularDark
                               : STextTheme.bodyCaptionRegularLight)

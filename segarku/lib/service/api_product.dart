@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:segarku/features/shop/products/data/product.dart';
 
 class ApiServiceProduct {
-  static const String apiUrl = 'https://www.admin-segarku.online/apiproducts';
+  static const String apiUrl = 'https://www.admin-segarku.online/api/products';
 
   static Future<List<SProduct>> fetchProducts() async {
   final response = await http.get(Uri.parse(apiUrl));

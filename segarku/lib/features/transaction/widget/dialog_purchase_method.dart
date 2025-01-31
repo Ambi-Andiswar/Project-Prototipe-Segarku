@@ -45,55 +45,7 @@ class ConfirmationDialog extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Option Delivery
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setModalState(() {
-                          selectedPaymentMethod = 'delivery';
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(SSizes.md),
-                        decoration: BoxDecoration(
-                          color: selectedPaymentMethod == 'delivery'
-                              ? SColors.green100
-                              : null,
-                          border: Border.all(
-                            color: selectedPaymentMethod == 'delivery'
-                                ? SColors.green500
-                                : SColors.softBlack50,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Row(
-                          children: [
-                            const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: SColors.green500,
-                              child: Icon(
-                                SIcons.delivery,
-                                color:  SColors.pureWhite,
-                                size: SSizes.defaultIcon,
-                              ),
-                            ),
-                            const SizedBox(width: SSizes.md),
-                            Text(
-                              STexts.delivery,
-                              style: (dark
-                                  ? (selectedPaymentMethod == 'delivery' ? STextTheme.titleBaseBoldLight : STextTheme.titleBaseBoldDark)
-                                  : STextTheme.titleBaseBoldLight)
-                                  .copyWith(fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(width: SSizes.md),
-
-                  // Option Pick-Up
+                  // Option Pick-Up (Pindahkan ke kiri)
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
@@ -130,6 +82,66 @@ class ConfirmationDialog extends StatelessWidget {
                               STexts.pickUp,
                               style: (dark
                                   ? (selectedPaymentMethod == 'pickup' ? STextTheme.titleBaseBoldLight : STextTheme.titleBaseBoldDark)
+                                  : STextTheme.titleBaseBoldLight)
+                                  .copyWith(fontSize: 15),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: SSizes.md),
+
+                  // Option Delivery (Pindahkan ke kanan)
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        setModalState(() {
+                          selectedPaymentMethod = 'delivery';
+                        });
+                        // Show Get.snackbar when delivery is selected
+                        Get.snackbar(
+                          STexts.changeDelivery,
+                          STexts.changeDeliverySubTitle,
+                          backgroundColor: Colors.yellow,
+                          colorText: Colors.black,
+                          snackPosition: SnackPosition.TOP,
+                          borderRadius: 12,
+                          margin: const EdgeInsets.all(16),
+                          icon: const Icon(SIcons.delivery, color: Colors.black),
+                          duration: const Duration(seconds: 5),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(SSizes.md),
+                        decoration: BoxDecoration(
+                          color: selectedPaymentMethod == 'delivery'
+                              ? SColors.green100
+                              : null,
+                          border: Border.all(
+                            color: selectedPaymentMethod == 'delivery'
+                                ? SColors.green500
+                                : SColors.softBlack50,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 20,
+                              backgroundColor: SColors.green500,
+                              child: Icon(
+                                SIcons.delivery,
+                                color:  SColors.pureWhite,
+                                size: SSizes.defaultIcon,
+                              ),
+                            ),
+                            const SizedBox(width: SSizes.md),
+                            Text(
+                              STexts.delivery,
+                              style: (dark
+                                  ? (selectedPaymentMethod == 'delivery' ? STextTheme.titleBaseBoldLight : STextTheme.titleBaseBoldDark)
                                   : STextTheme.titleBaseBoldLight)
                                   .copyWith(fontSize: 15),
                             ),

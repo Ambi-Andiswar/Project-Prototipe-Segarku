@@ -93,6 +93,8 @@ class STexts{
   static const String resetPassSubTitle = "Silahkan cek";
   static const String resetPassFailedTitle = "Terlalu banyak percobaan login. Coba lagi nanti.";
   static const String resetPassFailedSubTitle = "Terlalu banyak percobaan login. Coba lagi nanti.";
+  static const String changeDelivery = "Anda memilih Delivery?";
+  static const String changeDeliverySubTitle = "Pastikan alamat Anda sekarang di daerah Kemiling untuk memastikan pesanan Anda dapat diproses dengan baik.";
 
   // Login Text
   static const String loginTitle = "Selamat datang di SegarKu";
@@ -169,6 +171,7 @@ class STexts{
   static const String detailAddress= "Detail alamat";
   static const String addressShop= "Alamat Toko :";
   static const String exAddress= "Silahkan isi alamat dan dan penerima disini";
+  static const String exAddress2= "Alamat Gg. Randu 9 No.58, Segala Mider, Kec. Tj. Karang Bar., Kota Bandar Lampung, Lampung 35124, Indonesia 35124";
   static const String deliveryMothod = "Mode Pengiriman";
   static const String pickUp = "Ambil di toko";
   static const String free = "Free";

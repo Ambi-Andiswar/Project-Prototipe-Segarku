@@ -35,11 +35,9 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
-
     return Scaffold(
       body: Column(
         children: [
-          // Kontainer di bagian atas
           Container(
             padding: const EdgeInsets.only(top: 70, bottom: 24),
             decoration: BoxDecoration(
@@ -53,7 +51,7 @@ class _OrderScreenState extends State<OrderScreen> {
             ),
             child: Center(
               child: Text(
-                'Riwayat Transaksi',
+                'Pesanan',
                 style: darkMode
                     ? STextTheme.titleBaseBoldDark
                     : STextTheme.titleBaseBoldLight,

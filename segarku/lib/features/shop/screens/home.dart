@@ -27,7 +27,6 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Bagian dengan padding
               Padding(
                 padding: SSpacingStyle.paddingWithAppBarHeight,
                 child: Column(

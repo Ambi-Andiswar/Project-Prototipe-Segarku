@@ -22,7 +22,6 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          // Header
           Container(
             padding: const EdgeInsets.only(top: 70, bottom: 24),
             decoration: BoxDecoration(
@@ -44,7 +43,6 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
 
-          // Profil dan Pengaturan
           Expanded(
             child: SingleChildScrollView(
               child: Column(

@@ -224,7 +224,7 @@ class _SearchPageState extends State<SearchPage> {
                                 locale: 'id',
                                 symbol: 'Rp. ',
                                 decimalDigits: 0,
-                              ).format(int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim())),
+                              ).format(product.harga),
                               style: Theme.of(context).brightness == Brightness.dark
                                   ? STextTheme.titleBaseBlackDark
                                   : STextTheme.titleBaseBlackLight,
@@ -250,9 +250,11 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                     builder: (context) {
                                       return SAddToCartPopup(
-                                          price: int.parse(product.harga.replaceAll('Rp.', '').replaceAll(',', '').trim()),
+                                          price: (product.harga),
                                           name: product.nama,
-                                          maxQuantity: int.parse(product.qty),
+                                          maxQuantity:(product.qty),
+                                          image: product.image,
+                                          size: product.berat,
                                         );
                                     },
                                   );

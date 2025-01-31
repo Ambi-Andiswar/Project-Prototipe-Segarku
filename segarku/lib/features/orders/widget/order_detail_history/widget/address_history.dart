@@ -123,7 +123,7 @@ class AddressHistory extends StatelessWidget {
                             ),
                             const SizedBox(height: SSizes.sm2),
                             Text(
-                              STexts.exAddress,
+                              STexts.exAddress2,
                               style: (dark
                                       ? STextTheme.bodyCaptionRegularDark
                                       : STextTheme.bodyCaptionRegularLight)

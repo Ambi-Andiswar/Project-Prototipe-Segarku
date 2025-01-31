@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 import 'package:segarku/features/shop/products/list_product.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -61,15 +62,15 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
 
   String _getCategoryImage(String categoryName) {
     switch (categoryName) {
-      case "sayur & buah":
+      case "Sayur & Buah":
         return SImages.categoryBuahSayur;
-      case "Daging Dam Protein":
+      case "Daging & Protein":
         return SImages.categoryDagingProtein;
-      case "Bumbu dan Rempah":
+      case "Bumbu & Rempah":
         return SImages.categoryBumbuRempah;
       case "Sembako":
         return SImages.categorySembako;
-      case "Paket Siap Masak":
+      case "Paket Masak":
         return SImages.categoryPaketMasak;
       default:
         return SImages.appLogo;
@@ -81,7 +82,12 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
     if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(5, (index) => _buildShimmerCategory()),
+        ),
+      );
     }
 
     if (categories.isEmpty) {
@@ -91,7 +97,7 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start, // Ini yang diubah
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(
           categories.length,
           (index) => Padding(
@@ -116,7 +122,7 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: SSizes.sm),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Teks tetap di tengah
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
@@ -139,6 +145,46 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
                   ),
                 ),
               ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Widget untuk efek shimmer loading kategori
+  Widget _buildShimmerCategory() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Container(
+          width: 67,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+            color: Colors.white,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: SSizes.sm),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                  child: Container(
+                    height: 55,
+                    width: double.infinity,
+                    color: Colors.grey[300],
+                  ),
+                ),
+                const SizedBox(height: SSizes.sm2),
+                Container(
+                  height: 12,
+                  width: 50,
+                  color: Colors.grey[300],
+                ),
+              ],
             ),
           ),
         ),

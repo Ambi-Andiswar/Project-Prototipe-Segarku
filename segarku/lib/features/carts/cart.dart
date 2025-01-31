@@ -40,7 +40,7 @@ class CartScreen extends StatelessWidget {
           ),
 
           // Konten di tengah-tengah layar
-          const Expanded(
+          Expanded(
             child: Center(
               child: CartsProductScreen(), // Widget keranjang produk
             ),

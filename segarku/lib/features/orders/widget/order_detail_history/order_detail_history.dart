@@ -27,7 +27,6 @@ class _OrderDetailHistoryScreenState extends State<OrderDetailHistoryScreen> {
     return Scaffold(
       body: Column(
         children: [
-          // AppBar
           Container(
             color: dark ? SColors.pureBlack : SColors.pureWhite,
             child: Column(

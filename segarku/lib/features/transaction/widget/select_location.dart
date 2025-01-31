@@ -83,7 +83,7 @@ class _SelectLocationState extends State<SelectLocation> {
                       ),
                       const SizedBox(height: SSizes.sm2),
                       Text(
-                        _addressDetail + _selectedAddress, // Menggunakan alamat yang dipilih
+                        _addressDetail + " " + _selectedAddress,
                         style: (dark
                                 ? STextTheme.bodyCaptionRegularDark
                                 : STextTheme.bodyCaptionRegularLight)
