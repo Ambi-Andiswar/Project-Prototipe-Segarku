@@ -227,7 +227,7 @@ class CartsProductScreen extends StatelessWidget {
                                                               borderRadius: 12,
                                                               margin: const EdgeInsets.all(16),
                                                               icon: const Icon(Icons.error, color: Colors.white), // Icon yang sesuai
-                                                              duration: const Duration(seconds: 3),
+                                                              duration: const Duration(seconds: 2),
                                                             );
                                                           }
                                                         },
@@ -328,7 +328,20 @@ class CartsProductScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                           ),
                         ),
-                        onPressed: () => Get.to(() => const TransactionCheckoutScreen()),
+                        onPressed: () {
+                          final selectedProducts = cartController.getSelectedProducts();
+                          if (selectedProducts.isEmpty) {
+                            Get.snackbar(
+                              "Peringatan",
+                              "Pilih setidaknya satu produk untuk checkout.",
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: SColors.danger500,
+                              colorText: SColors.pureWhite,
+                            );
+                          } else {
+                            Get.to(() => const TransactionCheckoutScreen());
+                          }
+                        },
                         child: const Text(
                           "Checkout",
                           style: STextTheme.titleBaseBoldDark,

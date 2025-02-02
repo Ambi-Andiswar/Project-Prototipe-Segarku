@@ -90,4 +90,24 @@ class CartController extends GetxController {
     }
     selectAll.value = false;
   }
+
+    List<SProduct> getSelectedProducts() {
+    List<SProduct> selectedProducts = [];
+    for (int i = 0; i < cartItems.length; i++) {
+      if (selectedItems[i]) {
+        selectedProducts.add(cartItems[i]);
+      }
+    }
+    return selectedProducts;
+  }
+
+  double calculateSubtotal() {
+    double subtotal = 0.0;
+    for (var i = 0; i < cartItems.length; i++) {
+      if (selectedItems[i]) {
+        subtotal += cartItems[i].harga * itemQuantities[i];
+      }
+    }
+    return subtotal;
+  }
 }

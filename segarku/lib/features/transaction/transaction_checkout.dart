@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dash/flutter_dash.dart';
+import 'package:intl/intl.dart';
+import 'package:segarku/features/carts/controllers/cart_provider.dart';
 import 'package:segarku/features/transaction/widget/delivery_options.dart';
 import 'package:segarku/features/transaction/widget/detail_product_transaction.dart';
 import 'package:segarku/features/transaction/widget/dialog_purchase_method.dart';
@@ -23,6 +25,9 @@ class TransactionCheckoutScreen extends StatefulWidget {
 }
 
 class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
+  final CartController cartController = Get.find<CartController>();
+
+
   bool isDelivery = false;
   DateTime deliveryTime = DateTime.now(); // Variabel untuk menyimpan waktu pengiriman
 
@@ -177,7 +182,13 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
-
+  
+    // Hitung subtotal, pajak, dan ongkos kirim
+    double subtotal = cartController.calculateSubtotal();
+    double tax = subtotal * 0.1; // Contoh pajak 10%
+    double deliveryFee = isDelivery ? 5000 : 0; // Contoh ongkos kirim
+    double total = subtotal + tax + deliveryFee;
+    
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -341,7 +352,9 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                 // Wrap DetailProductTransaction with SizedBox to constrain height
                                 SizedBox(
                                   height: MediaQuery.of(context).size.height * 0.5,
-                                  child: const DetailProductTransaction(),
+                                  child: DetailProductTransaction(
+                                    products: Get.find<CartController>().getSelectedProducts(),
+                                  ),
                                 ),
                               ],
                             ),
@@ -354,8 +367,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
       
                   // Bagian Bawah (Subtotal, Tax, Delivery, Total)
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: SSizes.defaultMargin),
+                    padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
                     child: Column(
                       children: [
                         const SizedBox(height: SSizes.md2),
@@ -371,16 +383,16 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                             ),
                             const Spacer(),
                             Text(
-                              "Rp 53.000",
+                              "Rp ${NumberFormat.decimalPattern('id').format(subtotal)}",
                               style: dark
                                   ? STextTheme.titleCaptionBoldDark
                                   : STextTheme.titleCaptionBoldLight,
                             ),
                           ],
                         ),
-      
+
                         const SizedBox(height: SSizes.md),
-      
+
                         // Taxs
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -393,16 +405,16 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                             ),
                             const Spacer(),
                             Text(
-                              "Rp 5.000",
+                              "Rp ${NumberFormat.decimalPattern('id').format(tax)}",
                               style: dark
                                   ? STextTheme.titleCaptionBoldDark
                                   : STextTheme.titleCaptionBoldLight,
                             ),
                           ],
                         ),
-      
+
                         const SizedBox(height: SSizes.md),
-      
+
                         // Delivery
                         isDelivery
                             ? Row(
@@ -416,7 +428,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                   ),
                                   const Spacer(),
                                   Text(
-                                    "Rp 8.000",
+                                    "Rp ${NumberFormat.decimalPattern('id').format(deliveryFee)}",
                                     style: dark
                                         ? STextTheme.titleCaptionBoldDark
                                         : STextTheme.titleCaptionBoldLight,
@@ -424,23 +436,21 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                 ],
                               )
                             : const SizedBox.shrink(),
-      
+
                         const SizedBox(height: SSizes.md),
-      
+
                         // Garis
                         Dash(
-                          length: MediaQuery.of(context).size.width -
-                              (SSizes.defaultMargin * 2),
+                          length: MediaQuery.of(context).size.width - (SSizes.defaultMargin * 2),
                           dashLength: 4.0,
                           dashGap: 4.0,
                           direction: Axis.horizontal,
-                          dashColor:
-                              dark ? SColors.green50 : SColors.softBlack50,
+                          dashColor: dark ? SColors.green50 : SColors.softBlack50,
                           dashBorderRadius: 4.0,
                         ),
-      
+
                         const SizedBox(height: SSizes.md),
-      
+
                         // Total
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -453,7 +463,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                             ),
                             const Spacer(),
                             Text(
-                              "Rp 66.000",
+                              "Rp ${NumberFormat.decimalPattern('id').format(total)}",
                               style: STextTheme.titleBaseBoldDark.copyWith(
                                 color: SColors.green500,
                               ),
@@ -479,16 +489,16 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                       children: [
                                         Text(
                                           'Konfirmasi Pembelian',
-                                          style: dark 
-                                            ? STextTheme.titleBaseBoldDark
-                                            : STextTheme.titleBaseBoldLight
+                                          style: dark
+                                              ? STextTheme.titleBaseBoldDark
+                                              : STextTheme.titleBaseBoldLight,
                                         ),
                                         const SizedBox(height: SSizes.sm2),
                                         Text(
                                           'Apakah produk yang Anda beli sudah sesuai?',
                                           style: dark
-                                            ? STextTheme.bodyBaseRegularDark
-                                            : STextTheme.bodyBaseRegularLight,
+                                              ? STextTheme.bodyBaseRegularDark
+                                              : STextTheme.bodyBaseRegularLight,
                                         ),
                                         const SizedBox(height: SSizes.lg),
                                         Row(
@@ -500,10 +510,10 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                                 },
                                                 child: Text(
                                                   'Batal',
-                                                  style: dark 
-                                                    ? STextTheme.titleBaseBoldDark
-                                                    : STextTheme.titleBaseBoldLight
-                                                  ),
+                                                  style: dark
+                                                      ? STextTheme.titleBaseBoldDark
+                                                      : STextTheme.titleBaseBoldLight,
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(width: SSizes.md),
@@ -515,10 +525,10 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                                 },
                                                 child: Text(
                                                   'Lanjutkan',
-                                                  style: dark 
-                                                    ? STextTheme.titleBaseBoldLight
-                                                    : STextTheme.titleBaseBoldDark
-                                                  ),
+                                                  style: dark
+                                                      ? STextTheme.titleBaseBoldLight
+                                                      : STextTheme.titleBaseBoldDark,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -532,12 +542,12 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                             child: Text(
                               STexts.buyNow,
                               style: dark
-                                ? STextTheme.titleBaseBoldLight
-                                : STextTheme.titleBaseBoldDark,
+                                  ? STextTheme.titleBaseBoldLight
+                                  : STextTheme.titleBaseBoldDark,
                             ),
                           ),
                         ),
-      
+
                         const SizedBox(height: SSizes.xl),
                       ],
                     ),

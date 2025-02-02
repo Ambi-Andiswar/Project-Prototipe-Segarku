@@ -1,44 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:segarku/features/shop/products/data/product.dart';
 import 'package:segarku/utils/constants/colors.dart';
-import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class DetailProductTransaction extends StatelessWidget {
-  const DetailProductTransaction({super.key});
+  final List<SProduct> products;
+
+  const DetailProductTransaction({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
-
-    // Data produk contoh yang telah di-checkout
-    final List<Map<String, String>> checkedOutProducts = [
-      {
-        "name": "Bayam",
-        "size": "500 gr/pack",
-        "price": "Rp. 8.000",
-        "image": SImages.bayam
-      },
-      {
-        "name": "Semangka",
-        "size": "800gr-1kg/pack",
-        "price": "Rp. 15.000",
-        "image": SImages.semangka
-      },
-      {
-        "name": "Tomat",
-        "size": "300-500 gr/pack",
-        "price": "Rp. 5.000",
-        "image": SImages.tomat
-      },
-      {
-        "name": "Brokoli",
-        "size": "300-500 gr/pack",
-        "price": "Rp. 25.000",
-        "image": SImages.brokoli
-      },
-    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -49,8 +24,8 @@ class DetailProductTransaction extends StatelessWidget {
           ),
           padding: const EdgeInsets.all(SSizes.defaultMargin),
           child: Column(
-            children: checkedOutProducts.map((product) {
-              final isLast = product == checkedOutProducts.last;
+            children: products.map((product) {
+              final isLast = product == products.last;
               return Padding(
                 padding: EdgeInsets.only(
                   bottom: isLast ? 0 : SSizes.lg,
@@ -60,8 +35,8 @@ class DetailProductTransaction extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                      child: Image.asset(
-                        product["image"]!,
+                      child: Image.network(
+                        product.image,
                         width: 80.0,
                         height: 80.0,
                         fit: BoxFit.cover,
@@ -73,20 +48,20 @@ class DetailProductTransaction extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            product["name"]!,
+                            product.nama,
                             style: darkMode
                                 ? STextTheme.titleBaseBlackDark
                                 : STextTheme.titleBaseBlackLight,
                           ),
                           Text(
-                            product["size"]!,
+                            product.berat,
                             style: darkMode
                                 ? STextTheme.bodySmRegularDark
                                 : STextTheme.bodySmRegularLight,
                           ),
                           const SizedBox(height: SSizes.sm),
                           Text(
-                            product["price"]!,
+                            'Rp. ${NumberFormat.decimalPattern('id').format(product.harga)}',
                             style: STextTheme.titleBaseBoldLight.copyWith(
                               color: SColors.green500,
                             ),
@@ -98,7 +73,7 @@ class DetailProductTransaction extends StatelessWidget {
                       height: 80.0, // Tinggi yang sama dengan gambar
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        "1 Pack",
+                        "${product.qty} Qty",
                         style: darkMode
                             ? STextTheme.bodyCaptionRegularDark
                             : STextTheme.bodyCaptionRegularLight,
