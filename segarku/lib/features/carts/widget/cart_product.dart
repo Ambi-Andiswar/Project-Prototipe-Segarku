@@ -164,11 +164,6 @@ class CartsProductScreen extends StatelessWidget {
                                                     ? STextTheme.bodySmRegularDark
                                                     : STextTheme.bodySmRegularLight,
                                               ),
-                                              const SizedBox(height: 4),
-                                              Text(
-                                                "Stok tersedia: ${product.qty}",
-                                                style: darkMode ? STextTheme.bodySmRegularDark : STextTheme.bodySmRegularLight,
-                                              ),
                                               const SizedBox(height: 8),
                                               // Harga dan kontrol kuantitas dalam 1 Row
                                               Row(
@@ -219,20 +214,20 @@ class CartsProductScreen extends StatelessWidget {
                                                       // Pada bagian kontrol kuantitas
                                                       GestureDetector(
                                                         onTap: () {
-                                                          // Ambil stok maksimal dari produk (misalnya dari widget atau database)
-                                                          int maxQuantity = cartController.cartItems[index].qty; // Ini adalah stok maksimal
-
-                                                          // Periksa apakah qty yang baru melebihi stok
+                                                          int maxQuantity = cartController.cartItems[index].maxQuantity;
                                                           if (cartController.cartItems[index].qty + 1 <= maxQuantity) {
                                                             cartController.updateQuantity(index, 1);
                                                           } else {
-                                                            // Tampilkan pesan error
                                                             Get.snackbar(
-                                                              "Stok Tidak Cukup",
-                                                              "Stok produk ${cartController.cartItems[index].nama} tidak mencukupi.",
-                                                              snackPosition: SnackPosition.BOTTOM,
+                                                              "Stok produk tidak mencukupi!", // Judul snackbar
+                                                              "Anda sudah menambahkan semua jumlah produk pada keranjang", // Subtitle (bisa dikosongkan jika tidak diperlukan)
                                                               backgroundColor: Colors.red,
                                                               colorText: Colors.white,
+                                                              snackPosition: SnackPosition.TOP,
+                                                              borderRadius: 12,
+                                                              margin: const EdgeInsets.all(16),
+                                                              icon: const Icon(Icons.error, color: Colors.white), // Icon yang sesuai
+                                                              duration: const Duration(seconds: 3),
                                                             );
                                                           }
                                                         },

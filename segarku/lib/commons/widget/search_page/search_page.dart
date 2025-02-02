@@ -162,6 +162,7 @@ class _SearchPageState extends State<SearchPage> {
                     harga: product.harga,
                     deskripsi: product.deskripsi,
                     qty: product.qty,
+                    maxQuantity: product.maxQuantity,
                     categoryId: product.categoryId,
                     categoryName: product.categoryName,
                     showPhoto: product.showPhoto,

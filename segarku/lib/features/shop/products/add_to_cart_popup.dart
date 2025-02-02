@@ -57,6 +57,7 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
           nama: widget.name,
           harga: widget.price,
           qty: quantity,
+          maxQuantity: widget.maxQuantity,
           categoryId: "",
           berat: widget.size,
           deskripsi: "",
@@ -78,7 +79,7 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
         borderRadius: 12,
         margin: const EdgeInsets.all(16),
         icon: const Icon(Icons.shopping_cart, color: Colors.white), // Icon yang sesuai
-        duration: const Duration(seconds: 5),
+        duration: const Duration(seconds: 3),
       );
     } else {
       // Jika melebihi, tampilkan pesan error
@@ -91,7 +92,7 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
         borderRadius: 12,
         margin: const EdgeInsets.all(16),
         icon: const Icon(Icons.error, color: Colors.white), // Icon yang sesuai
-        duration: const Duration(seconds: 5),
+        duration: const Duration(seconds: 3),
       );
     }
   }

@@ -2,6 +2,7 @@ class SProduct {
   final String nama;
   final int harga;
   final int qty;
+  final int maxQuantity; // Tambahkan ini
   final String categoryId;
   final String berat;
   final String deskripsi;
@@ -15,6 +16,7 @@ class SProduct {
     required this.nama,
     required this.harga,
     required this.qty,
+    required this.maxQuantity, // Tambahkan ini
     required this.categoryId,
     required this.berat,
     required this.deskripsi,
@@ -30,6 +32,7 @@ class SProduct {
       nama: json['nama'] ?? 'Produk',
       harga: int.tryParse(json['harga']?.toString() ?? '0') ?? 0,
       qty: int.tryParse(json['qty']?.toString() ?? '0') ?? 0,
+      maxQuantity: int.tryParse(json['qty']?.toString() ?? '0') ?? 0, // Tambahkan ini
       categoryId: json['category_id'] ?? '',
       berat: json['berat'] ?? '0 gr/pack',
       deskripsi: json['deskripsi'] ?? '',
@@ -41,11 +44,11 @@ class SProduct {
     );
   }
 
-  // Tambahkan metode copyWith()
   SProduct copyWith({
     String? nama,
     int? harga,
     int? qty,
+    int? maxQuantity, // Tambahkan ini
     String? categoryId,
     String? berat,
     String? deskripsi,
@@ -59,6 +62,7 @@ class SProduct {
       nama: nama ?? this.nama,
       harga: harga ?? this.harga,
       qty: qty ?? this.qty,
+      maxQuantity: maxQuantity ?? this.maxQuantity, // Tambahkan ini
       categoryId: categoryId ?? this.categoryId,
       berat: berat ?? this.berat,
       deskripsi: deskripsi ?? this.deskripsi,

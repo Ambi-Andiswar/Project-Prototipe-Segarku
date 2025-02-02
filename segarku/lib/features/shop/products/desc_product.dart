@@ -210,8 +210,7 @@ class DescProductScreen extends StatelessWidget {
                                           size: 16,
                                           color: dark
                                               ? SColors.green100
-                                              : SColors.softBlack100,
-                                        ),
+                                              : SColors.softBlack100,                                       ),
                                       ),
                                     ),
                                     const SizedBox(width: SSizes.md),
@@ -332,13 +331,18 @@ class DescProductScreen extends StatelessWidget {
                       }
 
                       Get.snackbar(
-                        "Berhasil!",
-                        "${product.nama} ditambahkan ke keranjang",
-                        snackPosition: SnackPosition.BOTTOM,
-                        duration: const Duration(seconds: 2),
+                        "Produk ditambahkan ke keranjang!", // Judul snackbar
+                        "Anda bisa langsung melakukan pembayaran sekarang", // Subtitle (bisa dikosongkan jika tidak diperlukan)
                         backgroundColor: Colors.green,
                         colorText: Colors.white,
+                        snackPosition: SnackPosition.TOP,
+                        borderRadius: 12,
+                        margin: const EdgeInsets.all(16),
+                        icon: const Icon(Icons.shopping_cart, color: Colors.white), // Icon yang sesuai
+                        duration: const Duration(seconds: 3),
                       );
+
+                      Get.to(()=> const NavigationMenu(initialIndex: 1));
                     },
 
                     child: Row(
