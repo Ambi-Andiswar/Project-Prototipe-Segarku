@@ -33,6 +33,7 @@ class DescProductScreen extends StatelessWidget {
           return SAddToCartPopup(
             price: productPrice,
             name: productName,
+            id: product.id,
             maxQuantity: (product.qty),
             image: product.image,
             size: product.berat,
@@ -319,7 +320,17 @@ class DescProductScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      cartController.addToCart(product);
+                      int index = cartController.cartItems.indexWhere((item) => item.id == product.id);
+
+                      if (index != -1) {
+                        // Jika produk sudah ada di keranjang, tambah jumlahnya hanya 1
+                        cartController.updateQuantity(index, 1);
+                      } else {
+                        // Jika produk belum ada, tambahkan ke keranjang dengan qty = 1
+                        final newProduct = product.copyWith(qty: 1);
+                        cartController.addToCart(newProduct);
+                      }
+
                       Get.snackbar(
                         "Berhasil!",
                         "${product.nama} ditambahkan ke keranjang",
@@ -329,6 +340,7 @@ class DescProductScreen extends StatelessWidget {
                         colorText: Colors.white,
                       );
                     },
+
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

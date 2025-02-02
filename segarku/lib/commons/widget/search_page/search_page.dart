@@ -252,6 +252,7 @@ class _SearchPageState extends State<SearchPage> {
                                       return SAddToCartPopup(
                                           price: (product.harga),
                                           name: product.nama,
+                                          id: product.id,
                                           maxQuantity:(product.qty),
                                           image: product.image,
                                           size: product.berat,

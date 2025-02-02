@@ -95,7 +95,6 @@ class AllProductHistory extends StatelessWidget {
                               ? STextTheme.titleBaseBoldDark
                               : STextTheme.titleBaseBoldLight,
                         ),
-                        const SizedBox(height: SSizes.md),
                         const SProductH(),
                       ],
                     ),

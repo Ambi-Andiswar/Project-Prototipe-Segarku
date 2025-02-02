@@ -14,10 +14,12 @@ class SAddToCartPopup extends StatefulWidget {
   final int maxQuantity;
   final String image;
   final String size;
+  final String id;
 
   const SAddToCartPopup({
     super.key,
     required this.price,
+    required this.id,
     required this.name,
     required this.maxQuantity,
     required this.image,
@@ -33,35 +35,63 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
   final CartController cartController = Get.find<CartController>();
 
   void _addToCart() {
-    if (quantity <= widget.maxQuantity) {
-      final product = SProduct(
-        id: widget.name, 
-        nama: widget.name,
-        harga: widget.price,
-        qty: quantity, // Tambahkan sesuai jumlah yang dipilih
-        categoryId: "", 
-        berat: widget.size,
-        deskripsi: "",
-        image: widget.image,
-        categoryName: "",
-        showPhoto: "",
-        category: {},
-      );
+    // Hitung total qty yang akan ditambahkan
+    int totalQty = quantity;
 
-      cartController.addToCart(product);
+    // Cari produk yang sudah ada di keranjang
+    int index = cartController.cartItems.indexWhere((item) => item.id == widget.id);
+
+    if (index != -1) {
+      // Jika produk sudah ada, tambahkan qty yang sudah ada di keranjang
+      totalQty += cartController.cartItems[index].qty;
+    }
+
+    // Periksa apakah total qty melebihi stok yang tersedia
+    if (totalQty <= widget.maxQuantity) {
+      // Jika tidak melebihi, tambahkan produk ke keranjang
+      if (index != -1) {
+        cartController.updateQuantity(index, quantity);
+      } else {
+        final product = SProduct(
+          id: widget.id,
+          nama: widget.name,
+          harga: widget.price,
+          qty: quantity,
+          categoryId: "",
+          berat: widget.size,
+          deskripsi: "",
+          image: widget.image,
+          categoryName: "",
+          showPhoto: "",
+          category: {},
+        );
+        cartController.addToCart(product);
+      }
+
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Produk ditambahkan ke keranjang!"),
-          backgroundColor: Colors.green,
-        ),
+      Get.snackbar(
+        "Produk ditambahkan ke keranjang!", // Judul snackbar
+        "Anda bisa langsung melakukan pembayaran sekarang", // Subtitle (bisa dikosongkan jika tidak diperlukan)
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 12,
+        margin: const EdgeInsets.all(16),
+        icon: const Icon(Icons.shopping_cart, color: Colors.white), // Icon yang sesuai
+        duration: const Duration(seconds: 5),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Stok tidak mencukupi. Stok tersedia: ${widget.maxQuantity}'),
-          backgroundColor: Colors.red,
-        ),
+      // Jika melebihi, tampilkan pesan error
+      Get.snackbar(
+        "Stok produk tidak mencukupi!", // Judul snackbar
+        "Anda sudah menambahkan semua jumlah produk pada keranjang", // Subtitle (bisa dikosongkan jika tidak diperlukan)
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
+        borderRadius: 12,
+        margin: const EdgeInsets.all(16),
+        icon: const Icon(Icons.error, color: Colors.white), // Icon yang sesuai
+        duration: const Duration(seconds: 5),
       );
     }
   }

@@ -7,6 +7,8 @@ import 'package:segarku/features/transaction/transaction_checkout.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
+import 'package:segarku/utils/constants/text_strings.dart';
+import 'package:segarku/utils/models/product_horizontal.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 
@@ -162,6 +164,11 @@ class CartsProductScreen extends StatelessWidget {
                                                     ? STextTheme.bodySmRegularDark
                                                     : STextTheme.bodySmRegularLight,
                                               ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                "Stok tersedia: ${product.qty}",
+                                                style: darkMode ? STextTheme.bodySmRegularDark : STextTheme.bodySmRegularLight,
+                                              ),
                                               const SizedBox(height: 8),
                                               // Harga dan kontrol kuantitas dalam 1 Row
                                               Row(
@@ -209,15 +216,32 @@ class CartsProductScreen extends StatelessWidget {
                                                             : STextTheme.titleBaseBoldLight,
                                                       )),
                                                       const SizedBox(width: SSizes.md),
+                                                      // Pada bagian kontrol kuantitas
                                                       GestureDetector(
-                                                        onTap: () => cartController.updateQuantity(index, 1),
+                                                        onTap: () {
+                                                          // Ambil stok maksimal dari produk (misalnya dari widget atau database)
+                                                          int maxQuantity = cartController.cartItems[index].qty; // Ini adalah stok maksimal
+
+                                                          // Periksa apakah qty yang baru melebihi stok
+                                                          if (cartController.cartItems[index].qty + 1 <= maxQuantity) {
+                                                            cartController.updateQuantity(index, 1);
+                                                          } else {
+                                                            // Tampilkan pesan error
+                                                            Get.snackbar(
+                                                              "Stok Tidak Cukup",
+                                                              "Stok produk ${cartController.cartItems[index].nama} tidak mencukupi.",
+                                                              snackPosition: SnackPosition.BOTTOM,
+                                                              backgroundColor: Colors.red,
+                                                              colorText: Colors.white,
+                                                            );
+                                                          }
+                                                        },
                                                         child: Container(
                                                           width: 24,
                                                           height: 24,
                                                           decoration: BoxDecoration(
                                                             color: SColors.green100,
-                                                            borderRadius: BorderRadius.circular(
-                                                                SSizes.borderRadiussm),
+                                                            borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
                                                           ),
                                                           child: const Icon(
                                                             Icons.add,
@@ -243,6 +267,20 @@ class CartsProductScreen extends StatelessWidget {
                             );
                           }),
                         ),
+                      ),
+
+                      const SizedBox(height: SSizes.lg2),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            STexts.youLink,
+                            style: darkMode
+                              ? STextTheme.titleBaseBoldDark
+                              : STextTheme.titleBaseBoldLight,
+                          ),
+                          const SProductH(),
+                        ],
                       ),
                     ],
                   ),

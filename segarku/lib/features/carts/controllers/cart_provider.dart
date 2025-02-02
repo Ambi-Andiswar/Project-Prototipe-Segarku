@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:segarku/features/shop/products/data/product.dart';
+import 'package:segarku/utils/constants/colors.dart';
 
 class CartController extends GetxController {
   var cartItems = <SProduct>[].obs; // Produk dalam keranjang
@@ -14,17 +15,50 @@ class CartController extends GetxController {
 
   // 🛒 Tambahkan produk ke keranjang
   void addToCart(SProduct product) {
+  // Cari produk yang sudah ada di keranjang
     int index = cartItems.indexWhere((item) => item.id == product.id);
-    
+
     if (index != -1) {
-      // Jika produk sudah ada, tambahkan jumlahnya
-      cartItems[index] = cartItems[index].copyWith(qty: cartItems[index].qty + product.qty);
+      // Jika produk sudah ada, hitung total qty yang akan ditambahkan
+      int totalQty = cartItems[index].qty + product.qty;
+
+      // Periksa apakah total qty melebihi stok yang tersedia
+      if (totalQty <= product.qty) {
+        // Jika tidak melebihi, update jumlahnya
+        cartItems[index] = cartItems[index].copyWith(qty: totalQty);
+      } else {
+        // Jika melebihi, tampilkan pesan error (opsional)
+        Get.snackbar(
+          "Stok Tidak Cukup",
+          "Stok produk ${product.nama} tidak mencukupi.",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: SColors.danger500,
+          colorText: SColors.pureWhite,
+        );
+        return; // Hentikan proses penambahan
+      }
     } else {
-      // Jika produk baru, tambahkan ke daftar
-      cartItems.add(product);
-      selectedItems.add(false);
+      // Jika produk belum ada, periksa apakah qty yang diminta melebihi stok
+      if (product.qty <= product.qty) {
+        // Jika tidak melebihi, tambahkan produk ke keranjang
+        cartItems.add(product);
+        selectedItems.add(false);
+      } else {
+        // Jika melebihi, tampilkan pesan error (opsional)
+        Get.snackbar(
+          "Stok Tidak Cukup",
+          "Stok produk ${product.nama} tidak mencukupi.",
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: SColors.danger500,
+          colorText: SColors.pureWhite,
+        );
+        return; // Hentikan proses penambahan
+      }
     }
+
+    update(); // Perbarui UI
   }
+
 
   // 🗑 Hapus produk dari keranjang
   void removeFromCart(int index) {
@@ -48,6 +82,7 @@ class CartController extends GetxController {
     }
     return total;
   }
+  
 
   // 🔘 Pilih semua item di keranjang
   void toggleSelectAll(bool? value) {
