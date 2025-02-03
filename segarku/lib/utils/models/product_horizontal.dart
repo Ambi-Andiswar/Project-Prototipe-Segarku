@@ -35,8 +35,9 @@ class SProductH extends StatelessWidget {
           return const Center(child: Text('No products available'));
         }
 
-        // Sort products by quantity in descending order
-        final products = snapshot.data!;
+        // Sort products by quantity in descending order (stok terbanyak ke terkecil)
+        final products = snapshot.data!..sort((a, b) => b.qty.compareTo(a.qty));
+
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(

@@ -6,7 +6,7 @@ import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
-import '../../../../../utils/constants/text_strings.dart';
+import '../../../../utils/constants/text_strings.dart';
 
 class TransactionSuccess extends StatelessWidget {
   const TransactionSuccess({super.key});

@@ -133,4 +133,3 @@ class _SelectLocationState extends State<SelectLocation> {
     );
   }
 }
-

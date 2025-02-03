@@ -96,6 +96,7 @@ class HomeScreen extends StatelessWidget {
                           ? STextTheme.titleBaseBoldDark
                           : STextTheme.titleBaseBoldLight,
                     ),
+              const SizedBox(height: SSizes.md),
                     // Product Horizontal
                     const SProductH(),
                   ],
