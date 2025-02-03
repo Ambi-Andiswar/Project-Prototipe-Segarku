@@ -43,7 +43,6 @@ class _SelectLocationState extends State<SelectLocation> {
         );
 
         if (result != null) {
-          // Perbarui data jika ada hasil
           setState(() {
             _selectedAddress = result['address'] ?? _selectedAddress;
             _addressDetail = result['addressdetail'] ?? _addressDetail;
@@ -82,14 +81,23 @@ class _SelectLocationState extends State<SelectLocation> {
                             : STextTheme.bodyCaptionRegularLight,
                       ),
                       const SizedBox(height: SSizes.sm2),
-                      Text(
-                        _addressDetail + " " + _selectedAddress,
-                        style: (dark
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _selectedAddress,
+                            style: dark
                                 ? STextTheme.bodyCaptionRegularDark
-                                : STextTheme.bodyCaptionRegularLight)
-                            .copyWith(
-                          color: dark ? SColors.pureWhite : SColors.pureBlack,
-                        ),
+                                : STextTheme.bodyCaptionRegularLight,
+                          ),
+                          if (_addressDetail.isNotEmpty)
+                            Text(
+                              _addressDetail,
+                              style: dark
+                                  ? STextTheme.bodyCaptionRegularDark
+                                  : STextTheme.bodyCaptionRegularLight,
+                            ),
+                        ],
                       ),
                       const SizedBox(height: SSizes.md),
                       Row(
