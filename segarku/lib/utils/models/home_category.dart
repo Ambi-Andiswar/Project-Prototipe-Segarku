@@ -36,8 +36,11 @@ class _SHomeCategoriesState extends State<SHomeCategories> {
         if (json['success'] == true && json['data'] is List) {
           final List<dynamic> data = json['data'];
 
+          // Filter kategori untuk menghilangkan "Spesial Hari Ini"
+          final filteredData = data.where((item) => item['name'] != "Spesial Hari Ini").toList();
+
           setState(() {
-            categories = data.map<Map<String, String>>((item) {
+            categories = filteredData.map<Map<String, String>>((item) {
               return {
                 'name': item['name'] as String,
                 'image': _getCategoryImage(item['name'] as String),

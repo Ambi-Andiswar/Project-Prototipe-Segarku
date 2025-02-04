@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:segarku/utils/local_storage/user_storage.dart';
 
 class AuthControllerSignupMdb {
   Future<Map<String, dynamic>> registerUser(
@@ -23,9 +24,18 @@ class AuthControllerSignupMdb {
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.body}');
 
-      // Anggap sukses jika status code 200 atau 201
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
+
+        // Jika registrasi berhasil, simpan data user
+        if (responseData['status'] == 'success') {
+          await UserStorage.saveUserSession(
+            apiKey: responseData['api_key'],
+            uid: responseData['data']['uid'],
+            userData: responseData['data'],
+          );
+        }
+
         return {
           'success': responseData['status'] == 'success',
           'message': responseData['message']

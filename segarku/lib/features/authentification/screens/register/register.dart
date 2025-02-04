@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
+import 'package:segarku/features/authentification/controller/login_google/login_google_mdb.dart';
 import 'package:segarku/features/authentification/controller/signup/auth_controller_mdb.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
@@ -15,7 +16,6 @@ class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
@@ -28,10 +28,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-
   bool _isLoading = false;
 
-  // ignore: non_constant_identifier_names
   Future<void> _LoginGoogle() async {
     setState(() {
       _isLoading = true;
@@ -43,18 +41,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
 
     if (user != null) {
+  final idToken = await user.getIdToken();
+  await LoginGoogleMdb.postUserDataToMongoDB(idToken);
+
+  Get.offAll(() => const NavigationMenu(initialIndex: 0));
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
+  );
+
       Get.offAll(() => const NavigationMenu(initialIndex: 0));
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
       );
     } else {
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Login dengan Google gagal.')),
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Snackbar untuk registrasi berhasil
                     Get.snackbar(
                       'Selamat, ${nameController.text.trim()}!',
-                      'Akun Anda berhasil dibuat. Selamat bergabung di komunitas kami!',
+                      'Akun Anda berhasil dibuat. Selamat bergabung di Segarku!',
                       backgroundColor: SColors.green500,
                       colorText: SColors.pureWhite,
                       icon: const Icon(Icons.check_circle, color: Colors.white),

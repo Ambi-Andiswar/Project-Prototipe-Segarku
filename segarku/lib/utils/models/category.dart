@@ -38,8 +38,12 @@ class _SCategoryState extends State<SCategory> {
           // Ambil data dari JSON
           final List<dynamic> data = json['data'];
 
+          // Filter kategori untuk menghilangkan "Spesial Hari Ini"
+          final filteredData = data.where((item) => item['name'] != "Spesial Hari Ini").toList();
+          
+
           setState(() {
-            categories = data.map((item) {
+            categories = filteredData.map((item) {
               return {
                 'name': item['name'],
                 'products': item['Jumlah'] ?? 0, // Jumlah produk dari JSON

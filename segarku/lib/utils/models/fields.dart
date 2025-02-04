@@ -885,7 +885,7 @@ class InputFields {
   }
 
     //-------------------- Username Field --------------------//
-  static Widget usernameProfileField(BuildContext context, bool dark, {String? initialValue}) {
+  static Widget usernameProfileField(BuildContext context, bool dark, {TextEditingController? controller, String? initialValue}) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
@@ -913,6 +913,7 @@ class InputFields {
 
             // Text & Icons Form Field Username
             TextFormField(
+              controller: controller,
               initialValue: initialValue,
               focusNode: focusNode,
               decoration: InputDecoration(
@@ -964,7 +965,7 @@ class InputFields {
 
 
   //-------------------- Email Field --------------------//
-  static Widget editEmailField(BuildContext context, bool dark, {String? initialValue}) {
+  static Widget editEmailField(BuildContext context, bool dark, {TextEditingController? controller, String? initialValue}) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
@@ -992,6 +993,7 @@ class InputFields {
 
             // Text & Icons Form Field Username
             TextFormField(
+              controller: controller,
               focusNode: focusNode,
               initialValue: initialValue,
               decoration: InputDecoration(
@@ -1049,7 +1051,7 @@ class InputFields {
 
 
   //-------------------- editNoPhone Field --------------------//
-  static Widget editNoPhoneField(BuildContext context, bool dark, {String? initialValue}) {
+  static Widget editNoPhoneField(BuildContext context, bool dark, {TextEditingController? controller, String? initialValue}) {
     // FocusNode untuk mendeteksi fokus
     final FocusNode focusNode = FocusNode();
     bool isFocused = false;
@@ -1077,6 +1079,7 @@ class InputFields {
 
             // Text & Icons Form Field edit no HP
             TextFormField(
+              controller: controller,
               focusNode: focusNode,
               keyboardType: TextInputType.phone, 
               initialValue: initialValue,

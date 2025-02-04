@@ -18,7 +18,6 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = SHelperFunctions.isDarkMode(context);
-    final User? user = FirebaseAuth.instance.currentUser;
     return Scaffold(
       body: Column(
         children: [
@@ -52,7 +51,6 @@ class ProfileScreen extends StatelessWidget {
                   // Profil Pengguna
                   SUserProfileTitle(
                     onPressed: () => Get.to(() => const UserProfileScreen()),
-                    user: user, // Data pengguna
                   ),
 
                   const SizedBox(height: SSizes.md2),

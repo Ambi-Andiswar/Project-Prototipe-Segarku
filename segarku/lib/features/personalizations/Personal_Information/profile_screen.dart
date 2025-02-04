@@ -1,24 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
+import 'package:segarku/utils/local_storage/user_storage.dart';
 import 'package:segarku/utils/models/fields.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../../../../../utils/constants/text_strings.dart';
+import '../../../commons/widget/appbar/appbar.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
+
+  @override
+  _UserProfileScreenState createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  
+  Map<String, dynamic>? userData;
+  String? apiKey;
+  String? uid;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final data = await UserStorage.getUserData();
+    final storageApiKey = await UserStorage.getApiKey();
+    final storageUid = await UserStorage.getUid();
+
+    setState(() {
+      userData = data;
+      apiKey = storageApiKey;
+      uid = storageUid;
+      
+      // Populate controllers with existing data
+      _nameController.text = data?['nama'] ?? '';
+      _emailController.text = data?['email'] ?? '';
+      _phoneController.text = data?['telepon'] ?? '';
+    });
+  }
+
+  Future<void> _updateProfile() async {
+    if (apiKey == null || uid == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('User not logged in')),
+      );
+      return;
+    }
+
+    try {
+      final response = await http.patch(
+        Uri.parse('https://www.admin-segarku.online/api/customers/$uid'),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-KEY': apiKey!,
+        },
+        body: jsonEncode({
+          'nama': _nameController.text,
+          'email': _emailController.text,
+          'telepon': _phoneController.text,
+        }),
+      );
+
+      final responseData = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        // Update local storage
+        await UserStorage.saveUserSession(
+          apiKey: apiKey!,
+          uid: uid!,
+          userData: {
+            ...userData!,
+            'nama': _nameController.text,
+            'email': _emailController.text,
+            'telepon': _phoneController.text,
+          },
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile berhasil di perbarui!')),
+        );
+
+        // Navigate to profile or home screen
+        Get.to(() => const NavigationMenu(initialIndex: 3));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(responseData['message'] ?? 'Update failed')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error updating profile: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
-    final User? user = FirebaseAuth.instance.currentUser; 
+    
     return Scaffold(
-      resizeToAvoidBottomInset:true, 
+      resizeToAvoidBottomInset: true, 
       body: SafeArea(
         child: Column(
           children: [
@@ -50,19 +143,12 @@ class UserProfileScreen extends StatelessWidget {
                       // Profile Image
                       ClipRRect(
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                        child: user?.photoURL != null
-                            ? Image.network(
-                                user!.photoURL!,
-                                width: 72,
-                                height: 72,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(
-                                SImages.profile, // Gambar default
-                                width: 72,
-                                height: 72,
-                                fit: BoxFit.cover,
-                              ),
+                        child: Image.asset(
+                          SImages.profile, 
+                          width: 72,
+                          height: 72,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       const SizedBox(height: SSizes.lg2),
 
@@ -79,11 +165,23 @@ class UserProfileScreen extends StatelessWidget {
                       const SizedBox(height: SSizes.xl),
 
                       // Input Fields dengan data user
-                      InputFields.usernameProfileField(context, dark, initialValue: user?.displayName ?? ''),
+                      InputFields.usernameProfileField(
+                        context, 
+                        dark, 
+                        controller: _nameController
+                      ),
                       const SizedBox(height: SSizes.md),
-                      InputFields.editEmailField(context, dark, initialValue: user?.email ?? ''),
+                      InputFields.editEmailField(
+                        context, 
+                        dark, 
+                        controller: _emailController
+                      ),
                       const SizedBox(height: SSizes.md),
-                      InputFields.editNoPhoneField(context, dark, initialValue: user?.phoneNumber ?? ''),
+                      InputFields.editNoPhoneField(
+                        context, 
+                        dark, 
+                        controller: _phoneController
+                      ),
                     ],
                   ),
                 ),
@@ -106,8 +204,8 @@ class UserProfileScreen extends StatelessWidget {
             return SizedBox(
               width: constraints.maxWidth,
               child: ElevatedButton(
-                onPressed: () => Get.to(() => const NavigationMenu(initialIndex: 3)),
-                child:  Text(
+                onPressed: _updateProfile,
+                child: Text(
                   STexts.save,
                   style: dark
                     ? STextTheme.titleBaseBoldLight
@@ -119,5 +217,13 @@ class UserProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
   }
 }

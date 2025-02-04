@@ -29,6 +29,7 @@ dependencies:
   flutter_searchable_dropdown: ^2.0.0
   dropdown_search: ^5.0.0
   shimmer: ^3.0.0
+  image_picker: ^1.1.2
 
   # Icons
   cupertino_icons: ^1.0.8
@@ -47,6 +48,7 @@ dependencies:
   geocoding: ^2.1.0
   permission_handler: ^11.3.1
   connectivity_plus: ^6.1.2
+  flutter_secure_storage: ^9.2.4
 
 #------------------ ./ PACKAGES END ------------------#
 

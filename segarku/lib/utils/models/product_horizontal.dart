@@ -35,8 +35,13 @@ class SProductH extends StatelessWidget {
           return const Center(child: Text('No products available'));
         }
 
+        // Filter produk berdasarkan kategori "Spesial Hari Ini"
+        final filteredProducts = snapshot.data!
+            .where((product) => product.categoryName == "Spesial Hari Ini")
+            .toList();
+
         // Sort products by quantity in descending order (stok terbanyak ke terkecil)
-        final products = snapshot.data!..sort((a, b) => b.qty.compareTo(a.qty));
+        final products = filteredProducts..sort((a, b) => b.qty.compareTo(a.qty));
 
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,

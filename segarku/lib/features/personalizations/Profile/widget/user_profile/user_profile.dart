@@ -2,16 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:segarku/utils/local_storage/user_storage.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
-class SUserProfileTitle extends StatelessWidget {
+class SUserProfileTitle extends StatefulWidget {
   final VoidCallback onPressed;
-  final User? user;
 
-  const SUserProfileTitle({super.key, required this.onPressed, required this.user});
+  const SUserProfileTitle({super.key, required this.onPressed});
+
+  @override
+  _SUserProfileTitleState createState() => _SUserProfileTitleState();
+}
+
+class _SUserProfileTitleState extends State<SUserProfileTitle> {
+  Map<String, dynamic>? userData;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final data = await UserStorage.getUserData();
+    setState(() {
+      userData = data;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +52,11 @@ class SUserProfileTitle extends StatelessWidget {
                 final size = constraints.maxWidth * 0.12;
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                  child: user?.photoURL != null
-                      ? Image.network(
-                          user!.photoURL!,
-                          width: size.clamp(38.0, 48.0),
-                          height: size.clamp(38.0, 48.0),
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          SImages.profile, 
-                          width: size.clamp(38.0, 48.0),
-                          height: size.clamp(38.0, 48.0),
-                        ),
+                  child: Image.asset(
+                    SImages.profile, 
+                    width: size.clamp(38.0, 48.0),
+                    height: size.clamp(38.0, 48.0),
+                  ),
                 );
               },
             ),
@@ -58,13 +70,13 @@ class SUserProfileTitle extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    user?.displayName ?? 'UserSegar',
+                    userData?['nama'] ?? 'UserSegar',
                     style: dark
                         ? STextTheme.titleBaseBoldDark
                         : STextTheme.titleBaseBoldLight,
                   ),
                   Text(
-                    user?.email ?? 'Email Tidak Diketahui', 
+                    userData?['email'] ?? 'Email Tidak Diketahui', 
                     style: dark
                         ? STextTheme.bodyCaptionRegularDark
                         : STextTheme.bodyCaptionRegularLight,
@@ -74,7 +86,7 @@ class SUserProfileTitle extends StatelessWidget {
             ),
 
             IconButton(
-              onPressed: onPressed,
+              onPressed: widget.onPressed,
               icon: const Icon(
                 Iconsax.edit,
                 color: SColors.green500,
