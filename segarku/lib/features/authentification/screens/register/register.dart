@@ -16,6 +16,7 @@ class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
@@ -30,32 +31,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isLoading = false;
 
-  Future<void> _LoginGoogle() async {
+  // ignore: non_constant_identifier_names
+    // Fungsi untuk menangani login Google
+  Future<void> _loginGoogle() async {
     setState(() {
       _isLoading = true;
     });
 
     final user = await _authServiceGoogle.signInWithGoogle();
+
     setState(() {
       _isLoading = false;
     });
 
     if (user != null) {
-  final idToken = await user.getIdToken();
-  await LoginGoogleMdb.postUserDataToMongoDB(idToken);
+      final idToken = await user.getIdToken();
+      await LoginGoogleMdb.postUserDataToMongoDB(idToken);
 
-  Get.offAll(() => const NavigationMenu(initialIndex: 0));
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
-  );
+      Get.snackbar(
+        STexts.loginSuccessTitle,
+        'Berhasil Register. Selamat datang ${user.displayName} di Segarku!',
+        backgroundColor: SColors.green500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.check_circle, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+      );
 
       Get.offAll(() => const NavigationMenu(initialIndex: 0));
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login berhasil, selamat datang ${user.displayName}!')),
-      );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login dengan Google gagal.')),
+      Get.snackbar(
+        STexts.loginFailedTitle,
+        'Register dengan Google gagal.',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
       );
     }
   }
@@ -158,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Snackbar untuk registrasi gagal
                     Get.snackbar(
                       'Yah, sayang sekali Anda saat ini belum bisa membuat akun',
-                      result['message'],
+                      'Email yang Anda gunakan sudah terdaftar',
                       backgroundColor: SColors.danger500,
                       colorText: SColors.pureWhite,
                       icon: const Icon(Icons.error, color: Colors.white),
@@ -222,9 +232,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ],
             ),
+
+            // Button login with google
             const SizedBox(height: SSizes.md),
             ElevatedButton(
-              onPressed: _isLoading ? null : _LoginGoogle,
+              onPressed: _isLoading ? null : _loginGoogle,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   vertical: SSizes.lg2,

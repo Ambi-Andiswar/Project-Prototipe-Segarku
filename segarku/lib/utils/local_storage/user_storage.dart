@@ -9,7 +9,7 @@ class UserStorage {
   static const String uidKey = 'uid';
   static const String userDataKey = 'user_data';
 
-  // Menyimpan data session user
+  // Menyimpan data session user untuk register
   static Future<void> saveUserSession({
     required String apiKey,
     required String uid,
@@ -17,6 +17,18 @@ class UserStorage {
   }) async {
     await _storage.write(key: apiKeyKey, value: apiKey);
     await _storage.write(key: uidKey, value: uid);
+    await _storage.write(key: userDataKey, value: json.encode(userData));
+  }
+
+  // Menyimpan data session untuk login
+  static Future<void> saveLoginSession({
+    required String apiKey,
+  }) async {
+    await _storage.write(key: apiKeyKey, value: apiKey);
+  }
+
+  // Menyimpan/update data user
+  static Future<void> updateUserData(Map<String, dynamic> userData) async {
     await _storage.write(key: userDataKey, value: json.encode(userData));
   }
 

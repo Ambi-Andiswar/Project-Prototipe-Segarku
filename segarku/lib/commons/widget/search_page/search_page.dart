@@ -18,6 +18,7 @@ class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SearchPageState createState() => _SearchPageState();
 }
 
@@ -57,6 +58,7 @@ class _SearchPageState extends State<SearchPage> {
         _filteredProducts = products;
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Error fetching products: $e');
     }
   }
@@ -257,6 +259,7 @@ class _SearchPageState extends State<SearchPage> {
                                           maxQuantity:(product.qty),
                                           image: product.image,
                                           size: product.berat,
+                                          deskripsi: product.deskripsi,
                                         );
                                     },
                                   );

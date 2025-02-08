@@ -161,6 +161,8 @@ class SProductH extends StatelessWidget {
                                             maxQuantity: (product.qty),
                                             image: product.image,
                                             size: product.berat,
+                                            deskripsi: product.deskripsi,
+
                                           );
                                         },
                                       );

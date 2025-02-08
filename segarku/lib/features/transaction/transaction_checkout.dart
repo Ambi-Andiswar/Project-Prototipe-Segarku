@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:intl/intl.dart';
 import 'package:segarku/features/carts/controllers/cart_provider.dart';
+import 'package:segarku/features/transaction/controller/handle_payment.dart';
 import 'package:segarku/features/transaction/widget/purchase_options.dart';
 import 'package:segarku/features/transaction/widget/detail_product_transaction.dart';
 import 'package:segarku/features/transaction/widget/dialog_purchase_method.dart';
@@ -26,10 +27,213 @@ class TransactionCheckoutScreen extends StatefulWidget {
 
 class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   final CartController cartController = Get.find<CartController>();
-
-
   bool isDelivery = false;
-  DateTime deliveryTime = DateTime.now(); // Variabel untuk menyimpan waktu pengiriman
+  DateTime deliveryTime = DateTime.now();
+  bool isProcessingPayment = false;
+  bool isDeliveryTimeSelected = false;
+  String selectedAddress = ''; 
+
+  // Loading Overlay Widget
+  Widget _buildLoadingOverlay() {
+    return const Stack(
+      children: [
+        Opacity(
+          opacity: 0.3,
+          child: ModalBarrier(dismissible: false, color: SColors.green500),
+        ),
+        Center(
+          child: CircularProgressIndicator(),
+        ),
+      ],
+    );
+  }
+
+  // Error Dialog
+  void _showErrorDialog(String message) {
+    final bool dark = context.isDarkMode;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Error',
+          style: dark ? STextTheme.titleBaseBoldDark : STextTheme.titleBaseBoldLight,
+        ),
+        content: Text(
+          message,
+          style: dark ? STextTheme.bodyBaseRegularDark : STextTheme.bodyBaseRegularLight,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'OK',
+              style: dark ? STextTheme.titleBaseBoldDark : STextTheme.titleBaseBoldLight,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  // Validation
+  bool _validatePayment() {
+    if (isDelivery && deliveryTime.isBefore(DateTime.now())) {
+      Get.snackbar(
+        'Belum bisa melanjutkan pembayaran',
+        'Harap pilih waktu pengiriman dahulu',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+      );
+      return false;
+    }
+
+    // Validate cart is not empty
+    if (cartController.getSelectedProducts().isEmpty) {
+      Get.snackbar(
+        'Belum bisa melanjutkan pembayaran',
+        'Keranjang belanja kosong',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+      );
+      return false;
+    }
+
+    // Validate address is not empty
+    // if (isDelivery && selectedAddress.isEmpty) {
+    //   Get.snackbar(
+    //     'Belum bisa melanjutkan pembayaran',
+    //     'Alamat pengiriman harus diisi',
+    //     backgroundColor: SColors.danger500,
+    //     colorText: SColors.pureWhite,
+    //     icon: const Icon(Icons.error, color: Colors.white),
+    //     snackPosition: SnackPosition.TOP,
+    //   );
+    //   return false;
+    // }
+
+    return true;
+  }
+
+
+  // Handle Payment Process
+  Future<void> _processPayment() async {
+    if (isProcessingPayment) return;
+    
+    if (!_validatePayment()) return;
+
+    setState(() {
+      isProcessingPayment = true;
+    });
+
+    try {
+      print("DEBUG: Starting payment process");
+      final success = await handlePayment(
+        context,
+        isDelivery,
+        deliveryTime,
+      );
+
+      if (mounted) {
+        if (success) {
+          print("DEBUG: Payment successful");
+          
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const TransactionSuccess(),
+            ),
+          );
+        } else {
+          print("DEBUG: Payment failed");
+          Get.snackbar(
+            'Error',
+            'Gagal memproses pembayaran. Silakan coba lagi.',
+            backgroundColor: SColors.danger500,
+            colorText: SColors.pureWhite,
+            icon: const Icon(Icons.error, color: Colors.white),
+            snackPosition: SnackPosition.TOP,
+          );
+        }
+      }
+    } catch (e) {
+      print("DEBUG: Payment error - $e");
+      if (mounted) {
+        _showErrorDialog('Terjadi kesalahan: ${e.toString()}');
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          isProcessingPayment = false;
+        });
+      }
+    }
+  }
+
+
+    // Confirmation Dialog
+  void _showPaymentConfirmation() {
+    final bool dark = context.isDarkMode;
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(SSizes.borderRadiusmd2)
+        ),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(SSizes.defaultMargin),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Konfirmasi Pembelian',
+                style: dark ? STextTheme.titleBaseBoldDark : STextTheme.titleBaseBoldLight,
+              ),
+              const SizedBox(height: SSizes.sm2),
+              Text(
+                'Apakah produk yang Anda beli sudah sesuai?',
+                style: dark ? STextTheme.bodyBaseRegularDark : STextTheme.bodyBaseRegularLight,
+              ),
+              const SizedBox(height: SSizes.lg),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(
+                        'Batal',
+                        style: dark ? STextTheme.titleBaseBoldDark : STextTheme.titleBaseBoldLight,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: SSizes.md),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        _processPayment();
+                      },
+                      child: Text(
+                        'Lanjutkan',
+                        style: dark ? STextTheme.titleBaseBoldLight : STextTheme.titleBaseBoldDark,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Future<bool> _onWillPop() async {
   final bool dark = context.isDarkMode;
@@ -88,6 +292,8 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
     return shouldExit ?? false;
   }
 
+  
+
   void _showConfirmationDialog() {
     showModalBottomSheet(
       context: context,
@@ -145,6 +351,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                       onDateTimeChanged: (DateTime newDate) {
                         setState(() {
                           deliveryTime = newDate;
+                          isDeliveryTimeSelected = true; // Set status waktu sudah dipilih
                         });
                       },
                       use24hFormat: true,
@@ -185,10 +392,11 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   
     // Hitung subtotal, pajak, dan ongkos kirim
     double subtotal = cartController.calculateSubtotal();
-    double tax = subtotal * 0.1; // Contoh pajak 10%
-    double deliveryFee = isDelivery ? 5000 : 0; // Contoh ongkos kirim
+    double tax = subtotal * 0.05; // Pajak 5%
+    // Logika ongkir baru
+    double deliveryFee = isDelivery ? (subtotal >= 35000 ? 0 : 6000) : 0;
     double total = subtotal + tax + deliveryFee;
-    
+
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -294,7 +502,9 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                       TextButton(
                                         onPressed: _showDatePicker,
                                         child: Text(
-                                          "${deliveryTime.hour}:${deliveryTime.minute.toString().padLeft(2, '0')}, ${deliveryTime.day}-${deliveryTime.month}-${deliveryTime.year}",
+                                          isDeliveryTimeSelected
+                                              ? "${deliveryTime.hour}:${deliveryTime.minute.toString().padLeft(2, '0')}, ${deliveryTime.day}-${deliveryTime.month}-${deliveryTime.year}"
+                                              : "Pilih waktu pengiriman",
                                           style: const TextStyle(
                                             color: SColors.green500,
                                             fontWeight: FontWeight.bold,
@@ -417,25 +627,33 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
 
                         // Delivery
                         isDelivery
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    STexts.postage,
-                                    style: dark
-                                        ? STextTheme.bodyCaptionRegularDark
-                                        : STextTheme.bodyCaptionRegularLight,
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "Rp ${NumberFormat.decimalPattern('id').format(deliveryFee)}",
-                                    style: dark
-                                        ? STextTheme.titleCaptionBoldDark
-                                        : STextTheme.titleCaptionBoldLight,
-                                  ),
-                                ],
-                              )
-                            : const SizedBox.shrink(),
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  STexts.postage,
+                                  style: dark
+                                      ? STextTheme.bodyCaptionRegularDark
+                                      : STextTheme.bodyCaptionRegularLight,
+                                ),
+                                const Spacer(),
+                                // Kondisional untuk tampilan ongkir
+                                subtotal >= 35000
+                                    ? Text(
+                                        "Gratis Ongkir",
+                                        style: STextTheme.titleCaptionBoldDark.copyWith(
+                                          color: SColors.green500
+                                        )
+                                      )
+                                    : Text(
+                                        "Rp ${NumberFormat.decimalPattern('id').format(deliveryFee)}",
+                                        style: dark
+                                            ? STextTheme.titleCaptionBoldDark
+                                            : STextTheme.titleCaptionBoldLight,
+                                      ),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
 
                         const SizedBox(height: SSizes.md),
 
@@ -474,73 +692,11 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(SSizes.borderRadiusmd2)),
-                                ),
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(SSizes.defaultMargin),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Konfirmasi Pembelian',
-                                          style: dark
-                                              ? STextTheme.titleBaseBoldDark
-                                              : STextTheme.titleBaseBoldLight,
-                                        ),
-                                        const SizedBox(height: SSizes.sm2),
-                                        Text(
-                                          'Apakah produk yang Anda beli sudah sesuai?',
-                                          style: dark
-                                              ? STextTheme.bodyBaseRegularDark
-                                              : STextTheme.bodyBaseRegularLight,
-                                        ),
-                                        const SizedBox(height: SSizes.lg),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: OutlinedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text(
-                                                  'Batal',
-                                                  style: dark
-                                                      ? STextTheme.titleBaseBoldDark
-                                                      : STextTheme.titleBaseBoldLight,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: SSizes.md),
-                                            Expanded(
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                  Get.to(() => const TransactionSuccess());
-                                                },
-                                                child: Text(
-                                                  'Lanjutkan',
-                                                  style: dark
-                                                      ? STextTheme.titleBaseBoldLight
-                                                      : STextTheme.titleBaseBoldDark,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
+                            onPressed: isProcessingPayment
+                                ? null
+                                : _showPaymentConfirmation,
                             child: Text(
-                              STexts.buyNow,
+                              isProcessingPayment ? 'Memproses...' : STexts.buyNow,
                               style: dark
                                   ? STextTheme.titleBaseBoldLight
                                   : STextTheme.titleBaseBoldDark,

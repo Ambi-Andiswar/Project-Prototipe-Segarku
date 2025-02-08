@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:segarku/features/authentification/controller/login_google/login_google_mdb.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
@@ -16,6 +17,7 @@ class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UserProfileScreenState createState() => _UserProfileScreenState();
 }
 
@@ -35,16 +37,30 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Future<void> _loadUserData() async {
-    final data = await UserStorage.getUserData();
     final storageApiKey = await UserStorage.getApiKey();
     final storageUid = await UserStorage.getUid();
 
+    if (storageApiKey != null && storageUid != null) {
+      // Ambil data terbaru dari MongoDB
+      final updatedUserData = await LoginGoogleMdb.getUserDataFromMongoDB(storageApiKey, storageUid);
+      if (updatedUserData != null) {
+        // Simpan data terbaru ke local storage
+        await UserStorage.saveUserSession(
+          apiKey: storageApiKey,
+          uid: storageUid,
+          userData: updatedUserData,
+        );
+      }
+    }
+
+    // Ambil data dari local storage
+    final data = await UserStorage.getUserData();
     setState(() {
       userData = data;
       apiKey = storageApiKey;
       uid = storageUid;
       
-      // Populate controllers with existing data
+      // Populate controllers dengan data terbaru
       _nameController.text = data?['nama'] ?? '';
       _emailController.text = data?['email'] ?? '';
       _phoneController.text = data?['telepon'] ?? '';
@@ -105,6 +121,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

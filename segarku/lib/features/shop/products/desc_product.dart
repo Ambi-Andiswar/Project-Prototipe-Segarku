@@ -23,7 +23,7 @@ class DescProductScreen extends StatelessWidget {
     final bool dark = context.isDarkMode;
     final CartController cartController = Get.find<CartController>();
 
-    void showAddToCartPopup(BuildContext context, int productPrice, String productName, String productImage) {
+    void showAddToCartPopup(BuildContext context, int productPrice, String productName, String productImage,) {
       showModalBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
@@ -37,6 +37,7 @@ class DescProductScreen extends StatelessWidget {
             maxQuantity: (product.qty),
             image: product.image,
             size: product.berat,
+            deskripsi: product.deskripsi,
           );
         },
       );

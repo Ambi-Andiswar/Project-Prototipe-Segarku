@@ -15,6 +15,7 @@ class SAddToCartPopup extends StatefulWidget {
   final String image;
   final String size;
   final String id;
+  final String deskripsi;
 
   const SAddToCartPopup({
     super.key,
@@ -24,6 +25,7 @@ class SAddToCartPopup extends StatefulWidget {
     required this.maxQuantity,
     required this.image,
     required this.size,
+    required this.deskripsi,
   });
 
   @override
@@ -60,7 +62,7 @@ class _SAddToCartPopupState extends State<SAddToCartPopup> {
           maxQuantity: widget.maxQuantity,
           categoryId: "",
           berat: widget.size,
-          deskripsi: "",
+          deskripsi: widget.deskripsi,
           image: widget.image,
           categoryName: "",
           showPhoto: "",

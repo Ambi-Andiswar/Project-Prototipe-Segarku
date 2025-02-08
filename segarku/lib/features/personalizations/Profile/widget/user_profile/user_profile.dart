@@ -52,11 +52,25 @@ class _SUserProfileTitleState extends State<SUserProfileTitle> {
                 final size = constraints.maxWidth * 0.12;
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                  child: Image.asset(
-                    SImages.profile, 
-                    width: size.clamp(38.0, 48.0),
-                    height: size.clamp(38.0, 48.0),
-                  ),
+                  child: userData?['photoUrl'] != null && userData!['photoUrl'].isNotEmpty
+                      ? Image.network(
+                          userData!['photoUrl'],
+                          width: size.clamp(38.0, 48.0),
+                          height: size.clamp(38.0, 48.0),
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              SImages.profile,
+                              width: size.clamp(38.0, 48.0),
+                              height: size.clamp(38.0, 48.0),
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          SImages.profile,
+                          width: size.clamp(38.0, 48.0),
+                          height: size.clamp(38.0, 48.0),
+                        ),
                 );
               },
             ),
@@ -70,13 +84,13 @@ class _SUserProfileTitleState extends State<SUserProfileTitle> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    userData?['nama'] ?? 'UserSegar',
+                    userData?['nama'] ?? 'UserSegar', // Menggunakan 'name' sesuai data Google
                     style: dark
                         ? STextTheme.titleBaseBoldDark
                         : STextTheme.titleBaseBoldLight,
                   ),
                   Text(
-                    userData?['email'] ?? 'Email Tidak Diketahui', 
+                    userData?['email'] ?? 'Email Tidak Diketahui',
                     style: dark
                         ? STextTheme.bodyCaptionRegularDark
                         : STextTheme.bodyCaptionRegularLight,

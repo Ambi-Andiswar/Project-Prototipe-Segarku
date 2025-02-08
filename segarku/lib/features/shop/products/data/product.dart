@@ -44,11 +44,29 @@ class SProduct {
     );
   }
 
+  // Add this toJson method
+  Map<String, dynamic> toJson() {
+    return {
+      'nama': nama,
+      'harga': harga,
+      'qty': qty,
+      'maxQuantity': maxQuantity,
+      'category_id': categoryId,
+      'berat': berat,
+      'deskripsi': deskripsi,
+      'image': image,
+      'id': id,
+      'category_name': categoryName,
+      'show_photo': showPhoto,
+      'category': category,
+    };
+  }
+
   SProduct copyWith({
     String? nama,
     int? harga,
     int? qty,
-    int? maxQuantity, // Tambahkan ini
+    int? maxQuantity, 
     String? categoryId,
     String? berat,
     String? deskripsi,

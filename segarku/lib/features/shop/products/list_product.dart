@@ -251,6 +251,8 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
                                                           maxQuantity: (product.qty),
                                                           image: product.image,
                                                           size: product.berat,
+                                                          deskripsi: product.deskripsi,
+                                                          
                                                         );
                                                       },
                                                     );

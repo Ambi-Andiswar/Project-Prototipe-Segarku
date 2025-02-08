@@ -1,9 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:segarku/features/authentification/controller/Login/auth_controller_firebase.dart';
 import 'package:segarku/features/authentification/controller/Login/auth_controller_mongodb.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
+import 'package:segarku/features/authentification/controller/login_google/login_google_mdb.dart';
 import 'package:segarku/features/authentification/screens/forgetPass/forget_password.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
@@ -26,11 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   // ignore: unused_field, non_constant_identifier_names
-  final AuthControllerLoginFb _AuthContorllerLoginfb = AuthControllerLoginFb();
+  final AuthLoginMonggoDb _AuthContorllerLogin = AuthLoginMonggoDb();
   // ignore: non_constant_identifier_names
-  final AuthControllerLoginMDb _AuthContorllerLoginMdb = AuthControllerLoginMDb();
-  // ignore: non_constant_identifier_names
-  final AuthControllerGoogle _AuthContorllerLoginGoogle = AuthControllerGoogle();
+  final AuthControllerGoogle _authServiceGoogle = AuthControllerGoogle();
 
   bool _isLoading = false;
 
@@ -42,44 +42,43 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    final user = await _AuthContorllerLoginGoogle.signInWithGoogle();
+    final user = await _authServiceGoogle.signInWithGoogle();
     setState(() {
       _isLoading = false;
     });
 
     if (user != null) {
-      Get.offAll(() => const NavigationMenu(initialIndex: 0));
-      Get.snackbar(
-        STexts.loginSuccessTitle,
-        '${STexts.loginSuccessMessage} ${user.email ?? ''}',
-        backgroundColor: SColors.green500,
-        colorText: SColors.pureWhite,
-        icon: const Icon(Icons.check_circle, color: Colors.white),
-        snackPosition: SnackPosition.TOP,
-        borderRadius: 12,
-        margin: const EdgeInsets.all(16),
-      );
-    } else {
-      Get.snackbar(
-        STexts.loginFailedTitle,
-        STexts.loginFailed,
-        backgroundColor: SColors.danger500,
-        colorText: SColors.pureWhite,
-        icon: const Icon(Icons.error, color: Colors.white),
-        snackPosition: SnackPosition.TOP,
-        borderRadius: 12,
-        margin: const EdgeInsets.all(16),
-      );
+  final idToken = await user.getIdToken();
+  await LoginGoogleMdb.postUserDataToMongoDB(idToken);
+
+  Get.offAll(() => const NavigationMenu(initialIndex: 0));
+    Get.snackbar(
+      STexts.loginSuccessTitle,
+      'Berhasil Masuk. Selamat datang kembali ${user.displayName}!',
+      backgroundColor: SColors.green500,
+      colorText: SColors.pureWhite,
+      icon: const Icon(Icons.check_circle, color: Colors.white),
+      snackPosition: SnackPosition.TOP,
+    );
+
+    Get.offAll(() => const NavigationMenu(initialIndex: 0));
+  } else {
+    Get.snackbar(
+      STexts.loginFailedTitle,
+      'Login dengan Google gagal.',
+      backgroundColor: SColors.danger500,
+      colorText: SColors.pureWhite,
+      icon: const Icon(Icons.error, color: Colors.white),
+      snackPosition: SnackPosition.TOP,
+    );
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
     final dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     bool isChecked = false;
-    final formKey = GlobalKey<FormState>();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
 
     return SingleChildScrollView(
       child: Form(
@@ -144,7 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
             
             const SizedBox(height: SSizes.lg2),
             
-            
             // Button Mulai sekarang
             ElevatedButton(
               onPressed: () async {
@@ -153,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     _isLoading = true;
                   });
 
-                  final result = await _AuthContorllerLoginMdb.loginUser(
+                  final result = await AuthLoginMonggoDb.loginUser(
                     emailController.text.trim(),
                     passwordController.text.trim(),
                   );
@@ -163,29 +161,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   });
 
                   if (result['success']) {
-                    // Login berhasil, arahkan ke halaman berikutnya
                     Get.offAll(() => const NavigationMenu(initialIndex: 0));
                     Get.snackbar(
                       STexts.loginSuccessTitle,
-                      result['message'],
+                      'Berhasil Masuk. Selamat datang kembali $emailController',
                       backgroundColor: SColors.green500,
                       colorText: SColors.pureWhite,
                       icon: const Icon(Icons.check_circle, color: Colors.white),
                       snackPosition: SnackPosition.TOP,
-                      borderRadius: 12,
-                      margin: const EdgeInsets.all(16),
                     );
                   } else {
-                    // Login gagal, tampilkan pesan error
                     Get.snackbar(
                       STexts.loginFailedTitle,
-                      result['message'],
+                      'Coba periksa kembali email dan kata sandi Anda!',
                       backgroundColor: SColors.danger500,
                       colorText: SColors.pureWhite,
                       icon: const Icon(Icons.error, color: Colors.white),
                       snackPosition: SnackPosition.TOP,
-                      borderRadius: 12,
-                      margin: const EdgeInsets.all(16),
                     );
                   }
                 }
@@ -203,17 +195,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 1,
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    STexts.login,
-                    style: dark
-                        ? STextTheme.titleBaseBoldLight
-                        : STextTheme.titleBaseBoldDark,
-                  ),
-                ],
-              ),
+              child: _isLoading
+                  ? const SpinKitThreeBounce(
+                      color:SColors.pureWhite ,
+                      size: 20.0,
+                    )
+                  : Text(
+                      STexts.login,
+                      style: dark
+                          ? STextTheme.titleBaseBoldLight
+                          : STextTheme.titleBaseBoldDark,
+                    ),
             ),
         
             const SizedBox(height: SSizes.md),
@@ -271,7 +263,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
               ),
               child: _isLoading
-                  ? const CircularProgressIndicator()
+                  ? const SpinKitThreeBounce(
+                      color: SColors.pureWhite,
+                      size: 20.0,
+                    )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

@@ -4,6 +4,7 @@ import 'package:segarku/utils/constants/colors.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:get/get.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
+import 'package:segarku/utils/local_storage/user_storage.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class LogoutSetting extends StatelessWidget {
@@ -124,9 +125,10 @@ class LogoutSetting extends StatelessWidget {
                   const SizedBox(width: SSizes.md),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         Navigator.of(context).pop();
-                        onConfirm();
+                        await UserStorage.clearAll(); // Menghapus semua data pengguna
+                        onConfirm(); // Memanggil callback yang diberikan
                       },
                       child: Text(
                         STexts.confirm,
