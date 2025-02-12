@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_mdb.dart';
 import 'package:segarku/features/authentification/controller/signup/auth_controller_mdb.dart';
@@ -29,19 +30,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-  bool _isLoading = false;
+  bool _isRegistering = false; // Variabel untuk tombol register
+  bool _isLoggingInWithGoogle = false; // Variabel untuk tombol login Google
 
-  // ignore: non_constant_identifier_names
-    // Fungsi untuk menangani login Google
   Future<void> _loginGoogle() async {
     setState(() {
-      _isLoading = true;
+      _isLoggingInWithGoogle = true; // Set loading untuk login Google
     });
 
     final user = await _authServiceGoogle.signInWithGoogle();
 
     setState(() {
-      _isLoading = false;
+      _isLoggingInWithGoogle = false; // Reset loading setelah proses selesai
     });
 
     if (user != null) {
@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    bool isChecked = false;
+    // bool isChecked = false;
 
     return SingleChildScrollView(
       child: Form(
@@ -90,52 +90,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
             InputFields.passwordField(context, dark, passwordController),
             const SizedBox(height: SSizes.md),
             InputFields.confirmPasswordField(context, dark, passwordController),
-            const SizedBox(height: SSizes.md),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Transform.scale(
-                      scale: 1.33,
-                      child: Checkbox(
-                        value: isChecked,
-                        onChanged: (value) {},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                        ),
-                        side: BorderSide(
-                          color: dark ? SColors.green50 : SColors.softBlack50,
-                          width: 1,
-                        ),
-                        visualDensity: VisualDensity.compact,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                    ),
-                    const SizedBox(width: SSizes.sm),
-                    Text(
-                      STexts.forgetMe,
-                      style: dark
-                          ? STextTheme.bodyCaptionRegularDark
-                          : STextTheme.bodyCaptionRegularLight,
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            // const SizedBox(height: SSizes.md),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Row(
+            //       children: [
+            //         Transform.scale(
+            //           scale: 1.33,
+            //           child: Checkbox(
+            //             value: isChecked,
+            //             onChanged: (value) {},
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+            //             ),
+            //             side: BorderSide(
+            //               color: dark ? SColors.green50 : SColors.softBlack50,
+            //               width: 1,
+            //             ),
+            //             visualDensity: VisualDensity.compact,
+            //             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            //           ),
+            //         ),
+            //         const SizedBox(width: SSizes.sm),
+            //         Text(
+            //           STexts.forgetMe,
+            //           style: dark
+            //               ? STextTheme.bodyCaptionRegularDark
+            //               : STextTheme.bodyCaptionRegularLight,
+            //         ),
+            //       ],
+            //     ),
+            //   ],
+            // ),
             const SizedBox(height: SSizes.lg2),
+            // Tombol Register
             ElevatedButton(
               onPressed: () async {
                 if (formKey.currentState!.validate()) {
                   setState(() {
-                    _isLoading = true;
+                    _isRegistering = true;
                   });
 
                   // ignore: avoid_print
                   print('Register button pressed');
 
                   // Panggil API register user
-                  final result = await _authService.registerUser(
+                  final result = await _authService.registerUser (
                     emailController.text.trim(),
                     passwordController.text.trim(),
                     nameController.text.trim(),
@@ -143,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   );
 
                   setState(() {
-                    _isLoading = false;
+                    _isRegistering = false;
                   });
 
                   // ignore: avoid_print
@@ -179,7 +180,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   }
                 }
               },
-
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   vertical: SSizes.lg2,
@@ -193,18 +193,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   width: 2,
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    STexts.register,
-                    style: dark
-                      ? STextTheme.titleBaseBoldLight
-                      : STextTheme.titleBaseBoldDark,
-                  ),
-                ],
-              ),
+              child: _isRegistering
+                  ? const SpinKitThreeBounce(
+                      color: SColors.pureWhite,
+                      size: 20.0,
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          STexts.register,
+                          style: dark
+                              ? STextTheme.titleBaseBoldLight
+                              : STextTheme.titleBaseBoldDark,
+                        ),
+                      ],
+                    ),
             ),
             const SizedBox(height: SSizes.md),
             Row(
@@ -236,7 +241,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             // Button login with google
             const SizedBox(height: SSizes.md),
             ElevatedButton(
-              onPressed: _isLoading ? null : _loginGoogle,
+              onPressed: _isLoggingInWithGoogle ? null : _loginGoogle,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   vertical: SSizes.lg2,
@@ -251,8 +256,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
               ),
-              child: _isLoading
-                  ? const CircularProgressIndicator()
+              child: _isLoggingInWithGoogle
+                  ? const SpinKitThreeBounce(
+                      color: SColors.pureWhite,
+                      size: 20.0,
+                    )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

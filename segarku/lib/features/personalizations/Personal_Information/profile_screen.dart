@@ -14,6 +14,7 @@ import '../../../../../utils/constants/text_strings.dart';
 import '../../../commons/widget/appbar/appbar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
 class UserProfileScreen extends StatefulWidget {
@@ -72,8 +73,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   Future<void> _updateProfile() async {
     if (apiKey == null || uid == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('User not logged in')),
+      Get.snackbar(
+        'Belum bisa mengedit Profile',
+        'Anda belum login dengan akun Anda',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
@@ -107,20 +113,35 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           },
         );
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile berhasil di perbarui!')),
+        Get.snackbar(
+          'Success',
+          'Profile berhasil di perbarui!',
+          backgroundColor: SColors.green500,
+          colorText: SColors.pureWhite,
+          icon: const Icon(Icons.check_circle, color: Colors.white),
+          snackPosition: SnackPosition.TOP,
         );
 
         // Navigate to profile or home screen
         Get.to(() => const NavigationMenu(initialIndex: 3));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(responseData['message'] ?? 'Update failed')),
+        Get.snackbar(
+          'Gagal Mengupdate Profile',
+          responseData['message'] ?? 'Update failed',
+          backgroundColor: SColors.danger500,
+          colorText: SColors.pureWhite,
+          icon: const Icon(Icons.error, color: Colors.white),
+          snackPosition: SnackPosition.TOP,
         );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error updating profile: $e')),
+      Get.snackbar(
+        'Gagal',
+        'Belum bisa mengupdate Profile: $e',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
       );
     }
   }
@@ -156,13 +177,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       var response = await request.send();
 
       if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Foto profil berhasil diperbarui!')),
+        Get.snackbar(
+          'Berhasil',
+          'Foto profil berhasil diperbarui!',
+          backgroundColor: SColors.green500,
+          colorText: SColors.pureWhite,
+          icon: const Icon(Icons.check_circle, color: Colors.white),
+          snackPosition: SnackPosition.TOP,
         );
         _loadUserData(); // Refresh profil setelah upload
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Gagal mengupload foto profil')),
+        Get.snackbar(
+          'Gagal',
+          'Belum bisa mengupload foto profil',
+          backgroundColor: SColors.danger500,
+          colorText: SColors.pureWhite,
+          icon: const Icon(Icons.error, color: Colors.white),
+          snackPosition: SnackPosition.TOP,
         );
       }
     } catch (e) {

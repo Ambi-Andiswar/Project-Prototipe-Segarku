@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:segarku/features/authentification/controller/Login/auth_controller_firebase.dart';
 import 'package:segarku/features/authentification/controller/Login/auth_controller_mongodb.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_auth_contrller.dart';
 import 'package:segarku/features/authentification/controller/login_google/login_google_mdb.dart';
@@ -33,18 +32,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthControllerGoogle _authServiceGoogle = AuthControllerGoogle();
 
   bool _isLoading = false;
+  bool _isLoggingInWithGoogle = false; // Variabel untuk tombol login Google
 
   String selectedAuthMethod = "Firebase"; // Default ke Firebase
 
   // ignore: non_constant_identifier_names
   Future<void> _LoginGoogle() async {
     setState(() {
-      _isLoading = true;
+      _isLoggingInWithGoogle = true;
     });
 
     final user = await _authServiceGoogle.signInWithGoogle();
     setState(() {
-      _isLoading = false;
+      _isLoggingInWithGoogle = false;
     });
 
     if (user != null) {
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final dark = MediaQuery.of(context).platformBrightness == Brightness.dark;
-    bool isChecked = false;
+    // bool isChecked = false;
 
     return SingleChildScrollView(
       child: Form(
@@ -95,38 +95,38 @@ class _LoginScreenState extends State<LoginScreen> {
             
             // Checkbox RememberMe & Forget Password
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    // Checkbox
-                    Transform.scale(
-                      scale: 1.33, // Sesuaikan dengan rasio skala untuk ukuran 40
-                      child: Checkbox(
-                        value: isChecked,
-                        onChanged: (value) {},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                        ),
-                        side: BorderSide(
-                          color: dark ? SColors.green50 : SColors.softBlack50,
-                          width: 1,
-                        ),
-                        visualDensity: VisualDensity.compact,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                    ),
+                // Row(
+                //   children: [
+                //     // Checkbox
+                //     Transform.scale(
+                //       scale: 1.33, // Sesuaikan dengan rasio skala untuk ukuran 40
+                //       child: Checkbox(
+                //         value: isChecked,
+                //         onChanged: (value) {},
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                //         ),
+                //         side: BorderSide(
+                //           color: dark ? SColors.green50 : SColors.softBlack50,
+                //           width: 1,
+                //         ),
+                //         visualDensity: VisualDensity.compact,
+                //         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                //       ),
+                //     ),
         
-                    const SizedBox(width: SSizes.sm),
-                    // Text RememberMe
-                    Text(
-                      STexts.forgetMe, 
-                      style: dark 
-                      ? STextTheme.bodyCaptionRegularDark
-                      : STextTheme.bodyCaptionRegularLight
-                    ),
-                  ],
-                ),
+                //     const SizedBox(width: SSizes.sm),
+                //     // Text RememberMe
+                //     Text(
+                //       STexts.forgetMe, 
+                //       style: dark 
+                //       ? STextTheme.bodyCaptionRegularDark
+                //       : STextTheme.bodyCaptionRegularLight
+                //     ),
+                //   ],
+                // ),
                 // Forget Password Button
                 TextButton(
                   onPressed: () => Get.to(() => const ResetPasswordScreen()),
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
         
             // Tombol login dengan google
             ElevatedButton(
-              onPressed: _isLoading ? null : _LoginGoogle,
+              onPressed: _isLoggingInWithGoogle ? null : _LoginGoogle,
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   vertical: SSizes.lg2,
@@ -262,7 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
               ),
-              child: _isLoading
+              child: _isLoggingInWithGoogle
                   ? const SpinKitThreeBounce(
                       color: SColors.pureWhite,
                       size: 20.0,
