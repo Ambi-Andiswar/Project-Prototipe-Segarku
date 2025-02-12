@@ -61,7 +61,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
           // Widget tombol filter
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: SSizes.defaultMargin, horizontal: SSizes.md),
+            padding: const EdgeInsets.only(
+              right: SSizes.defaultMargin,
+              left: SSizes.defaultMargin,
+              top: SSizes.md),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

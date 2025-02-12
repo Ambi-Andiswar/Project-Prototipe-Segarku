@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:segarku/features/carts/controllers/cart_provider.dart';
 import 'package:segarku/features/transaction/controller/handle_payment.dart';
 import 'package:segarku/features/transaction/widget/purchase_options.dart';
@@ -10,7 +11,6 @@ import 'package:segarku/features/transaction/widget/detail_product_transaction.d
 import 'package:segarku/features/transaction/widget/dialog_purchase_method.dart';
 import 'package:segarku/features/transaction/widget/see_address_shop.dart';
 import 'package:segarku/features/transaction/widget/select_location.dart';
-import 'package:segarku/features/transaction/transaction_success.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -139,26 +139,18 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
       );
 
       if (mounted) {
-        if (success) {
-          print("DEBUG: Payment successful");
-          
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const TransactionSuccess(),
-            ),
-          );
-        } else {
+        if (!success) {
           print("DEBUG: Payment failed");
           Get.snackbar(
-            'Error',
-            'Gagal memproses pembayaran. Silakan coba lagi.',
+            'Gagal melakukan pembayaran',
+            'Silahkan isi data pengiriman seperti alamat dan waktu pengriman',
             backgroundColor: SColors.danger500,
             colorText: SColors.pureWhite,
             icon: const Icon(Icons.error, color: Colors.white),
             snackPosition: SnackPosition.TOP,
           );
         }
+        // Hapus navigasi ke TransactionSuccess karena akan ditangani oleh MidtransPaymentScreen
       }
     } catch (e) {
       print("DEBUG: Payment error - $e");
@@ -392,10 +384,10 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   
     // Hitung subtotal, pajak, dan ongkos kirim
     double subtotal = cartController.calculateSubtotal();
-    double tax = subtotal * 0.05; // Pajak 5%
+    // double tax = subtotal * 0.05; // Pajak 5%
     // Logika ongkir baru
     double deliveryFee = isDelivery ? (subtotal >= 35000 ? 0 : 6000) : 0;
-    double total = subtotal + tax + deliveryFee;
+    double total = subtotal + deliveryFee;
 
     // ignore: deprecated_member_use
     return WillPopScope(
@@ -601,27 +593,27 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                           ],
                         ),
 
-                        const SizedBox(height: SSizes.md),
+                        // const SizedBox(height: SSizes.md),
 
                         // Taxs
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              STexts.tax,
-                              style: dark
-                                  ? STextTheme.bodyCaptionRegularDark
-                                  : STextTheme.bodyCaptionRegularLight,
-                            ),
-                            const Spacer(),
-                            Text(
-                              "Rp ${NumberFormat.decimalPattern('id').format(tax)}",
-                              style: dark
-                                  ? STextTheme.titleCaptionBoldDark
-                                  : STextTheme.titleCaptionBoldLight,
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     Text(
+                        //       STexts.tax,
+                        //       style: dark
+                        //           ? STextTheme.bodyCaptionRegularDark
+                        //           : STextTheme.bodyCaptionRegularLight,
+                        //     ),
+                        //     const Spacer(),
+                        //     Text(
+                        //       "Rp ${NumberFormat.decimalPattern('id').format(tax)}",
+                        //       style: dark
+                        //           ? STextTheme.titleCaptionBoldDark
+                        //           : STextTheme.titleCaptionBoldLight,
+                        //     ),
+                        //   ],
+                        // ),
 
                         const SizedBox(height: SSizes.md),
 
@@ -692,15 +684,32 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: isProcessingPayment
-                                ? null
-                                : _showPaymentConfirmation,
-                            child: Text(
-                              isProcessingPayment ? 'Memproses...' : STexts.buyNow,
-                              style: dark
-                                  ? STextTheme.titleBaseBoldLight
-                                  : STextTheme.titleBaseBoldDark,
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: SSizes.lg2,
+                              ),
+                              minimumSize: const Size(double.infinity, 30),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                              ),
+                              side: const BorderSide(
+                                color: SColors.green500,
+                                width: 1,
+                              ),
+                              backgroundColor: SColors.green500, // Warna latar belakang hijau
                             ),
+                            onPressed: isProcessingPayment ? null : _showPaymentConfirmation,
+                            child: isProcessingPayment
+                                ? const SpinKitThreeBounce(
+                                    color: SColors.pureWhite, // Warna loading spinner
+                                    size: 20.0,
+                                  )
+                                : Text(
+                                    STexts.buyNow, // Ganti dengan teks yang sesuai
+                                    style: dark
+                                        ? STextTheme.titleBaseBoldLight
+                                        : STextTheme.titleBaseBoldDark,
+                                  ),
                           ),
                         ),
 

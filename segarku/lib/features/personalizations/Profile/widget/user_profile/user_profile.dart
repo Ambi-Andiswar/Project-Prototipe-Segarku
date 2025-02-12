@@ -52,9 +52,9 @@ class _SUserProfileTitleState extends State<SUserProfileTitle> {
                 final size = constraints.maxWidth * 0.12;
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                  child: userData?['photoUrl'] != null && userData!['photoUrl'].isNotEmpty
+                  child: userData?['photo'] != null && userData!['photo'].isNotEmpty
                       ? Image.network(
-                          userData!['photoUrl'],
+                          userData!['photo'],
                           width: size.clamp(38.0, 48.0),
                           height: size.clamp(38.0, 48.0),
                           fit: BoxFit.cover,

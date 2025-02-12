@@ -12,6 +12,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../commons/widget/appbar/appbar.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -122,6 +125,54 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     }
   }
 
+  Future<void> _pickAndUploadPhoto() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile == null) return;
+
+    File imageFile = File(pickedFile.path);
+    int fileSize = await imageFile.length();
+    
+    if (fileSize > 10 * 1024 * 1024) { // Maksimal 10MB
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Ukuran foto maksimal 10MB')),
+      );
+      return;
+    }
+
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('https://admin-segarku.online/api/customers/$uid/UploadPhotoProfil'),
+      );
+      request.headers['X-API-KEY'] = apiKey!;
+      request.files.add(await http.MultipartFile.fromPath(
+        'photo',
+        imageFile.path,
+        filename: path.basename(imageFile.path),
+      ));
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Foto profil berhasil diperbarui!')),
+        );
+        _loadUserData(); // Refresh profil setelah upload
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Gagal mengupload foto profil')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan: $e')),
+      );
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -160,20 +211,23 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       // Profile Image
                       ClipRRect(
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
-                        child: Image.asset(
-                          SImages.profile, 
-                          width: 72,
-                          height: 72,
-                          fit: BoxFit.cover,
-                        ),
+                        child: userData?['photo'] != null && userData?['photo'].isNotEmpty
+                            ? Image.network(
+                                userData!['photo'], // Ambil URL foto dari userData
+                                width: 72,
+                                height: 72,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(SImages.profile, width: 72, height: 72, fit: BoxFit.cover);
+                                },
+                              )
+                            : Image.asset(SImages.profile, width: 72, height: 72, fit: BoxFit.cover),
                       ),
                       const SizedBox(height: SSizes.lg2),
 
                       // Change Photo Button
                       GestureDetector(
-                        onTap: () {
-                          // Tambahkan aksi untuk mengubah foto profil
-                        },
+                        onTap: _pickAndUploadPhoto,
                         child: const Text(
                           STexts.changePhotoProfile,
                           style: STextTheme.ctaSm,
@@ -188,16 +242,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                         controller: _nameController
                       ),
                       const SizedBox(height: SSizes.md),
-                      InputFields.editEmailField(
-                        context, 
-                        dark, 
-                        controller: _emailController
-                      ),
-                      const SizedBox(height: SSizes.md),
                       InputFields.editNoPhoneField(
                         context, 
                         dark, 
                         controller: _phoneController
+                      ),
+                      const SizedBox(height: SSizes.md),
+                      InputFields.editEmailField(
+                        context, 
+                        dark, 
+                        controller: _emailController,
                       ),
                     ],
                   ),

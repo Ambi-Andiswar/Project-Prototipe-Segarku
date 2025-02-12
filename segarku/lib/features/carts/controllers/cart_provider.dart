@@ -6,6 +6,8 @@ class CartController extends GetxController {
   var cartItems = <SProduct>[].obs;
   var selectedItems = <bool>[].obs;
   var selectAll = false.obs;
+  // Track items being processed for purchase
+  var processingItems = <SProduct>[].obs;
 
   @override
   void onInit() {
@@ -91,15 +93,18 @@ class CartController extends GetxController {
     selectAll.value = false;
   }
 
+    // Modified to store processing items
     List<SProduct> getSelectedProducts() {
-    List<SProduct> selectedProducts = [];
-    for (int i = 0; i < cartItems.length; i++) {
-      if (selectedItems[i]) {
-        selectedProducts.add(cartItems[i]);
+      List<SProduct> selectedProducts = [];
+      for (int i = 0; i < cartItems.length; i++) {
+        if (selectedItems[i]) {
+          selectedProducts.add(cartItems[i]);
+        }
       }
+      // Store the items being processed
+      processingItems.assignAll(selectedProducts);
+      return selectedProducts;
     }
-    return selectedProducts;
-  }
 
   double calculateSubtotal() {
     double subtotal = 0.0;
@@ -109,5 +114,53 @@ class CartController extends GetxController {
       }
     }
     return subtotal;
+  }
+
+    // New method to handle successful purchase
+  void handleSuccessfulPurchase() {
+    try {
+      // Remove all items that were being processed
+      for (var purchasedItem in processingItems) {
+        int index = cartItems.indexWhere((item) => item.id == purchasedItem.id);
+        if (index != -1) {
+          cartItems.removeAt(index);
+          selectedItems.removeAt(index);
+        }
+      }
+      
+      // Clear processing items
+      processingItems.clear();
+      
+      // Reset selection state
+      selectAll.value = false;
+      
+      // Notify UI of changes
+      update();
+      
+      // Show success message
+      Get.snackbar(
+        "Berhasil",
+        "Produk yang dibeli telah dihapus dari keranjang",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: SColors.green500,
+        colorText: SColors.pureWhite,
+        duration: const Duration(seconds: 2),
+      );
+    } catch (e) {
+      print("Error removing purchased items: $e");
+      Get.snackbar(
+        "Error",
+        "Terjadi kesalahan saat memperbarui keranjang",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+      );
+    }
+  }
+
+  // Modified to clear processing items if purchase is cancelled
+  void clearProcessingItems() {
+    processingItems.clear();
+    update();
   }
 }

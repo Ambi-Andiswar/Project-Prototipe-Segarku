@@ -966,88 +966,51 @@ class InputFields {
 
   //-------------------- Email Field --------------------//
   static Widget editEmailField(BuildContext context, bool dark, {TextEditingController? controller, String? initialValue}) {
-    // FocusNode untuk mendeteksi fokus
-    final FocusNode focusNode = FocusNode();
-    bool isFocused = false;
-
-    return StatefulBuilder(
-      builder: (context, setState) {
-        // Listener untuk fokus
-        focusNode.addListener(() {
-          setState(() {
-            isFocused = focusNode.hasFocus;
-          });
-        });
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Text username
-            Text(
-              STexts.editEmail,
-              style: dark
-                  ? STextTheme.titleCaptionBoldDark
-                  : STextTheme.titleCaptionBoldLight,
-            ),
-            const SizedBox(height: SSizes.xs),
-
-            // Text & Icons Form Field Username
-            TextFormField(
-              controller: controller,
-              focusNode: focusNode,
-              initialValue: initialValue,
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
-                // Menambahkan Icon di dalam field
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
-                  child: Icon(
-                    SIcons.email,
-                    color: isFocused
-                        ? (dark ? SColors.green500 : SColors.green500)
-                        : (dark ? SColors.softBlack50 : SColors.softBlack300),
-                  ),
-                ),
-                // Text emailField field
-                labelText: STexts.emailField,
-                labelStyle: dark
-                    ? STextTheme.bodyBaseRegularLight
-                    : STextTheme.bodyBaseRegularDark,
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                hintText: STexts.emailField,
-                hintStyle: dark
-                    ? STextTheme.bodyBaseRegularLight
-                    : STextTheme.bodyBaseRegularDark,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                  borderSide: const BorderSide(color: SColors.softBlack50),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                  borderSide: const BorderSide(color: SColors.green500),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          STexts.editEmail,
+          style: dark
+              ? STextTheme.titleCaptionBoldDark
+              : STextTheme.titleCaptionBoldLight,
+        ),
+        const SizedBox(height: SSizes.xs),
+        TextFormField(
+          controller: controller,
+          initialValue: initialValue,
+          enabled: false, // Menonaktifkan edit field
+          style: TextStyle(color: SColors.softBlack200), // Ubah warna teks
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(horizontal: SSizes.md2, vertical: SSizes.md),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(top:SSizes.md, bottom: SSizes.md, left: SSizes.md2, right: SSizes.sm2),
+              child: Icon(
+                SIcons.email,
+                color: dark ? SColors.softBlack50 : SColors.softBlack300,
               ),
-              validator: (value) {
-                // Validasi email
-                if (value == null || value.isEmpty) {
-                  return 'Email tidak boleh kosong';
-                }
-                // Regex untuk validasi email
-                final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\$');
-                if (!emailRegex.hasMatch(value)) {
-                  return 'Format email tidak valid';
-                }
-                return null;
-              },
             ),
-          ],
-        );
-      },
+            labelText: STexts.emailField,
+            labelStyle: TextStyle(color: SColors.softBlack300), // Ubah warna teks label
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            hintText: STexts.emailField,
+            hintStyle: TextStyle(color: SColors.softBlack300), // Ubah warna hint
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+              borderSide: const BorderSide(color: SColors.softBlack50),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+              borderSide: const BorderSide(color: SColors.green500),
+            ),
+          ),
+        ),
+      ],
     );
-  }
+}
 
 
   //-------------------- editNoPhone Field --------------------//

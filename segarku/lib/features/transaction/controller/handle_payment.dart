@@ -55,15 +55,15 @@ Future<bool> handlePayment(BuildContext context, bool isDelivery, DateTime deliv
     print("DEBUG: Products Detail: ${products.map((p) => p.toJson()).toList()}");
 
     final subtotal = cartController.calculateSubtotal();
-    final tax = subtotal * 0.05;
+    // final tax = subtotal * 0.05;
 
     // Tambahkan logika untuk ongkir berdasarkan minimum pembelian
     final deliveryFee = isDelivery ? (subtotal < 35000 ? 6000.0 : 0.0) : 0.0;
-    final totalAmount = subtotal + tax + deliveryFee;
+    final totalAmount = subtotal + deliveryFee;
 
 
     print("DEBUG: Subtotal: $subtotal");
-    print("DEBUG: Tax: $tax");
+    // print("DEBUG: Tax: $tax");
     print("DEBUG: Delivery Fee: $deliveryFee");
     print("DEBUG: Total Amount: $totalAmount");
 
@@ -81,13 +81,6 @@ Future<bool> handlePayment(BuildContext context, bool isDelivery, DateTime deliv
         "quantity": product.qty,
         "name": product.nama
       }).toList(),
-      // Menambahkan pajak sebagai item
-      {
-        "id": "TAX",
-        "price": tax,
-        "quantity": 1,
-        "name": "Pajak (5%)"
-      },
       // Menambahkan biaya pengiriman jika ada dan subtotal di bawah 35000
       if (isDelivery && subtotal < 35000) {
         "id": "DELIVERY",
@@ -116,31 +109,33 @@ Future<bool> handlePayment(BuildContext context, bool isDelivery, DateTime deliv
 
     // Perbaikan di handlePayment()
     if (snapToken != null && snapToken.isNotEmpty) {
-      if (context.mounted) {
-        // Gunakan format URL yang benar
-        final snapUrl = "https://app.sandbox.midtrans.com/snap/v3/redirection/$snapToken";
-        
-        try {
-          final success = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MidtransPaymentScreen(
-                snapUrl: snapUrl,
-                orderId: orderId,
-              ),
-            ),
-          );
-          
-          // Tambahkan logging untuk debugging
-          print("DEBUG: Payment screen result: $success");
-          return success ?? false;
-        } catch (e) {
-          print("Error launching payment screen: $e");
-          return false;
-        }
-      }
+    if (context.mounted) {
+      final snapUrl = "https://app.sandbox.midtrans.com/snap/v3/redirection/$snapToken";
+      
+      try {
+      // Jangan tunggu hasil dari Navigator.push karena kita sudah menangani
+      // navigasi di MidtransPaymentScreen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MidtransPaymentScreen(
+            snapUrl: snapUrl,
+            orderId: orderId,
+            totalAmount: totalAmount,
+            deliveryTime: DateFormat('yyyy-MM-dd HH:mm').format(deliveryTime),
+            shippingMethod: isDelivery ? "delivery" : "pickup",
+          ),
+        ),
+      );
+
+      // Kembalikan true karena navigasi berhasil
+      return true;
+    } catch (e) {
+      print("Error launching payment screen: $e");
+      return false;
     }
-    return false;
+    }
+  } return false;
   } catch (e, stackTrace) {
     print("ERROR DETAIL:");
     print("Exception: $e");

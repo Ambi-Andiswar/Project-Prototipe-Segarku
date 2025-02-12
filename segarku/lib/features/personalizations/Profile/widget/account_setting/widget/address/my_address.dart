@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/features/personalizations/controller/user/user_service.dart';
+import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
@@ -116,15 +117,25 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
   // Menyimpan atau mengedit alamat
   Future<void> _saveAddress({bool isEdit = false}) async {
     if (uid == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User tidak terautentikasi')),
+      Get.snackbar(
+        'Autentikasi Gagal',
+        'User tidak terautentikasi',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
 
     if (selectedVillage == null || _addressDetailController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Harap isi semua field yang diperlukan')),
+      Get.snackbar(
+        'Input Tidak Lengkap',
+        'Harap isi semua field yang diperlukan',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.warning, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
@@ -151,15 +162,29 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
       // Simpan kelurahan yang dipilih ke penyimpanan lokal
       await _saveSelectedVillage(selectedVillage!);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Alamat berhasil disimpan')),
+      // Tampilkan SnackBar di posisi atas dengan style yang diinginkan
+      Get.snackbar(
+        'Sukses',
+        'Alamat berhasil disimpan',
+        backgroundColor: SColors.green500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.check_circle, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 2), // Durasi SnackBar
       );
 
-      // Navigasi ke halaman sebelumnya
-      Get.back();
+      // Navigasi ke halaman NavigationMenu dengan initialIndex: 3
+      Get.offAll(() => const NavigationMenu(initialIndex: 3)); // Ganti dengan halaman tujuan yang sesuai
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal menyimpan alamat: $e')),
+      // Tampilkan SnackBar error di posisi atas
+      Get.snackbar(
+        'Gagal',
+        'Gagal menyimpan alamat: $e',
+        backgroundColor: SColors.danger500,
+        colorText: SColors.pureWhite,
+        icon: const Icon(Icons.error, color: Colors.white),
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(seconds: 2), // Durasi SnackBar
       );
     }
   }

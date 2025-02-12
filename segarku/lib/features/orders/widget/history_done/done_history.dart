@@ -1,102 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:segarku/features/orders/widget/no_history.dart';
 import 'package:segarku/features/orders/widget/product_history.dart';
-import 'package:segarku/utils/constants/image_strings.dart';
-import 'package:segarku/utils/constants/sizes.dart';
-import 'package:segarku/utils/constants/text_strings.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
-import 'package:segarku/utils/models/product_horizontal.dart';
-import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
+import 'package:segarku/utils/local_storage/user_storage.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
-class DoneHistory extends StatelessWidget {
+class DoneHistory extends StatefulWidget {
   const DoneHistory({super.key});
+
+  @override
+  _DoneHistoryState createState() => _DoneHistoryState();
+}
+
+class _DoneHistoryState extends State<DoneHistory> {
+  List<dynamic> transactions = [];
+  Map<String, dynamic> products = {};
+  String? userId;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    final storageUid = await UserStorage.getUid();
+    setState(() {
+      userId = storageUid;
+    });
+    if (userId != null) {
+      _refreshTransactions();
+      _timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        _refreshTransactions();
+      });
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchProducts() async {
+    final response = await http.get(Uri.parse('https://www.admin-segarku.online/api/products'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> products = json.decode(response.body)['data'];
+      // Buat Map dengan key = id produk dan value = data produk
+      return {for (var product in products) product['id']: product};
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
+
+  Future<void> _refreshTransactions() async {
+    if (userId == null) return;
+
+    // Ambil data produk terlebih dahulu
+    final productsData = await fetchProducts();
+    setState(() {
+      products = productsData;
+    });
+
+    // Ambil data transaksi
+    final transactionsData = await fetchTransactions(userId!);
+
+    // Urutkan transaksi berdasarkan tanggal terbaru
+    transactionsData.sort((a, b) {
+      DateTime dateA = DateTime.parse(a['created_at']);
+      DateTime dateB = DateTime.parse(b['created_at']);
+      return dateB.compareTo(dateA); // Urutkan dari yang terbaru ke terlama
+    });
+
+    setState(() {
+      transactions = transactionsData;
+    });
+  }
+
+  Future<List<dynamic>> fetchTransactions(String userId) async {
+    final response = await http.get(Uri.parse('https://admin-segarku.online/api/outgoingtransactions?user_id=$userId'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body)['data'];
+    } else {
+      throw Exception('Failed to load transactions');
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
-    // Data untuk kontainer produk pertama
-    final List<Map<String, String>> firstContainerProducts = [
-
-    ];
-
-    // Data untuk kontainer produk kedua
-    final List<Map<String, String>> secondContainerProducts = [
-      {
-        "name": "Tomat",
-        "size": "1kg/pack",
-        "price": "Rp. 10.000",
-        "image": SImages.tomat,
-        "date": "8 Jan 2025",
-      },
-      {
-        "name": "Wortel",
-        "size": "1kg/pack",
-        "price": "Rp. 12.000",
-        "image": SImages.wortel,
-        "date": "7 Jan 2025",
-      },
-    ];
-
-    // Hitung total item dan harga untuk setiap kontainer
-    final int firstTotalItems = firstContainerProducts.length;
-    const int firstTotalPrice = 8000 + 15000; // Contoh hitung manual
-    final int secondTotalItems = secondContainerProducts.length;
-    const int secondTotalPrice = 10000 + 12000; // Contoh hitung manual
-
-    // Logika untuk memeriksa apakah semua data produk kosong
-    final bool allProductsEmpty =
-        firstContainerProducts.isEmpty && secondContainerProducts.isEmpty;
-
     return Scaffold(
-      body: allProductsEmpty
-          ? const NoHistoryScreen() // Jika semua produk kosong
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Kontainer Produk Pertama
-                  if (firstContainerProducts.isNotEmpty)
-                    ProductHistory(
-                      products: firstContainerProducts,
-                      darkMode: darkMode,
-                      totalItems: firstTotalItems,
-                      totalPrice: firstTotalPrice,
-                    ),
-
-                  const SizedBox(height: 16), // Jarak antar kontainer
-
-                  // Kontainer Produk Kedua
-                  if (secondContainerProducts.isNotEmpty)
-                    ProductHistory(
-                      products: secondContainerProducts,
-                      darkMode: darkMode,
-                      totalItems: secondTotalItems,
-                      totalPrice: secondTotalPrice,
-                    ),
-
-                  // Konten tambahan di bawah kontainer produk
-                  const SizedBox(height: SSizes.lg2),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: SSizes.defaultMargin,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          STexts.youLink,
-                          style: darkMode
-                              ? STextTheme.titleBaseBoldDark
-                              : STextTheme.titleBaseBoldLight,
-                        ),
-                        const SizedBox(height: SSizes.md),
-                        const SProductH(),
-                      ],
-                    ),
-                  ),
-                ],
+      body: RefreshIndicator(
+        onRefresh: _refreshTransactions,
+        child: transactions.isEmpty
+            ? const NoHistoryScreen()
+            : ListView.builder(
+                itemCount: transactions.length,
+                itemBuilder: (context, index) {
+                  final transaction = transactions[index];
+                  return ProductHistory(
+                    transaction: transaction,
+                    darkMode: darkMode,
+                    products: products,
+                  );
+                },
               ),
-            ),
+      ),
     );
   }
 }

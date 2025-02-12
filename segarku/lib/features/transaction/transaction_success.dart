@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
@@ -9,11 +10,45 @@ import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../utils/constants/text_strings.dart';
 
 class TransactionSuccess extends StatelessWidget {
-  const TransactionSuccess({super.key});
+  final String orderId;
+  final double totalAmount;
+  final String paymentStatus;
+  final String paymentMethod;
+  final String deliveryTime;
+  final String deliveryDate;
+  final String shippingMethod;
+
+  const TransactionSuccess({
+    super.key,
+    required this.orderId,
+    required this.totalAmount,
+    required this.paymentStatus,
+    required this.paymentMethod,
+    required this.deliveryTime,
+    required this.deliveryDate,
+    required this.shippingMethod,
+  });
+
+  String _formatShippingMethod(String method) {
+    switch (method.toLowerCase()) {
+      case 'delivery':
+        return 'Pengantaran';
+      case 'pickup':
+        return 'Ambil di Toko';
+      default:
+        return method;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
+    final currencyFormat = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp ',
+      decimalDigits: 0,
+    );
+    final formattedAmount = currencyFormat.format(totalAmount.round()); 
     return Scaffold(
       body: Column(
         children: [
@@ -86,9 +121,8 @@ class TransactionSuccess extends StatelessWidget {
                         const SizedBox(height: SSizes.xs),
                         Image.asset(SImages.verified1),
 
-                        // Title
                         Text(
-                          STexts.titlePaymentSucces,
+                          "Pembayaran Berhasil",
                           style: dark
                               ? STextTheme.titleMdBoldDark
                               : STextTheme.titleMdBoldLight,
@@ -96,9 +130,8 @@ class TransactionSuccess extends StatelessWidget {
 
                         const SizedBox(height: SSizes.sm),
 
-                        // Subtitle
                         Text(
-                          STexts.subTitlePaymentSucces,
+                          "Pesanan Anda akan segera diproses",
                           style: dark
                               ? STextTheme.bodyBaseRegularDark
                               : STextTheme.bodyBaseRegularLight,
@@ -106,13 +139,12 @@ class TransactionSuccess extends StatelessWidget {
 
                         const SizedBox(height: SSizes.md),
 
-                        // Kontainer tambahan
                         Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             color: dark
-                              ? SColors.softBlack500
-                              : SColors.softWhite,
+                                ? SColors.softBlack500
+                                : SColors.softWhite,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
@@ -121,16 +153,16 @@ class TransactionSuccess extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    STexts.sum,
+                                    "Total",
                                     style: dark
-                                      ? STextTheme.bodyBaseRegularDark
-                                      : STextTheme.bodyBaseRegularLight,
+                                        ? STextTheme.bodyBaseRegularDark
+                                        : STextTheme.bodyBaseRegularLight,
                                   ),
                                   Text(
-                                    STexts.exSum,
+                                    formattedAmount, // Gunakan formattedAmount
                                     style: dark
-                                    ?  STextTheme.titleMdBoldDark
-                                    : STextTheme.titleMdBoldLight,
+                                        ? STextTheme.titleMdBoldDark
+                                        : STextTheme.titleMdBoldLight,
                                   ),
                                 ],
                               ),
@@ -141,10 +173,10 @@ class TransactionSuccess extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    STexts.paymentStatus,
+                                    "Status Pembayaran",
                                     style: dark
-                                      ? STextTheme.bodyBaseRegularDark
-                                      : STextTheme.bodyBaseRegularLight,
+                                        ? STextTheme.bodyBaseRegularDark
+                                        : STextTheme.bodyBaseRegularLight,
                                   ),
                                   Container(
                                     padding: const EdgeInsets.symmetric(
@@ -153,8 +185,8 @@ class TransactionSuccess extends StatelessWidget {
                                       color: SColors.green100,
                                       borderRadius: BorderRadius.circular(SSizes.lg2),
                                     ),
-                                    child: const Text(
-                                      STexts.finish,
+                                    child: Text(
+                                      paymentStatus,
                                       style: STextTheme.ctaSm,
                                     ),
                                   ),
@@ -162,87 +194,107 @@ class TransactionSuccess extends StatelessWidget {
                               ),
 
                               const SizedBox(height: SSizes.lg),
-
-                              const Divider(
-                                color: SColors.softBlack50,
-                                thickness: 1,
-                              ),
-
+                              const Divider(color: SColors.softBlack50, thickness: 1),
                               const SizedBox(height: SSizes.lg),
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    STexts.refNumb,
+                                    "No. Referensi",
                                     style: dark
-                                    ? STextTheme.bodyCaptionRegularDark
-                                    : STextTheme.bodyCaptionRegularLight,
+                                        ? STextTheme.bodyCaptionRegularDark
+                                        : STextTheme.bodyCaptionRegularLight,
                                   ),
                                   Text(
-                                    STexts.exRefNumb,
+                                    orderId,
                                     style: dark
-                                    ? STextTheme.titleCaptionBoldDark
-                                    : STextTheme.titleCaptionBoldLight,
+                                        ? STextTheme.titleCaptionBoldDark
+                                        : STextTheme.titleCaptionBoldLight,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: SSizes.md+2),
+
+                              const SizedBox(height: SSizes.md + 2),
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    STexts.paymentMethod,
+                                    "Metode Pembayaran",
                                     style: dark
-                                    ? STextTheme.bodyCaptionRegularDark
-                                    : STextTheme.bodyCaptionRegularLight,
+                                        ? STextTheme.bodyCaptionRegularDark
+                                        : STextTheme.bodyCaptionRegularLight,
                                   ),
                                   Text(
-                                    STexts.expaymentMethod,
+                                    paymentMethod,
                                     style: dark
-                                    ? STextTheme.titleCaptionBoldDark
-                                    : STextTheme.titleCaptionBoldLight,
+                                        ? STextTheme.titleCaptionBoldDark
+                                        : STextTheme.titleCaptionBoldLight,
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: SSizes.md+2),
+
+                              const SizedBox(height: SSizes.md + 2),
+
+                              // New Purchase Method Row
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Metode Pembelian",
+                                    style: dark
+                                        ? STextTheme.bodyCaptionRegularDark
+                                        : STextTheme.bodyCaptionRegularLight,
+                                  ),
+                                  Text(
+                                    _formatShippingMethod(shippingMethod),
+                                    style: dark
+                                        ? STextTheme.titleCaptionBoldDark
+                                        : STextTheme.titleCaptionBoldLight,
+                                  ),
+                                ],
+                              ),
+
+                              const SizedBox(height: SSizes.md + 2),                              
 
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    STexts.time,
+                                    "Waktu",
                                     style: dark
-                                    ? STextTheme.bodyCaptionRegularDark
-                                    : STextTheme.bodyCaptionRegularLight,
+                                        ? STextTheme.bodyCaptionRegularDark
+                                        : STextTheme.bodyCaptionRegularLight,
                                   ),
                                   Text(
-                                    STexts.exTime,
+                                    deliveryTime,
                                     style: dark
-                                    ? STextTheme.titleCaptionBoldDark
-                                    : STextTheme.titleCaptionBoldLight,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: SSizes.md+2),Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    STexts.date,
-                                    style: dark
-                                    ? STextTheme.bodyCaptionRegularDark
-                                    : STextTheme.bodyCaptionRegularLight,
-                                  ),
-                                  Text(
-                                    STexts.exdate,
-                                    style: dark
-                                    ? STextTheme.titleCaptionBoldDark
-                                    : STextTheme.titleCaptionBoldLight,
+                                        ? STextTheme.titleCaptionBoldDark
+                                        : STextTheme.titleCaptionBoldLight,
                                   ),
                                 ],
                               ),
 
+                              const SizedBox(height: SSizes.md + 2),
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Tanggal",
+                                    style: dark
+                                        ? STextTheme.bodyCaptionRegularDark
+                                        : STextTheme.bodyCaptionRegularLight,
+                                  ),
+                                  Text(
+                                    deliveryDate,
+                                    style: dark
+                                        ? STextTheme.titleCaptionBoldDark
+                                        : STextTheme.titleCaptionBoldLight,
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),

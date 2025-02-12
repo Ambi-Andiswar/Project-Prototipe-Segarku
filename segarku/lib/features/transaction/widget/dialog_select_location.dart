@@ -108,15 +108,25 @@ class _AddressPopupState extends State<AddressPopup> {
 
 Future<void> _saveAddress({bool isEdit = false}) async {
   if (uid == null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('User tidak terautentikasi')),
+    Get.snackbar(
+      'Autentikasi Gagal',
+      'User tidak terautentikasi',
+      backgroundColor: SColors.danger500,
+      colorText: SColors.pureWhite,
+      icon: const Icon(Icons.error, color: Colors.white),
+      snackPosition: SnackPosition.TOP,
     );
     return;
   }
 
   if (selectedVillage == null || _addressDetailController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Harap isi semua field yang diperlukan')),
+    Get.snackbar(
+      'Input Tidak Lengkap',
+      'Harap isi semua field yang diperlukan',
+      backgroundColor: SColors.danger500,
+      colorText: SColors.pureWhite,
+      icon: const Icon(Icons.warning, color: Colors.white),
+      snackPosition: SnackPosition.TOP,
     );
     return;
   }
@@ -149,8 +159,13 @@ Future<void> _saveAddress({bool isEdit = false}) async {
       phone: _phoneController.text,
     );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Alamat berhasil disimpan')),
+    Get.snackbar(
+      'Sukses',
+      'Alamat berhasil disimpan',
+      backgroundColor: SColors.green500,
+      colorText: SColors.pureWhite,
+      icon: const Icon(Icons.check_circle, color: Colors.white),
+      snackPosition: SnackPosition.TOP,
     );
 
     // Kirim data kembali ke SelectLocation dengan memastikan semua nilai adalah String
@@ -209,29 +224,29 @@ Future<void> _saveAddress({bool isEdit = false}) async {
                   color: SColors.danger500
                 ),
               ),
-              const SizedBox(height: 16),
-              GestureDetector(
-                onTap: () {
-                  // Fungsi untuk memilih lokasi
-                },
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: 150,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: const DecorationImage(
-                          image: AssetImage(SImages.maps),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const Icon(Icons.location_on, color: SColors.green500, size: 40),
-                  ],
-                ),
-              ),
+              // const SizedBox(height: 16),
+              // GestureDetector(
+              //   onTap: () {
+              //     // Fungsi untuk memilih lokasi
+              //   },
+              //   child: Stack(
+              //     alignment: Alignment.center,
+              //     children: [
+              //       Container(
+              //         height: 150,
+              //         width: double.infinity,
+              //         decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(8),
+              //           image: const DecorationImage(
+              //             image: AssetImage(SImages.maps),
+              //             fit: BoxFit.cover,
+              //           ),
+              //         ),
+              //       ),
+              //       const Icon(Icons.location_on, color: SColors.green500, size: 40),
+              //     ],
+              //   ),
+              // ),
               const SizedBox(height: SSizes.md2),
               _buildDropdownField("Pilih Kelurahan", _villageController, SIcons.location, dark),
               const SizedBox(height: SSizes.sm),
@@ -254,6 +269,7 @@ Future<void> _saveAddress({bool isEdit = false}) async {
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),

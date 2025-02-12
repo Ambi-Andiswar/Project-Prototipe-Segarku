@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
-import 'package:segarku/features/orders/widget/no_history.dart';
+import 'package:segarku/features/orders/widget/history_all/all_history.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
-import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import '../../../../../utils/constants/text_strings.dart';
 
 class HistoryOrderProfile extends StatelessWidget {
@@ -35,36 +34,8 @@ class HistoryOrderProfile extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: SSizes.defaultMargin,
-                      vertical: SSizes.lg2,
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        STexts.historyOrder,
-                        style: dark
-                            ? STextTheme.titleBaseBoldDark
-                            : STextTheme.titleBaseBoldLight,
-                      ),
-                    ),
-                  ),
-                  // NoHistoryScreen di tengah vertikal dan horizontal
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: const Center(
-                      child: NoHistoryScreen(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          const Expanded(
+            child: AllProductHistory(), // Langsung gunakan AllProductHistory() di sini
           ),
         ],
       ),

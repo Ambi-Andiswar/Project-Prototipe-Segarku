@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -8,46 +9,70 @@ import 'package:flutter_dash/flutter_dash.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class DetailProducthistory extends StatelessWidget {
-  const DetailProducthistory({super.key});
+  final List<dynamic> products;
+  final int totalAmount;
+  final Map<String, dynamic> productData;
+
+  const DetailProducthistory({
+    super.key,
+    required this.products,
+    required this.totalAmount,
+    required this.productData,
+  });
+
+  // Perbaikan fungsi calculateSubtotal untuk mengembalikan int
+  int calculateSubtotal(List<dynamic> products) {
+    num total = products
+        .where((product) => product['id'] != "TAX" && product['id'] != "DELIVERY")
+        .fold(0, (sum, product) {
+          int price = int.parse(product['price'].toString());
+          int quantity = int.parse(product['quantity'].toString());
+          return sum + (price * quantity);
+        });
+    return total.toInt(); // Konversi num ke int
+  }
+
+  String formatPrice(dynamic price) {
+    return NumberFormat.currency(
+      locale: 'id',
+      symbol: 'Rp. ',
+      decimalDigits: 0,
+    ).format(price is String ? int.tryParse(price) ?? 0 : price);
+  }
 
   @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
-    // Data produk contoh yang telah di-checkout
-    final List<Map<String, String>> checkedOutProducts = [
-      {
-        "name": "Tomat",
-        "size": "300-500 gr/pack",
-        "price": "Rp. 5.000",
-        "image": SImages.tomat
-      },
-      {
-        "name": "Wortel",
-        "size": "1kg/pack",
-        "price": "Rp. 12.000",
-        "image": SImages.wortel
-      },
-    ];
+    final List<dynamic> productItems = products
+        .where((product) => product['id'] != "TAX" && product['id'] != "DELIVERY")
+        .toList();
+    final dynamic taxItem = products.firstWhere(
+        (product) => product['id'] == "TAX",
+        orElse: () => null);
+    final dynamic deliveryItem = products.firstWhere(
+        (product) => product['id'] == "DELIVERY",
+        orElse: () => null);
+
+    final subtotal = calculateSubtotal(products);
 
     return Container(
       margin: const EdgeInsets.only(
         left: SSizes.defaultMargin,
         top: SSizes.defaultMargin,
         right: SSizes.defaultMargin,
-      ), // Padding luar kontainer
-      padding: const EdgeInsets.all(SSizes.defaultMargin), // Padding dalam kontainer
+      ),
+      padding: const EdgeInsets.all(SSizes.defaultMargin),
       decoration: BoxDecoration(
-        color: darkMode ? SColors.pureBlack : Colors.white, // Warna latar
-        borderRadius: BorderRadius.circular(SSizes.borderRadiussm), // Sudut melengkung
-        border: Border.all(color: darkMode
-        ? SColors.green50
-        : SColors.softBlack50)
+        color: darkMode ? SColors.pureBlack : Colors.white,
+        borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+        border: Border.all(
+          color: darkMode ? SColors.green50 : SColors.softBlack50,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header Detail Produk
           Padding(
             padding: const EdgeInsets.only(bottom: SSizes.defaultMargin),
             child: Text(
@@ -58,10 +83,11 @@ class DetailProducthistory extends StatelessWidget {
             ),
           ),
 
-          // List Produk
           Column(
-            children: checkedOutProducts.map((product) {
-              final isLast = product == checkedOutProducts.last;
+            children: productItems.map((product) {
+              final isLast = product == productItems.last;
+              final productDetail = productData[product['id'].toString()];
+              
               return Padding(
                 padding: EdgeInsets.only(bottom: isLast ? 0 : SSizes.lg),
                 child: Row(
@@ -69,12 +95,27 @@ class DetailProducthistory extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                      child: Image.asset(
-                        product["image"]!,
-                        width: 80.0,
-                        height: 80.0,
-                        fit: BoxFit.cover,
-                      ),
+                      child: productDetail != null && productDetail['image'] != null
+                          ? Image.network(
+                              productDetail['image'],
+                              width: 80.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  SImages.buahCategory,
+                                  width: 80.0,
+                                  height: 80.0,
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                          : Image.asset(
+                              SImages.buahCategory,
+                              width: 80.0,
+                              height: 80.0,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     const SizedBox(width: SSizes.sm2),
                     Expanded(
@@ -82,20 +123,20 @@ class DetailProducthistory extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            product["name"]!,
+                            product['name'],
                             style: darkMode
                                 ? STextTheme.titleBaseBlackDark
                                 : STextTheme.titleBaseBlackLight,
                           ),
                           Text(
-                            product["size"]!,
+                            productDetail?['berat']?.toString() ?? '0 Kg/pack',
                             style: darkMode
                                 ? STextTheme.bodySmRegularDark
                                 : STextTheme.bodySmRegularLight,
                           ),
                           const SizedBox(height: SSizes.sm),
                           Text(
-                            product["price"]!,
+                            formatPrice(product['price']),
                             style: STextTheme.titleBaseBoldLight.copyWith(
                               color: SColors.green500,
                             ),
@@ -104,10 +145,10 @@ class DetailProducthistory extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      height: 80.0, // Tinggi yang sama dengan gambar
+                      height: 80.0,
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        "1 Pack",
+                        "${product['quantity']} item(s)",
                         style: darkMode
                             ? STextTheme.bodyCaptionRegularDark
                             : STextTheme.bodyCaptionRegularLight,
@@ -119,20 +160,22 @@ class DetailProducthistory extends StatelessWidget {
             }).toList(),
           ),
 
-          const SizedBox(height: SSizes.md,),
-          // Garis pembatas
+          const SizedBox(height: SSizes.md),
           const Divider(color: SColors.softBlack50, thickness: 1),
 
-          // Informasi Subtotal, PPN, Ongkir
           Padding(
             padding: const EdgeInsets.symmetric(vertical: SSizes.md),
             child: Column(
               children: [
-                _buildPriceRow("Subtotal", "Rp. 17.000"),
-                const SizedBox(height: SSizes.sm),
-                _buildPriceRow("PPN", "Rp. 5.000"),
-                const SizedBox(height: SSizes.sm),
-                _buildPriceRow("Ongkir", "Rp. 4.000"),
+                _buildPriceRow("Subtotal", formatPrice(subtotal)),
+                if (taxItem != null) ...[
+                  const SizedBox(height: SSizes.sm),
+                  _buildPriceRow("PPN (5%)", formatPrice(taxItem['price'])),
+                ],
+                if (deliveryItem != null) ...[
+                  const SizedBox(height: SSizes.sm),
+                  _buildPriceRow("Ongkir", formatPrice(deliveryItem['price'])),
+                ],
               ],
             ),
           ),
@@ -141,33 +184,32 @@ class DetailProducthistory extends StatelessWidget {
 
           Dash(
             length: MediaQuery.of(context).size.width -
-              (SSizes.defaultMargin * 4.3),
-              dashLength: 4.0,
-              dashGap: 4.0,
-              direction: Axis.horizontal,
-              dashColor:
-                darkMode ? SColors.green50 : SColors.softBlack50,
-              dashBorderRadius: 4.0,
+                (SSizes.defaultMargin * 4.3),
+            dashLength: 4.0,
+            dashGap: 4.0,
+            direction: Axis.horizontal,
+            dashColor: darkMode ? SColors.green50 : SColors.softBlack50,
+            dashBorderRadius: 4.0,
           ),
 
           const SizedBox(height: SSizes.md),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  STexts.total,
-                    style: darkMode
-                        ? STextTheme.titleCaptionBoldDark
-                        : STextTheme.titleCaptionBoldLight,
+            children: [
+              Text(
+                STexts.total,
+                style: darkMode
+                    ? STextTheme.titleCaptionBoldDark
+                    : STextTheme.titleCaptionBoldLight,
+              ),
+              const Spacer(),
+              Text(
+                formatPrice(totalAmount),
+                style: STextTheme.titleBaseBoldDark.copyWith(
+                  color: SColors.green500,
                 ),
-                const Spacer(),
-                Text(
-                  "Rp 66.000",
-                    style: STextTheme.titleBaseBoldDark.copyWith(
-                    color: SColors.green500,
-                    ),
-                ),
-              ],
+              ),
+            ],
           ),
         ],
       ),
