@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:segarku/features/orders/widget/no_history.dart';
 import 'package:segarku/features/orders/widget/product_history.dart';
 import 'package:segarku/utils/constants/colors.dart';
+import 'package:segarku/utils/constants/icons.dart';
 import 'package:segarku/utils/helpers/helper_functions.dart';
 import 'package:segarku/utils/local_storage/user_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-
+import '../../models/loading_product_history.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 
 class AllProductHistory extends StatefulWidget {
@@ -25,6 +26,8 @@ class _AllProductHistoryState extends State<AllProductHistory> {
   Map<String, dynamic> products = {};
   Timer? _timer;
   String selectedFilter = 'Semua'; // Default filter
+  bool isLoading = true; // Tambahkan state isLoading
+
 
   // Daftar pilihan filter
   final List<String> filterOptions = [
@@ -68,29 +71,39 @@ class _AllProductHistoryState extends State<AllProductHistory> {
   Future<void> _refreshTransactions() async {
     if (userId == null) return;
 
-    // Ambil data produk terlebih dahulu
-    final productsData = await fetchProducts();
     setState(() {
-      products = productsData;
+      isLoading = true; // Set isLoading ke true saat memulai pengambilan data
     });
 
-    final transactions = await fetchTransactions(userId!);
-    final outgoingTransactions = await fetchOutgoingTransactions(userId!);
+    try {
+      // Ambil data produk terlebih dahulu
+      final productsData = await fetchProducts();
+      final transactions = await fetchTransactions(userId!);
+      final outgoingTransactions = await fetchOutgoingTransactions(userId!);
 
-    // Gabungkan semua transaksi
-    List<dynamic> allTransactions = [...transactions, ...outgoingTransactions];
+      // Gabungkan semua transaksi
+      List<dynamic> allTransactions = [...transactions, ...outgoingTransactions];
 
-    // Urutkan transaksi berdasarkan tanggal terbaru
-    allTransactions.sort((a, b) {
-      DateTime dateA = DateTime.parse(a['created_at']);
-      DateTime dateB = DateTime.parse(b['created_at']);
-      return dateB.compareTo(dateA); // Urutkan dari yang terbaru ke terlama
-    });
+      // Urutkan transaksi berdasarkan tanggal terbaru
+      allTransactions.sort((a, b) {
+        DateTime dateA = DateTime.parse(a['created_at']);
+        DateTime dateB = DateTime.parse(b['created_at']);
+        return dateB.compareTo(dateA); // Urutkan dari yang terbaru ke terlama
+      });
 
-    setState(() {
-      this.allTransactions = allTransactions;
-      _applyFilter(); // Panggil applyFilter setelah allTransactions diperbarui
-    });
+      setState(() {
+        this.allTransactions = allTransactions;
+        products = productsData;
+        _applyFilter(); // Panggil applyFilter setelah allTransactions diperbarui
+      });
+    } catch (e) {
+      // Tangani error jika diperlukan
+      print('Error fetching data: $e');
+    } finally {
+      setState(() {
+        isLoading = false; // Set isLoading ke false setelah selesai
+      });
+    }
   }
 
   Future<List<dynamic>> fetchTransactions(String userId) async {
@@ -152,64 +165,83 @@ class _AllProductHistoryState extends State<AllProductHistory> {
         children: [
           // Tambahkan Row untuk mengatur layout filter ke kanan
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.only(
+              left: 16.0,
+              right: 16.0,
+              top: 20.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end, // Mengatur posisi ke kanan
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(40.0),
-                    border: Border.all(
-                      color: SColors.green500,
-                      width: 1.0,
-                    ),
-                  ),
-                  child: DropdownButton<String>(
-                    value: selectedFilter,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedFilter = newValue!;
-                        _applyFilter(); // Terapkan filter saat pilihan berubah
-                      });
-                    },
-                    items: filterOptions.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: STextTheme.titleCaptionBoldDark.copyWith(color: SColors.green500)
-                        ),
-                      );
-                    }).toList(),
-                    underline: Container(), // Hilangkan garis bawah default
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: darkMode ? Colors.white : SColors.green500,
-                    ),
-                    dropdownColor: darkMode ?  SColors.softBlack500 : SColors.pureWhite,
+                GestureDetector(
+                  onTap: () {
+                    // Tampilkan dropdown saat diklik
+                    showMenu<String>(
+                      context: context,
+                      position: const RelativeRect.fromLTRB(100, 160, 16, 0), // Atur posisi dropdown sesuai kebutuhan
+                      items: filterOptions.map((String value) {
+                        return PopupMenuItem<String>(
+                          value: value,
+                          child: Text(
+                            value,
+                            style: STextTheme.titleCaptionBoldDark.copyWith(color: SColors.green500),
+                          ),
+                        );
+                      }).toList(),
+                      color: darkMode ?  SColors.softBlack500 : SColors.green50,
+                    ).then((String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedFilter = newValue;
+                          _applyFilter();
+                        });
+                      }
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      const Icon(
+                        SIcons.filter, // Ganti dengan ikon filter yang sesuai
+                        color: SColors.green500,
+                      ),
+                      const SizedBox(width: 8.0), // Jarak antara ikon dan teks
+                      Text(
+                        selectedFilter,
+                        style: STextTheme.titleCaptionBoldDark.copyWith(color: SColors.green500),
+                      ),
+                      const SizedBox(width: 8.0), // Jarak antara teks dan ikon dropdown
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        color: SColors.green500,
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
           Expanded(
-            child: RefreshIndicator(
-              onRefresh: _refreshTransactions,
-              child: filteredTransactions.isEmpty
-                  ? const NoHistoryScreen()
-                  : ListView.builder(
-                      itemCount: filteredTransactions.length,
-                      itemBuilder: (context, index) {
-                        final transaction = filteredTransactions[index];
-                        return ProductHistory(
-                          transaction: transaction,
-                          darkMode: darkMode,
-                          products: products,
-                        );
-                      },
-                    ),
+          child: RefreshIndicator(
+            onRefresh: _refreshTransactions,
+            child: isLoading
+                ? ListView.builder(
+                    itemCount: 3, // Jumlah shimmer placeholder
+                    itemBuilder: (context, index) {
+                      return ProductShimmer(darkMode: darkMode); // Tampilkan shimmer
+                    },
+                  )
+                : filteredTransactions.isEmpty
+                    ? const NoHistoryScreen()
+                    : ListView.builder(
+                        itemCount: filteredTransactions.length,
+                        itemBuilder: (context, index) {
+                          final transaction = filteredTransactions[index];
+                          return ProductHistory(
+                            transaction: transaction,
+                            darkMode: darkMode,
+                            products: products,
+                          );
+                        },
+                      ),
             ),
           ),
         ],

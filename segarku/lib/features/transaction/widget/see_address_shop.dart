@@ -70,7 +70,7 @@ class SeeAddressShop extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               // Membuka tautan Google Maps
-                              const url = "https://www.google.com/maps/place/Universitas+Teknokrat+Indonesia/@-5.3823787,105.255241,17z/data=!3m1!4b1!4m6!3m5!1s0x2e40dadc7970b277:0x5b1fe57f83b6416c!8m2!3d-5.382384!4d105.2578159!16s%2Fg%2F11bw39r0dq?entry=ttu&g_ep=EgoyMDI1MDEwNi4xIKXMDSoASAFQAw%3D%3D";
+                              const url = "https://www.google.com/maps/dir/-5.3936128,105.2049408/-5.3286784,105.2499983/@-5.3611425,105.1859672,13z/data=!3m1!4b1!4m5!4m4!1m1!4e1!1m1!4e1?entry=ttu&g_ep=EgoyMDI1MDIxMC4wIKXMDSoASAFQAw%3D%3D";
                               launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
                             },
                             child: Container(

@@ -6,6 +6,8 @@ import 'package:segarku/utils/local_storage/user_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import '../../models/loading_product_history.dart';
+
 
 class DoneHistory extends StatefulWidget {
   const DoneHistory({super.key});
@@ -19,6 +21,7 @@ class _DoneHistoryState extends State<DoneHistory> {
   Map<String, dynamic> products = {};
   String? userId;
   Timer? _timer;
+  bool isLoading = true; // Tambahkan state isLoading
 
   @override
   void initState() {
@@ -32,7 +35,7 @@ class _DoneHistoryState extends State<DoneHistory> {
       userId = storageUid;
     });
     if (userId != null) {
-      _refreshTransactions();
+      await _refreshTransactions();
       _timer = Timer.periodic(Duration(seconds: 30), (timer) {
         _refreshTransactions();
       });
@@ -54,25 +57,38 @@ class _DoneHistoryState extends State<DoneHistory> {
   Future<void> _refreshTransactions() async {
     if (userId == null) return;
 
-    // Ambil data produk terlebih dahulu
-    final productsData = await fetchProducts();
     setState(() {
-      products = productsData;
+      isLoading = true; // Set isLoading ke true saat memulai pengambilan data
     });
 
-    // Ambil data transaksi
-    final transactionsData = await fetchTransactions(userId!);
+    try {
+      // Ambil data produk terlebih dahulu
+      final productsData = await fetchProducts();
+      setState(() {
+        products = productsData;
+      });
 
-    // Urutkan transaksi berdasarkan tanggal terbaru
-    transactionsData.sort((a, b) {
-      DateTime dateA = DateTime.parse(a['created_at']);
-      DateTime dateB = DateTime.parse(b['created_at']);
-      return dateB.compareTo(dateA); // Urutkan dari yang terbaru ke terlama
-    });
+      // Ambil data transaksi
+      final transactionsData = await fetchTransactions(userId!);
 
-    setState(() {
-      transactions = transactionsData;
-    });
+      // Urutkan transaksi berdasarkan tanggal terbaru
+      transactionsData.sort((a, b) {
+        DateTime dateA = DateTime.parse(a['created_at']);
+        DateTime dateB = DateTime.parse(b['created_at']);
+        return dateB.compareTo(dateA); // Urutkan dari yang terbaru ke terlama
+      });
+
+      setState(() {
+        transactions = transactionsData;
+      });
+    } catch (e) {
+      // Tangani error jika diperlukan
+      print('Error fetching data: $e');
+    } finally {
+      setState(() {
+        isLoading = false; // Set isLoading ke false setelah selesai
+      });
+    }
   }
 
   Future<List<dynamic>> fetchTransactions(String userId) async {
@@ -98,11 +114,18 @@ class _DoneHistoryState extends State<DoneHistory> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: _refreshTransactions,
-        child: transactions.isEmpty
-            ? const NoHistoryScreen()
-            : ListView.builder(
-                itemCount: transactions.length,
+        child: isLoading
+            ? ListView.builder(
+                itemCount: 3, // Jumlah shimmer placeholder
                 itemBuilder: (context, index) {
+                  return ProductShimmer(darkMode: darkMode); // Tampilkan shimmer
+                },
+              )
+            : transactions.isEmpty
+                ? const NoHistoryScreen()
+                : ListView.builder(
+                    itemCount: transactions.length,
+                    itemBuilder: (context, index) {
                   final transaction = transactions[index];
                   return ProductHistory(
                     transaction: transaction,

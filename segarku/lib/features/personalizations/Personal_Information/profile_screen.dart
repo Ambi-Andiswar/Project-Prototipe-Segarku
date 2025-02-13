@@ -9,6 +9,7 @@ import 'package:segarku/utils/local_storage/user_storage.dart';
 import 'package:segarku/utils/models/fields.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 import 'dart:convert';
 import '../../../../../utils/constants/text_strings.dart';
 import '../../../commons/widget/appbar/appbar.dart';
@@ -33,6 +34,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Map<String, dynamic>? userData;
   String? apiKey;
   String? uid;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -41,6 +43,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Future<void> _loadUserData() async {
+    setState(() {
+      isLoading = true; // Set loading state ke true saat mulai memuat data
+    });
+
     final storageApiKey = await UserStorage.getApiKey();
     final storageUid = await UserStorage.getUid();
 
@@ -68,6 +74,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       _nameController.text = data?['nama'] ?? '';
       _emailController.text = data?['email'] ?? '';
       _phoneController.text = data?['telepon'] ?? '';
+      isLoading = false;
     });
   }
 
@@ -240,7 +247,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: Column(
                     children: [
                       // Profile Image
-                      ClipRRect(
+                      isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                              highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                              child: Container(
+                                width: 72,
+                                height: 72,
+                                decoration: BoxDecoration(
+                                  color: dark ? Colors.grey : Colors.grey,
+                                  borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                                ),
+                              ),
+                            )
+                          : ClipRRect(
                         borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                         child: userData?['photo'] != null && userData?['photo'].isNotEmpty
                             ? Image.network(
@@ -257,7 +277,17 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       const SizedBox(height: SSizes.lg2),
 
                       // Change Photo Button
-                      GestureDetector(
+                      isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                              highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                              child: Container(
+                                width: 100,
+                                height: 20,
+                                color: dark ? Colors.grey : Colors.grey,
+                              ),
+                            )
+                          : GestureDetector(
                         onTap: _pickAndUploadPhoto,
                         child: const Text(
                           STexts.changePhotoProfile,
@@ -267,19 +297,49 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       const SizedBox(height: SSizes.xl),
 
                       // Input Fields dengan data user
-                      InputFields.usernameProfileField(
+                      isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                              highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                              child: Container(
+                                width: double.infinity,
+                                height: 60,
+                                color: dark ? Colors.grey : Colors.grey,
+                              ),
+                            )
+                          : InputFields.usernameProfileField(
                         context, 
                         dark, 
                         controller: _nameController
                       ),
                       const SizedBox(height: SSizes.md),
-                      InputFields.editNoPhoneField(
+                      isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                              highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                              child: Container(
+                                width: double.infinity,
+                                height: 60,
+                                color: dark ? Colors.grey : Colors.grey,
+                              ),
+                            )
+                          : InputFields.editNoPhoneField(
                         context, 
                         dark, 
                         controller: _phoneController
                       ),
                       const SizedBox(height: SSizes.md),
-                      InputFields.editEmailField(
+                      isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                              highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                              child: Container(
+                                width: double.infinity,
+                                height: 60,
+                                color: dark ? Colors.grey : Colors.grey,
+                              ),
+                            )
+                          : InputFields.editEmailField(
                         context, 
                         dark, 
                         controller: _emailController,

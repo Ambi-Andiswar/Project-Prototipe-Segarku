@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/features/shop/products/add_to_cart_popup.dart';
 import 'package:segarku/features/shop/products/data/product.dart';
@@ -54,14 +55,13 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
     try {
       final allProducts = await ApiServiceProduct.fetchProducts();
 
-      // Filter produk berdasarkan kategori yang dipilih
       setState(() {
         products = allProducts.where((product) {
           final productCategory = product.categoryName.trim().toLowerCase();
           final selectedCategory = widget.categoryName.trim().toLowerCase();
           return productCategory == selectedCategory;
         }).toList();
-        filteredProducts = products; // Inisialisasi filteredProducts dengan produk yang sudah difilter
+        filteredProducts = products;
         isLoading = false;
       });
     } catch (e) {
@@ -81,13 +81,102 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
     });
   }
 
+  Widget _buildShimmerLoading(bool dark) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: SSizes.md,
+        mainAxisSpacing: SSizes.md,
+        childAspectRatio: 0.75,
+      ),
+      itemCount: 6, // Jumlah shimmer item yang ditampilkan
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: dark ? Colors.grey[800]! : Colors.grey[300]!,
+          highlightColor: dark ? Colors.grey[700]! : Colors.grey[100]!,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: dark ? SColors.green50 : SColors.softBlack50,
+              ),
+              borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+              color: dark ? SColors.pureBlack : SColors.pureWhite,
+              boxShadow: [SShadows.contentShadow],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(SSizes.md),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Shimmer untuk gambar produk
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: SSizes.sm2),
+                  // Shimmer untuk nama produk
+                  Container(
+                    width: double.infinity,
+                    height: 16,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: SSizes.xs),
+                  // Shimmer untuk berat produk
+                  Container(
+                    width: 80,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  const SizedBox(height: SSizes.xs),
+                  // Shimmer untuk harga dan tombol
+                  Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        height: 14,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
     return Scaffold(
       body: Column(
         children: [
-          // AppBar dan SearchField di luar SingleChildScrollView
           Container(
             color: dark ? SColors.pureBlack : SColors.pureWhite,
             child: Column(
@@ -121,7 +210,6 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
               ],
             ),
           ),
-          // Produk di dalam SingleChildScrollView
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -131,7 +219,7 @@ class _ListCategoryProductScreenState extends State<ListCategoryProductScreen> {
                 child: Column(
                   children: [
                     if (isLoading)
-                      const Center(child: CircularProgressIndicator())
+                      _buildShimmerLoading(dark)
                     else if (filteredProducts.isEmpty)
                       const Center(child: Text("Tidak ada produk yang tersedia"))
                     else

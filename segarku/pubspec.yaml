@@ -48,9 +48,8 @@ dependencies:
   geocoding: ^2.1.0
   permission_handler: ^11.3.1
   connectivity_plus: ^6.1.2
-  flutter_secure_storage: ^9.2.4
-  screenshot: ^2.1.0
-  share_plus: ^7.2.1
+  flutter_secure_storage: ^9.2.4 # Versi terbaru
+
 
   # Loading screen
   shimmer: ^3.0.0

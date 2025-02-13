@@ -32,7 +32,7 @@ class TransactionSuccess extends StatelessWidget {
   String _formatShippingMethod(String method) {
     switch (method.toLowerCase()) {
       case 'delivery':
-        return 'Pengantaran';
+        return 'Delivery';
       case 'pickup':
         return 'Ambil di Toko';
       default:
@@ -83,25 +83,25 @@ class TransactionSuccess extends StatelessWidget {
                 ),
 
                 // Tombol Share
-                GestureDetector(
-                  onTap: () {
-                    // Tambahkan aksi untuk tombol Share di sini
-                  },
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: dark ? SColors.green50 : SColors.softBlack50,
-                        )),
-                    child: const Icon(
-                      SIcons.share,
-                      color: SColors.green500,
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     // Tambahkan aksi untuk tombol Share di sini
+                //   },
+                //   child: Container(
+                //     width: 40,
+                //     height: 40,
+                //     decoration: BoxDecoration(
+                //         color: Colors.transparent,
+                //         shape: BoxShape.circle,
+                //         border: Border.all(
+                //           color: dark ? SColors.green50 : SColors.softBlack50,
+                //         )),
+                //     child: const Icon(
+                //       SIcons.share,
+                //       color: SColors.green500,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -217,25 +217,25 @@ class TransactionSuccess extends StatelessWidget {
 
                               const SizedBox(height: SSizes.md + 2),
 
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Metode Pembayaran",
-                                    style: dark
-                                        ? STextTheme.bodyCaptionRegularDark
-                                        : STextTheme.bodyCaptionRegularLight,
-                                  ),
-                                  Text(
-                                    paymentMethod,
-                                    style: dark
-                                        ? STextTheme.titleCaptionBoldDark
-                                        : STextTheme.titleCaptionBoldLight,
-                                  ),
-                                ],
-                              ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              //   children: [
+                              //     Text(
+                              //       "Metode Pembayaran",
+                              //       style: dark
+                              //           ? STextTheme.bodyCaptionRegularDark
+                              //           : STextTheme.bodyCaptionRegularLight,
+                              //     ),
+                              //     Text(
+                              //       paymentMethod,
+                              //       style: dark
+                              //           ? STextTheme.titleCaptionBoldDark
+                              //           : STextTheme.titleCaptionBoldLight,
+                              //     ),
+                              //   ],
+                              // ),
 
-                              const SizedBox(height: SSizes.md + 2),
+                              // const SizedBox(height: SSizes.md + 2),
 
                               // New Purchase Method Row
                               Row(
@@ -313,27 +313,27 @@ class TransactionSuccess extends StatelessWidget {
                 horizontal: SSizes.defaultMargin),
             child: Column(
               children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      SIcons.download, // Ikon diambil dari SIcon.download
-                      color: SColors.green500, // Warna ikon
-                    ),
-                    label: Text(
-                      STexts.saveStruk,
-                      style: STextTheme.titleBaseBoldDark.copyWith(
-                          color: SColors.green500),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: SColors.green500),
-                      backgroundColor: Colors.transparent,
-                    ),
-                  ),
-                ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: OutlinedButton.icon(
+                //     onPressed: () {},
+                //     icon: const Icon(
+                //       SIcons.download, // Ikon diambil dari SIcon.download
+                //       color: SColors.green500, // Warna ikon
+                //     ),
+                //     label: Text(
+                //       STexts.saveStruk,
+                //       style: STextTheme.titleBaseBoldDark.copyWith(
+                //           color: SColors.green500),
+                //     ),
+                //     style: OutlinedButton.styleFrom(
+                //       side: const BorderSide(color: SColors.green500),
+                //       backgroundColor: Colors.transparent,
+                //     ),
+                //   ),
+                // ),
 
-                const SizedBox(height: SSizes.md),
+                // const SizedBox(height: SSizes.md),
 
                 // Button
                 SizedBox(

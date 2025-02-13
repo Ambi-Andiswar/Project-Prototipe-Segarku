@@ -179,6 +179,7 @@ class ConfirmationDialog extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: SSizes.md2),
             ],
           );
         },

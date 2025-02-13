@@ -50,6 +50,7 @@ class SIcons {
   static const IconData notificationItem = HugeIcons.strokeRoundedNotificationSquare;
   static const IconData forgetPassword = HugeIcons.strokeRoundedForgotPassword;
   static const IconData noteAddress = HugeIcons.strokeRoundedNoteEdit;
+  static const IconData filter = HugeIcons.strokeRoundedFilter;
 
   // Button Icon
   static Widget notificationIcon(bool dark) {

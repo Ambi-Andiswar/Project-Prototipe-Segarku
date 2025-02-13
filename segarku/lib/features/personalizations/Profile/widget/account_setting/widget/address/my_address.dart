@@ -9,11 +9,12 @@ import 'package:segarku/navigation_menu.dart';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
-import 'package:segarku/utils/constants/image_strings.dart';
+// import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/local_storage/user_storage.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:segarku/utils/constants/icons.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 
 class MyAddressScreen extends StatefulWidget {
   const MyAddressScreen({super.key});
@@ -36,6 +37,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
   Map<String, dynamic>? userData;
   String? uid;
   bool isEditing = false;
+  bool isLoading = true;
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
   static const String _villageKey = 'selected_village';
@@ -52,6 +54,9 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
 
   // Memuat data pengguna
   Future<void> _loadUserData() async {
+    setState(() {
+      isLoading = true;
+    });
     final data = await UserStorage.getUserData();
     final storageUid = await UserStorage.getUid();
     setState(() {
@@ -59,6 +64,7 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
       uid = storageUid;
       _nameController.text = data?['nama'] ?? '';
       _phoneController.text = data?['telepon'] ?? '';
+      isLoading = false;
     });
   }
 
@@ -79,12 +85,16 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
   // Mengambil data desa dari API
   Future<void> fetchVillages() async {
     final response = await http.get(Uri.parse(
-        'https://emsifa.github.io/api-wilayah-indonesia/api/villages/1871071.json'));
+        'https://emsifa.github.io/api-wilayah-indonesia/api/villages/1871081.json'));
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       setState(() {
         villageNames = data.map((village) => village['name'].toString()).toList();
+        // Tambahkan desa Sidosari secara manual
+        if (!villageNames.contains("SIDOSARI")) {
+          villageNames.add("SIDOSARI");
+        }
       });
     } else {
       throw Exception('Gagal memuat data desa');
@@ -105,12 +115,16 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
           _addressDetailController.text = address['alamat'] ?? '';
           _addressNodeController.text = address['catatan'] ?? '';
           isEditing = true; // Set isEditing ke true karena data sudah ada
+          isLoading = false;
         });
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Gagal memuat data alamat: $e')),
       );
+      setState(() {
+        isLoading = false; // Set loading state ke false jika terjadi error
+      });
     }
   }
 
@@ -170,11 +184,11 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
         colorText: SColors.pureWhite,
         icon: const Icon(Icons.check_circle, color: Colors.white),
         snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 2), // Durasi SnackBar
+        duration: const Duration(seconds: 2),
       );
 
       // Navigasi ke halaman NavigationMenu dengan initialIndex: 3
-      Get.offAll(() => const NavigationMenu(initialIndex: 3)); // Ganti dengan halaman tujuan yang sesuai
+      Get.offAll(() => const NavigationMenu(initialIndex: 3));
     } catch (e) {
       // Tampilkan SnackBar error di posisi atas
       Get.snackbar(
@@ -184,12 +198,12 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
         colorText: SColors.pureWhite,
         icon: const Icon(Icons.error, color: Colors.white),
         snackPosition: SnackPosition.TOP,
-        duration: const Duration(seconds: 2), // Durasi SnackBar
+        duration: const Duration(seconds: 2),
       );
     }
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
     final bool dark = context.isDarkMode;
 
@@ -225,58 +239,104 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          STexts.selectLocation,
-                          style: dark
-                              ? STextTheme.titleMdBoldDark
-                              : STextTheme.titleMdBoldLight,
-                        ),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                                highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                                child: Container(
+                                  width: 150,
+                                  height: 20,
+                                  color: dark ? Colors.grey : Colors.grey,
+                                ),
+                              )
+                            : Text(
+                                STexts.selectLocation,
+                                style: dark
+                                    ? STextTheme.titleMdBoldDark
+                                    : STextTheme.titleMdBoldLight,
+                              ),
                         const SizedBox(height: 16),
-                        Text(
-                          "* Layanan pengiriman hanya tersedia untuk daerah Kemiling.",
-                          style: STextTheme.bodyCaptionRegularDark.copyWith(
-                            color: SColors.danger500,
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        GestureDetector(
-                          onTap: () {
-                            // Fungsi untuk memilih lokasi
-                          },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                height: 150,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  image: const DecorationImage(
-                                    image: AssetImage(SImages.maps),
-                                    fit: BoxFit.cover,
-                                  ),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                                highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 16,
+                                  color: dark ? Colors.grey : Colors.grey,
+                                ),
+                              )
+                            : Text(
+                                "* Layanan pengiriman hanya tersedia untuk daerah Sidosari & Kec. Rajabasa.",
+                                style: STextTheme.bodyCaptionRegularDark.copyWith(
+                                  color: SColors.danger500,
                                 ),
                               ),
-                              const Icon(Icons.location_on,
-                                  color: SColors.green500, size: 40),
-                            ],
-                          ),
-                        ),
                         const SizedBox(height: SSizes.md2),
-                        _buildDropdownField(
-                            "Pilih Kelurahan", _villageController, SIcons.location, dark),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                                highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60,
+                                  color: dark ? Colors.grey : Colors.grey,
+                                ),
+                              )
+                            : _buildDropdownField(
+                                "Pilih Kelurahan", _villageController, SIcons.location, dark),
                         const SizedBox(height: SSizes.sm),
-                        _buildTextField(
-                            "Detail Alamat", _addressDetailController, SIcons.home, dark),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                                highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60,
+                                  color: dark ? Colors.grey : Colors.grey,
+                                ),
+                              )
+                            : _buildTextField(
+                                "Detail Alamat", _addressDetailController, SIcons.home, dark),
                         const SizedBox(height: SSizes.sm),
-                        _buildTextField(
-                            "Catatan Alamat", _addressNodeController, SIcons.noteAddress, dark),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                                highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60,
+                                  color: dark ? Colors.grey : Colors.grey,
+                                ),
+                              )
+                            : _buildTextField(
+                                "Catatan Alamat", _addressNodeController, SIcons.noteAddress, dark),
                         const SizedBox(height: SSizes.sm),
-                        _buildTextField(
-                            "Nama Penerima", _nameController, SIcons.profile, dark),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                                highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60,
+                                  color: dark ? Colors.grey : Colors.grey,
+                                ),
+                              )
+                            : _buildTextField(
+                                "Nama Penerima", _nameController, SIcons.profile, dark),
                         const SizedBox(height: SSizes.sm),
-                        _buildNumberField(
-                            "Nomor Telepon", _phoneController, SIcons.phone, dark),
+                        isLoading
+                            ? Shimmer.fromColors(
+                                baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                                highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 60,
+                                  color: dark ? Colors.grey : Colors.grey,
+                                ),
+                              )
+                            : _buildNumberField(
+                                "Nomor Telepon", _phoneController, SIcons.phone, dark),
                         const SizedBox(height: SSizes.md),
                         const SizedBox(height: 16),
                       ],
@@ -285,13 +345,23 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () => _saveAddress(isEdit: isEditing),
-                      child: Text(
-                        STexts.done,
-                        style: dark
-                            ? STextTheme.titleBaseBoldLight
-                            : STextTheme.titleBaseBoldDark,
-                      ),
+                      onPressed: isLoading ? null : () => _saveAddress(isEdit: isEditing), // Disable button saat loading
+                      child: isLoading
+                          ? Shimmer.fromColors(
+                              baseColor: dark ? Colors.grey[700]! : Colors.grey[300]!,
+                              highlightColor: dark ? Colors.grey[600]! : Colors.grey[100]!,
+                              child: Container(
+                                width: double.infinity,
+                                height: 20,
+                                color: dark ? Colors.grey : Colors.grey,
+                              ),
+                            )
+                          : Text(
+                              STexts.done,
+                              style: dark
+                                  ? STextTheme.titleBaseBoldLight
+                                  : STextTheme.titleBaseBoldDark,
+                            ),
                     ),
                   ),
                 ],
@@ -314,11 +384,17 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
         const SizedBox(height: SSizes.xs),
         DropdownButtonFormField<String>(
           value: selectedVillage,
-          decoration: _inputDecoration(label, icon, dark),
+          decoration: _inputDecoration(label, icon, dark), // Tetap gunakan style field yang sudah ada
           items: villageNames.map((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16), // Jarak antara kanan dan kiri
+                child: Text(
+                  value,
+                  style: const TextStyle(color: SColors.green500), // Warna teks dropdown item
+                ),
+              ),
             );
           }).toList(),
           onChanged: (String? newValue) {
@@ -327,6 +403,8 @@ class _MyAddressScreenState extends State<MyAddressScreen> {
               controller.text = newValue ?? '';
             });
           },
+          style: const TextStyle(color: SColors.green500), // Warna teks dropdown yang dipilih
+          dropdownColor: SColors.green50, // Warna background dropdown item
         ),
       ],
     );

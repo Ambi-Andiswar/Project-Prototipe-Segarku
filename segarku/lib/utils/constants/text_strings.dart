@@ -94,7 +94,7 @@ class STexts{
   static const String resetPassFailedTitle = "Terlalu banyak percobaan login. Coba lagi nanti.";
   static const String resetPassFailedSubTitle = "Terlalu banyak percobaan login. Coba lagi nanti.";
   static const String changeDelivery = "Anda memilih Delivery?";
-  static const String changeDeliverySubTitle = "Pastikan alamat Anda sekarang di daerah Kemiling untuk memastikan pesanan Anda dapat diproses dengan baik.";
+  static const String changeDeliverySubTitle = "Pastikan alamat Anda sekarang di daerah Sidosari atau Kec. Rajabasa untuk memastikan pesanan Anda dapat diproses dengan baik.";
 
   // Login Text
   static const String loginTitle = "Selamat datang di SegarKu";
@@ -171,7 +171,7 @@ class STexts{
   static const String detailAddress= "Detail alamat";
   static const String addressShop= "Alamat Toko :";
   static const String exAddress= "Silahkan isi alamat dan dan penerima disini";
-  static const String exAddress2= "Alamat Gg. Randu 9 No.58, Segala Mider, Kec. Tj. Karang Bar., Kota Bandar Lampung, Lampung 35124, Indonesia 35124";
+  static const String exAddress2= "Jl. Simbaringan Gg. Saweda II, Sidosar, Kec. Natar, Lampung Selatan, Lampung 35362";
   static const String deliveryMothod = "Mode Pengiriman";
   static const String pickUp = "Ambil di toko";
   static const String free = "Free";
@@ -179,7 +179,7 @@ class STexts{
   static const String deliveryTitle = "Ingin delivery atau pickup di toko? Klik Ganti";
   static const String exPostage = "+ Rp. 4.000/1 km";
   static const String subTotal = "Subtotal";
-  static const String tax = "Ppn";
+  static const String tax = "Biaya Lainnya";
   static const String postage = "Ongkir";
   static const String total = "Total";
   static const String productDetail = "Detail Produk";

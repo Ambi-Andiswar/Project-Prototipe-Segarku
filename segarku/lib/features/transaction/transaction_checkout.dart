@@ -143,7 +143,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
           print("DEBUG: Payment failed");
           Get.snackbar(
             'Gagal melakukan pembayaran',
-            'Silahkan isi data pengiriman seperti alamat dan waktu pengriman',
+            'Silahkan isi data pengiriman seperti alamat dan waktu pengriman(jika Anda memilih Delivery)',
             backgroundColor: SColors.danger500,
             colorText: SColors.pureWhite,
             icon: const Icon(Icons.error, color: Colors.white),
@@ -220,6 +220,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: SSizes.md2),
             ],
           ),
         );
@@ -312,21 +313,51 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
       builder: (context) {
         final DateTime now = DateTime.now();
         final bool dark = context.isDarkMode;
-        final DateTime initialDateTime = deliveryTime.isBefore(now) ? now : deliveryTime;
+        
+        // Fungsi untuk mengecek apakah waktu berada dalam rentang yang diizinkan
+        bool isTimeInRange(DateTime date) {
+          return date.hour >= 6 && date.hour < 21; // 6 pagi sampai 9 malam
+        }
+
+        // Fungsi untuk mendapatkan waktu awal yang valid
+        DateTime getValidInitialTime() {
+          DateTime validTime = now;
+          
+          // Jika waktu sekarang sebelum jam 6 pagi, set ke jam 6 pagi hari ini
+          if (now.hour < 6) {
+            validTime = DateTime(now.year, now.month, now.day, 6, 0);
+          }
+          // Jika waktu sekarang setelah jam 9 malam, set ke jam 6 pagi hari berikutnya
+          else if (now.hour >= 21) {
+            final tomorrow = now.add(const Duration(days: 1));
+            validTime = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 6, 0);
+          }
+          
+          return validTime;
+        }
+
+        final DateTime initialDateTime = getValidInitialTime();
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: SSizes.defaultMargin),
           child: SizedBox(
-            height: 300,
+            height: 330,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: SSizes.md2),
                 Text(
-                  "Jadwalin sekarang",
+                  "Pilih Waktu Pengiriman",
                   style: dark
                     ? STextTheme.titleBaseBoldDark
                     : STextTheme.titleBaseBoldLight,
+                ),
+                const SizedBox(height: SSizes.md),
+                Text(
+                  "* Estimasi pesanan Anda tiba dalam 30 menit",
+                  style: STextTheme.titleCaptionBoldDark.copyWith(
+                    color: SColors.green500
+                  ),
                 ),
                 const SizedBox(height: SSizes.md),
                 Expanded(
@@ -338,13 +369,25 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                     child: CupertinoDatePicker(
                       mode: CupertinoDatePickerMode.dateAndTime,
                       initialDateTime: initialDateTime,
-                      minimumDate: now,
-                      maximumDate: DateTime(2025, 12, 31, 23, 59),
+                      minimumDate: getValidInitialTime(),
+                      maximumDate: DateTime(2025, 12, 31, 20, 59), // Batas maksimum jam 8:59 PM
                       onDateTimeChanged: (DateTime newDate) {
-                        setState(() {
-                          deliveryTime = newDate;
-                          isDeliveryTimeSelected = true; // Set status waktu sudah dipilih
-                        });
+                        if (isTimeInRange(newDate)) {
+                          setState(() {
+                            deliveryTime = newDate;
+                            isDeliveryTimeSelected = true;
+                          });
+                        } else {
+                          // Tampilkan pesan error jika waktu di luar rentang
+                          Get.snackbar(
+                            'Waktu Tidak Tersedia',
+                            'Silakan pilih waktu antara jam 6 pagi - 9 malam',
+                            backgroundColor: SColors.danger500,
+                            colorText: SColors.pureWhite,
+                            icon: const Icon(Icons.error, color: Colors.white),
+                            snackPosition: SnackPosition.TOP,
+                          );
+                        }
                       },
                       use24hFormat: true,
                     ),
@@ -370,6 +413,7 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: SSizes.xl),
               ],
             ),
           ),
@@ -384,10 +428,10 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
   
     // Hitung subtotal, pajak, dan ongkos kirim
     double subtotal = cartController.calculateSubtotal();
-    // double tax = subtotal * 0.05; // Pajak 5%
+    double tax = subtotal * 0.05; // Pajak 5%
     // Logika ongkir baru
     double deliveryFee = isDelivery ? (subtotal >= 35000 ? 0 : 6000) : 0;
-    double total = subtotal + deliveryFee;
+    double total = subtotal + tax + deliveryFee;
 
     // ignore: deprecated_member_use
     return WillPopScope(
@@ -550,13 +594,10 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                       : STextTheme.titleBaseBoldLight,
                                 ),
                                 const SizedBox(height: SSizes.md),
-      
-                                // Wrap DetailProductTransaction with SizedBox to constrain height
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.5,
-                                  child: DetailProductTransaction(
-                                    products: Get.find<CartController>().getSelectedProducts(),
-                                  ),
+
+                                // Hapus SizedBox yang membatasi tinggi
+                                DetailProductTransaction(
+                                  products: Get.find<CartController>().getSelectedProducts(),
                                 ),
                               ],
                             ),
@@ -592,30 +633,89 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                             ),
                           ],
                         ),
-
-                        // const SizedBox(height: SSizes.md),
-
-                        // Taxs
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.start,
-                        //   children: [
-                        //     Text(
-                        //       STexts.tax,
-                        //       style: dark
-                        //           ? STextTheme.bodyCaptionRegularDark
-                        //           : STextTheme.bodyCaptionRegularLight,
-                        //     ),
-                        //     const Spacer(),
-                        //     Text(
-                        //       "Rp ${NumberFormat.decimalPattern('id').format(tax)}",
-                        //       style: dark
-                        //           ? STextTheme.titleCaptionBoldDark
-                        //           : STextTheme.titleCaptionBoldLight,
-                        //     ),
-                        //   ],
-                        // ),
-
-                        const SizedBox(height: SSizes.md),
+                        const SizedBox(height: SSizes.sm),
+                        
+                        // Biaya Lainnya
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              STexts.tax,
+                              style: dark
+                                  ? STextTheme.bodyCaptionRegularDark
+                                  : STextTheme.bodyCaptionRegularLight,
+                            ),
+                            const SizedBox(width: 4), // Jarak antara teks dan ikon
+                            GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: dark ? SColors.pureBlack : SColors.pureWhite,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                                      ),
+                                      title: const  Text(
+                                        'Biaya Layanan',
+                                        style: TextStyle(
+                                          color: SColors.green500, // Warna teks hijau
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      content: Text(
+                                        'Biaya layanan diterapkan agar kami dapat terus memberikan pengalaman belanja terbaik untuk Anda.',
+                                        style: TextStyle(
+                                          color: dark 
+                                          ?SColors.textPrimaryDark
+                                          : SColors.textPrimaryLight, 
+                                        ),
+                                      ),
+                                      actions: [
+                                        SizedBox(
+                                          width: double.infinity, // Lebar tombol selebar popup
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: SColors.green50, // Warna background tombol
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text(
+                                              'OK',
+                                              style: STextTheme.titleCaptionBoldLight.copyWith(
+                                                color: SColors.green500
+                                              )
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(4), // Padding kecil untuk area klik
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 16,
+                                  color: dark ? SColors.pureWhite : SColors.softBlack500,
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              "Rp ${NumberFormat.decimalPattern('id').format(tax)}",
+                              style: dark
+                                  ? STextTheme.titleCaptionBoldDark
+                                  : STextTheme.titleCaptionBoldLight,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: SSizes.sm),
 
                         // Delivery
                         isDelivery
@@ -696,23 +796,26 @@ class _TransactionCheckoutScreenState extends State<TransactionCheckoutScreen> {
                                 color: SColors.green500,
                                 width: 1,
                               ),
-                              backgroundColor: SColors.green500, // Warna latar belakang hijau
+                              backgroundColor: SColors.green500,
+                              // Menambahkan disabledBackgroundColor untuk mengatur warna saat disabled
+                              disabledBackgroundColor: SColors.green500,
+                              // Menambahkan disabledForegroundColor untuk mengatur warna foreground saat disabled
+                              disabledForegroundColor: SColors.pureWhite,
                             ),
                             onPressed: isProcessingPayment ? null : _showPaymentConfirmation,
                             child: isProcessingPayment
                                 ? const SpinKitThreeBounce(
-                                    color: SColors.pureWhite, // Warna loading spinner
+                                    color: SColors.pureWhite,
                                     size: 20.0,
                                   )
                                 : Text(
-                                    STexts.buyNow, // Ganti dengan teks yang sesuai
+                                    STexts.buyNow,
                                     style: dark
                                         ? STextTheme.titleBaseBoldLight
                                         : STextTheme.titleBaseBoldDark,
                                   ),
                           ),
                         ),
-
                         const SizedBox(height: SSizes.xl),
                       ],
                     ),

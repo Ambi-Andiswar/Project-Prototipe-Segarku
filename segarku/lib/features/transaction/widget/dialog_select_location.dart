@@ -5,7 +5,7 @@ import 'package:segarku/features/transaction/controller/storage_address_local.da
 import 'dart:convert';
 import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/icons.dart';
-import 'package:segarku/utils/constants/image_strings.dart';
+// import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
 import 'package:segarku/utils/constants/text_strings.dart';
@@ -72,17 +72,22 @@ class _AddressPopupState extends State<AddressPopup> {
   }
 
   Future<void> fetchVillages() async {
-    final response = await http.get(Uri.parse('https://emsifa.github.io/api-wilayah-indonesia/api/villages/1871071.json'));
+    final response = await http.get(Uri.parse(
+        'https://emsifa.github.io/api-wilayah-indonesia/api/villages/1871081.json'));
 
     if (response.statusCode == 200) {
       List<dynamic> data = json.decode(response.body);
       setState(() {
         villageNames = data.map((village) => village['name'].toString()).toList();
+        // Tambahkan desa Sidosari secara manual
+        if (!villageNames.contains("SIDOSARI")) {
+          villageNames.add("SIDOSARI");
+        }
       });
     } else {
       throw Exception('Gagal memuat data desa');
     }
-  }
+}
 
   Future<void> _loadAddressData() async {
     if (uid == null) return;
@@ -219,7 +224,7 @@ Future<void> _saveAddress({bool isEdit = false}) async {
               ),
               const SizedBox(height: 16),
               Text(
-                "* Layanan pengiriman hanya tersedia untuk daerah Kemiling.",
+                "* Layanan pengiriman hanya tersedia untuk daerah Sidosari & Kec. Rajabasa.",
                 style: STextTheme.bodyCaptionRegularDark.copyWith(
                   color: SColors.danger500
                 ),
@@ -288,11 +293,17 @@ Future<void> _saveAddress({bool isEdit = false}) async {
         const SizedBox(height: SSizes.xs),
         DropdownButtonFormField<String>(
           value: selectedVillage,
-          decoration: _inputDecoration(label, icon, dark),
+          decoration: _inputDecoration(label, icon, dark), // Tetap gunakan style field yang sudah ada
           items: villageNames.map((String value) {
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16), // Jarak antara kanan dan kiri
+                child: Text(
+                  value,
+                  style: const TextStyle(color: SColors.green500), // Warna teks dropdown item
+                ),
+              ),
             );
           }).toList(),
           onChanged: (String? newValue) {
@@ -301,6 +312,8 @@ Future<void> _saveAddress({bool isEdit = false}) async {
               controller.text = newValue ?? '';
             });
           },
+          style: const TextStyle(color: SColors.green500), // Warna teks dropdown yang dipilih
+          dropdownColor: SColors.green50, // Warna background dropdown item
         ),
       ],
     );

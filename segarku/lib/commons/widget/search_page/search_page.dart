@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:segarku/commons/widget/appbar/appbar.dart';
 import 'package:segarku/commons/widget/search_page/widget/no_result.dart';
 import 'package:segarku/features/shop/products/add_to_cart_popup.dart';
@@ -18,7 +19,6 @@ class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _SearchPageState createState() => _SearchPageState();
 }
 
@@ -28,6 +28,7 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   bool _isSearchFocused = false;
+  bool _isLoading = true; // Add loading state
 
   @override
   void initState() {
@@ -56,9 +57,12 @@ class _SearchPageState extends State<SearchPage> {
       setState(() {
         _products = products;
         _filteredProducts = products;
+        _isLoading = false;
       });
     } catch (e) {
-      // ignore: avoid_print
+      setState(() {
+        _isLoading = false;
+      });
       print('Error fetching products: $e');
     }
   }
@@ -70,6 +74,103 @@ class _SearchPageState extends State<SearchPage> {
               product.nama.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
+  }
+
+  Widget _buildShimmerLoading(bool dark) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 6, // Number of shimmer items to show
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 0.75,
+      ),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: dark ? Colors.grey[800]! : Colors.grey[300]!,
+          highlightColor: dark ? Colors.grey[700]! : Colors.grey[100]!,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: dark ? SColors.green50 : SColors.softBlack50,
+              ),
+              borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+              color: dark ? SColors.pureBlack : SColors.pureWhite,
+              boxShadow: [SShadows.contentShadow],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(SSizes.md),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Shimmer for product image
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: SSizes.sm2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Shimmer for product name
+                        Container(
+                          width: double.infinity,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        // Shimmer for product weight
+                        Container(
+                          width: 80,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(height: SSizes.xs),
+                        // Shimmer for price and add button
+                        Row(
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                            const Spacer(),
+                            Container(
+                              width: 24,
+                              height: 24,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -112,7 +213,6 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
           ),
-          // Bagian yang dapat di-scroll (Konten Produk)
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -121,7 +221,9 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 child: Column(
                   children: [
-                    if (_searchController.text.isNotEmpty && _filteredProducts.isEmpty)
+                    if (_isLoading)
+                      _buildShimmerLoading(dark)
+                    else if (_searchController.text.isNotEmpty && _filteredProducts.isEmpty)
                       const Center(
                         child: NoResultScreen(),
                       )

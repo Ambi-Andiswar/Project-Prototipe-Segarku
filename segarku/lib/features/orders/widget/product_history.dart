@@ -9,21 +9,28 @@ import 'package:segarku/utils/constants/colors.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
 import 'package:segarku/utils/theme/custom_themes/text_theme.dart';
+import '../models/loading_product_history.dart';
 
 class ProductHistory extends StatelessWidget {
   final dynamic transaction;
   final bool darkMode;
   final Map<String, dynamic> products; // Data produk
+  final bool isLoading; // Tambahkan parameter isLoading
 
   const ProductHistory({
     super.key,
     required this.transaction,
     required this.darkMode,
     required this.products,
+    this.isLoading = false, // Default false
   });
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return ProductShimmer(darkMode: darkMode);
+    }
+
     final productsList = transaction['products'];
     final totalItems = productsList.fold(0, (sum, product) => sum + product['quantity']);
     final totalPrice = transaction['total_amount'];

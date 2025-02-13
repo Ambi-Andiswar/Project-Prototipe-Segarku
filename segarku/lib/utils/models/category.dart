@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 import 'package:segarku/features/shop/products/list_product.dart';
 import 'package:segarku/utils/constants/image_strings.dart';
 import 'package:segarku/utils/constants/sizes.dart';
@@ -31,23 +32,18 @@ class _SCategoryState extends State<SCategory> {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        // Parsing respons JSON
         final json = jsonDecode(response.body);
 
         if (json['success'] == true && json['data'] is List) {
-          // Ambil data dari JSON
           final List<dynamic> data = json['data'];
-
-          // Filter kategori untuk menghilangkan "Spesial Hari Ini"
           final filteredData = data.where((item) => item['name'] != "Spesial Hari Ini").toList();
-          
 
           setState(() {
             categories = filteredData.map((item) {
               return {
                 'name': item['name'],
-                'products': item['Jumlah'] ?? 0, // Jumlah produk dari JSON
-                'image': _getCategoryImage(item['name']), // Tentukan gambar kategori
+                'products': item['Jumlah'] ?? 0,
+                'image': _getCategoryImage(item['name']),
               };
             }).toList();
             isLoading = false;
@@ -66,7 +62,6 @@ class _SCategoryState extends State<SCategory> {
     }
   }
 
-  // Fungsi untuk menentukan gambar berdasarkan nama kategori
   String _getCategoryImage(String categoryName) {
     switch (categoryName) {
       case "Sayur & Buah":
@@ -84,61 +79,108 @@ class _SCategoryState extends State<SCategory> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final darkMode = SHelperFunctions.isDarkMode(context);
-
-    // Mendapatkan lebar layar
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    // Menentukan jumlah kolom secara responsif
-    int crossAxisCount = 2; // Default jumlah kolom
-    if (screenWidth >= 600) {
-      crossAxisCount = 3; // Jika lebar >= 600, gunakan 3 kolom
-    }
-    if (screenWidth >= 900) {
-      crossAxisCount = 4; // Jika lebar >= 900, gunakan 4 kolom
-    }
-
-    if (isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (categories.isEmpty) {
-      return const Center(child: Text("Tidak ada kategori yang tersedia"));
-    }
-
+  Widget _buildShimmerLoading(bool darkMode, int crossAxisCount) {
     return GridView.builder(
-      shrinkWrap: true, // Agar GridView tidak scroll sendiri
+      shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: categories.length, // Jumlah kategori berdasarkan data
+      itemCount: 6,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount, // Kategori per baris
-        crossAxisSpacing: 15, // Spasi horizontal antar kategori
-        mainAxisSpacing: 15, // Spasi vertikal antar kategori
-        childAspectRatio: 2.5, // Perbandingan lebar dan tinggi container kategori
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: 2.5,
+      ),
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: darkMode ? Colors.grey[800]! : Colors.grey[300]!,
+          highlightColor: darkMode ? Colors.grey[700]! : Colors.grey[100]!,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+              color: darkMode ? SColors.slateBlack : SColors.pureWhite,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 14,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          width: 60,
+                          height: 12,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 72,
+                  height: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(100),
+                      bottomLeft: Radius.circular(100),
+                      topRight: Radius.circular(SSizes.borderRadiusmd2),
+                      bottomRight: Radius.circular(SSizes.borderRadiusmd2),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCategoryGrid(bool darkMode, int crossAxisCount) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: categories.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisCount,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+        childAspectRatio: 2.5,
       ),
       itemBuilder: (context, index) {
         final category = categories[index];
 
         return GestureDetector(
           onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ListCategoryProductScreen(
-                      categoryName: categories[index]["name"]!,
-                    ),
-                  ),
-                );
-              },
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ListCategoryProductScreen(
+                  categoryName: categories[index]["name"]!,
+                ),
+              ),
+            );
+          },
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
               color: darkMode ? SColors.slateBlack : SColors.pureWhite,
               boxShadow: [
                 BoxShadow(
-                  // ignore: deprecated_member_use
                   color: Colors.grey.withOpacity(0.2),
                   spreadRadius: 2,
                   blurRadius: 4,
@@ -155,17 +197,14 @@ class _SCategoryState extends State<SCategory> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Nama kategori
                         Text(
-                          category['name'], // Nama kategori
+                          category['name'],
                           style: darkMode
                               ? STextTheme.titleCaptionBoldDark
                               : STextTheme.titleCaptionBoldLight,
                         ),
-
-                        // Jumlah produk dalam kategori
                         Text(
-                          '${category['products']} produk', // Jumlah produk
+                          '${category['products']} produk',
                           style: darkMode
                               ? STextTheme.bodyCaptionRegularDark
                               : STextTheme.bodyCaptionRegularLight,
@@ -182,9 +221,9 @@ class _SCategoryState extends State<SCategory> {
                     bottomRight: Radius.circular(SSizes.borderRadiusmd2),
                   ),
                   child: Image.asset(
-                    category['image'], // Gambar kategori
+                    category['image'],
                     fit: BoxFit.cover,
-                    width: 72, // Ukuran gambar
+                    width: 72,
                     height: double.infinity,
                   ),
                 ),
@@ -194,5 +233,25 @@ class _SCategoryState extends State<SCategory> {
         );
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final darkMode = SHelperFunctions.isDarkMode(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    int crossAxisCount = 2;
+    if (screenWidth >= 600) crossAxisCount = 3;
+    if (screenWidth >= 900) crossAxisCount = 4;
+
+    if (isLoading) {
+      return _buildShimmerLoading(darkMode, crossAxisCount);
+    }
+
+    if (categories.isEmpty) {
+      return const Center(child: Text("Tidak ada kategori yang tersedia"));
+    }
+
+    return _buildCategoryGrid(darkMode, crossAxisCount);
   }
 }

@@ -15,76 +15,72 @@ class DetailProductTransaction extends StatelessWidget {
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            color: darkMode ? SColors.pureBlack : Colors.white,
-            borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
-          ),
-          padding: const EdgeInsets.all(SSizes.defaultMargin),
-          child: Column(
-            children: products.map((product) {
-              final isLast = product == products.last;
-              return Padding(
-                padding: EdgeInsets.only(
-                  bottom: isLast ? 0 : SSizes.lg,
+    return Container(
+      decoration: BoxDecoration(
+        color: darkMode ? SColors.pureBlack : Colors.white,
+        borderRadius: BorderRadius.circular(SSizes.borderRadiusmd2),
+      ),
+      padding: const EdgeInsets.all(SSizes.defaultMargin),
+      child: Column(
+        children: products.map((product) {
+          final isLast = product == products.last;
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: isLast ? 0 : SSizes.lg,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
+                  child: Image.network(
+                    product.image,
+                    width: 80.0,
+                    height: 80.0,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(SSizes.borderRadiussm),
-                      child: Image.network(
-                        product.image,
-                        width: 80.0,
-                        height: 80.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    const SizedBox(width: SSizes.sm2),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            product.nama,
-                            style: darkMode
-                                ? STextTheme.titleBaseBlackDark
-                                : STextTheme.titleBaseBlackLight,
-                          ),
-                          Text(
-                            product.berat,
-                            style: darkMode
-                                ? STextTheme.bodySmRegularDark
-                                : STextTheme.bodySmRegularLight,
-                          ),
-                          const SizedBox(height: SSizes.sm),
-                          Text(
-                            'Rp. ${NumberFormat.decimalPattern('id').format(product.harga)}',
-                            style: STextTheme.titleBaseBoldLight.copyWith(
-                              color: SColors.green500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 80.0, // Tinggi yang sama dengan gambar
-                      alignment: Alignment.bottomRight,
-                      child: Text(
-                        "${product.qty} Qty",
+                const SizedBox(width: SSizes.sm2),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.nama,
                         style: darkMode
-                            ? STextTheme.bodyCaptionRegularDark
-                            : STextTheme.bodyCaptionRegularLight,
+                            ? STextTheme.titleBaseBlackDark
+                            : STextTheme.titleBaseBlackLight,
                       ),
-                    ),
-                  ],
+                      Text(
+                        product.berat,
+                        style: darkMode
+                            ? STextTheme.bodySmRegularDark
+                            : STextTheme.bodySmRegularLight,
+                      ),
+                      const SizedBox(height: SSizes.sm),
+                      Text(
+                        'Rp. ${NumberFormat.decimalPattern('id').format(product.harga)}',
+                        style: STextTheme.titleBaseBoldLight.copyWith(
+                          color: SColors.green500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              );
-            }).toList(),
-          ),
-        ),
+                Container(
+                  height: 80.0, // Tinggi yang sama dengan gambar
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    "${product.qty} Qty",
+                    style: darkMode
+                        ? STextTheme.bodyCaptionRegularDark
+                        : STextTheme.bodyCaptionRegularLight,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
       ),
     );
   }

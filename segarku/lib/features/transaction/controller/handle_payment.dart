@@ -55,15 +55,14 @@ Future<bool> handlePayment(BuildContext context, bool isDelivery, DateTime deliv
     print("DEBUG: Products Detail: ${products.map((p) => p.toJson()).toList()}");
 
     final subtotal = cartController.calculateSubtotal();
-    // final tax = subtotal * 0.05;
+    final tax = subtotal * 0.05;
 
     // Tambahkan logika untuk ongkir berdasarkan minimum pembelian
     final deliveryFee = isDelivery ? (subtotal < 35000 ? 6000.0 : 0.0) : 0.0;
-    final totalAmount = subtotal + deliveryFee;
-
+    final totalAmount = subtotal + tax + deliveryFee;
 
     print("DEBUG: Subtotal: $subtotal");
-    // print("DEBUG: Tax: $tax");
+    print("DEBUG: Tax: $tax");
     print("DEBUG: Delivery Fee: $deliveryFee");
     print("DEBUG: Total Amount: $totalAmount");
 
@@ -80,6 +79,7 @@ Future<bool> handlePayment(BuildContext context, bool isDelivery, DateTime deliv
         "price": product.harga,
         "quantity": product.qty,
         "name": product.nama
+      // ignore: unnecessary_to_list_in_spreads
       }).toList(),
       // Menambahkan biaya pengiriman jika ada dan subtotal di bawah 35000
       if (isDelivery && subtotal < 35000) {
@@ -87,7 +87,13 @@ Future<bool> handlePayment(BuildContext context, bool isDelivery, DateTime deliv
         "price": deliveryFee,
         "quantity": 1,
         "name": "Biaya Pengiriman"
-      }
+      },
+      {
+      "id": "TAX", 
+      "price": tax,
+      "quantity": 1,
+      "name": "Biaya layanan (5%)"
+    }
     ],
     totalAmount: totalAmount,
       shippingAddress: {

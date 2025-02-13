@@ -18,6 +18,20 @@ class CartsProductScreen extends StatelessWidget {
 
   CartsProductScreen({super.key});
 
+  bool _isWithinOperationalHours() {
+    final now = TimeOfDay.now();
+    final currentHour = now.hour;
+    final currentMinute = now.minute;
+    
+    // Konversi waktu ke menit untuk m emudahkan perbandingan
+    final currentTimeInMinutes = currentHour * 60 + currentMinute;
+    final openingTimeInMinutes = 6 * 60;  // 06:00
+    final closingTimeInMinutes = 21 * 60; // 21:00
+    
+    return currentTimeInMinutes >= openingTimeInMinutes && 
+          currentTimeInMinutes <= closingTimeInMinutes;
+  }
+
   @override
   Widget build(BuildContext context) {
     final darkMode = SHelperFunctions.isDarkMode(context);
@@ -325,18 +339,33 @@ class CartsProductScreen extends StatelessWidget {
                       // Button Section
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: SColors.green500,
-                          minimumSize: const Size(165, 40), // Ukuran tombol
+                          backgroundColor: _isWithinOperationalHours() 
+                            ? SColors.green500 
+                            : SColors.softBlack100, // Warna tombol abu-abu ketika di luar jam operasional
+                          minimumSize: const Size(165, 40),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(SSizes.borderRadiusmd),
                           ),
                         ),
                         onPressed: () {
+                          if (!_isWithinOperationalHours()) {
+                            Get.snackbar(
+                              "Di Luar Jam Operasional",
+                              "Maaf, pemesanan hanya dapat dilakukan dari jam 06:00 sampai 21:00",
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: SColors.danger500,
+                              colorText: SColors.pureWhite,
+                              duration: const Duration(seconds: 3),
+                              icon: const Icon(Icons.access_time, color: Colors.white),
+                            );
+                            return;
+                          }
+
                           final selectedProducts = cartController.getSelectedProducts();
                           if (selectedProducts.isEmpty) {
                             Get.snackbar(
                               "Peringatan",
-                              "Pilih setidaknya satu produk untuk checkout.",
+                              "Pilih setidaknya satu produk untuk Bayar.",
                               snackPosition: SnackPosition.TOP,
                               backgroundColor: SColors.danger500,
                               colorText: SColors.pureWhite,
@@ -345,9 +374,13 @@ class CartsProductScreen extends StatelessWidget {
                             Get.to(() => const TransactionCheckoutScreen());
                           }
                         },
-                        child: const Text(
-                          "Checkout",
-                          style: STextTheme.titleBaseBoldDark,
+                        child: Text(
+                          "Bayar",
+                          style: STextTheme.titleBaseBoldDark.copyWith(
+                            color: _isWithinOperationalHours() 
+                              ? SColors.pureWhite 
+                              : SColors.softBlack500, 
+                          ),
                         ),
                       ),
                     ],
